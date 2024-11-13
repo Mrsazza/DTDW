@@ -95,7 +95,6 @@ struct PurchaseTerms: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.buttonBackgroundColor, lineWidth: 1)
                         )
-                        
                         Spacer()
                         
                         Button {
@@ -113,7 +112,6 @@ struct PurchaseTerms: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.buttonBackgroundColor, lineWidth: 1)
                         )
-                        
                     }
                     .padding()
                     .background(Color.white)
@@ -128,10 +126,8 @@ struct PurchaseTerms: View {
                         CalculatedDataView()
                     } else if selectedButton == .medical {
                         InitialExpensesCOPData()
-                            
                         
                         InitialExpemsesCOPCalculatedDataView()
-                           
                     } else if selectedButton == .rental {
                         
                         RentalAssumptionsUnitView()
