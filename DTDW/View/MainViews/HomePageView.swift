@@ -26,17 +26,19 @@ struct HomePageView: View {
             
             VStack(spacing: 20) {
                 // Header Section
-                HStack(spacing: 50) {
-                    Image("Logo-3")
+                HStack(spacing: 20) {
+                    Image("Logo")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 55, height: 52)
                     
                     VStack {
                         Text("Does The Deal Work?")
-                            .foregroundStyle(Color(#colorLiteral(red: 0.6821199059, green: 0.2117495537, blue: 0.475467205, alpha: 1)))
+                            .foregroundStyle(Color.deepPurpelColor)
+                            .font(.system(size: 18))
                         
                         Text("Ask the Land Lady®")
+                            .font(.system(size: 24))
                             .foregroundStyle(Color.black)
                             .fontWeight(.bold)
                     }
@@ -47,22 +49,26 @@ struct HomePageView: View {
                 // Divider
                 RoundedRectangle(cornerRadius: 20)
                     .frame(maxWidth: .infinity, maxHeight: 2)
-                    .foregroundStyle(Color(#colorLiteral(red: 0.6821199059, green: 0.2117495537, blue: 0.475467205, alpha: 0.15)))
+                    .foregroundStyle(Color.colorDivider)
                 
                 VStack(spacing: 20) {
                     // Title Section
                     Text("Real Estate Analysis")
+                        .font(.system(size: 20))
+                        .foregroundStyle(.black)
                         .fontWeight(.bold)
                         .padding(.top, 20)
                     
                     // Search bar
-                    SearchBar(text: $searchText)
+                    SearchBar(text: $searchText)  
                     
                     // Your Deals Section
                     VStack(spacing: 5) {
                         HStack {
                             Text("Your Deals")
+                                .font(.system(size: 18))
                                 .fontWeight(.semibold)
+                                .foregroundStyle(.black)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             
                             // Grid or List Button
@@ -81,7 +87,7 @@ struct HomePageView: View {
                         // Divider
                         RoundedRectangle(cornerRadius: 20)
                             .frame(maxWidth: .infinity, maxHeight: 2)
-                            .foregroundStyle(Color(#colorLiteral(red: 0.6821199059, green: 0.2117495537, blue: 0.475467205, alpha: 0.15)))
+                            .foregroundStyle(Color.colorDivider)
                             .padding(.horizontal, 20)
                             .padding(.top, 5)
                         
@@ -130,25 +136,37 @@ struct HomePageView: View {
                                         .frame(width: 42, height: 42)
                                     Text("No Deals")
                                         .fontWeight(.bold)
-
+                                        .font(.system(size: 20))
+                                        .foregroundStyle(.black)
                                     Text("You haven’t added any deals yet")
+                                        .font(.system(size: 16))
+                                        .foregroundStyle(.black)
                                 }
                                 .padding(.top, 100)
                             }
                         }
+                        .padding(.bottom, 30)
                     }
+                    .background(
+                        Color.clear
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                hideKeyboard()
+                            }
+                    )
                 }
                 .background(.white)
                 .clipShape(RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20))
                 .padding(.horizontal, 15)
-                .shadow(color: Color.black.opacity(0.1), radius: 4, x: 2, y: 0)
+                .shadow(color: Color.blackOnePercentColor, radius: 4, x: 2, y: 0)
                 .edgesIgnoringSafeArea(.bottom)
             }
         }
     }
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }
-
-
 
 #Preview {
     HomePageView()

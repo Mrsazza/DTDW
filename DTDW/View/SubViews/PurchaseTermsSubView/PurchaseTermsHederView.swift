@@ -8,11 +8,75 @@
 import SwiftUI
 
 struct PurchaseTermsHederView: View {
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            Button {
+                dismiss()
+            } label: {
+                ZStack {
+                    Circle()
+                        .fill(Color.purchaseHeaderButtonFillColor) // Sets the background color of the circle
+                        .frame(width: 44, height: 44)
+                        .shadow(color:Color.purchaseHeaderButtonShadowColor ,radius: 4, x: 2, y: 2) // Adds shadow to the circle
+                    
+                    Circle()
+                        .stroke(Color.purchaseHeaderButtonStrokeColor,lineWidth: 1) // Adds a stroke outline around the circle
+                        .frame(width: 44, height: 44)
+                    
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 18))
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.colorFont)
+                }
+            }
+            
+            Spacer()
+            
+            HStack(spacing: 2) {
+                Text("Land Landy Apt.")
+                    .font(.system(size: 14))
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.black)
+                
+                //Top Header
+                Button {
+                    
+                } label: {
+                    Image(systemName: "pencil")
+                        .font(.system(size: 16))
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.black)
+                }
+            }
+            Spacer()
+            
+            
+            Button {
+                
+            } label: {
+                ZStack {
+                    Circle()
+                        .fill(Color.purchaseHeaderButtonFillColor) // Sets the background color of the circle
+                        .frame(width: 44, height: 44)
+                        .shadow(color:Color.purchaseHeaderButtonShadowColor ,radius: 4, x: 2, y: 2) // Adds shadow to the circle
+                    
+                    Circle()
+                        .stroke(Color.purchaseHeaderButtonStrokeColor,lineWidth: 1) // Adds a stroke outline around the circle
+                        .frame(width: 44, height: 44)
+                    
+                    Image("cameraImage")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 25, height: 24)
+                }
+            }
+            
+        }
+        .padding(.leading, 10)
+        .padding(.trailing, 20)
+        .padding(.bottom, 20)
+        .background(Color.purchaseHeaderButtonBackgroundColor)
     }
-}
-
-#Preview {
-    PurchaseTermsHederView()
 }

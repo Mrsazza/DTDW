@@ -13,20 +13,20 @@ struct SearchBar: View {
     
     var body: some View {
         HStack {
-            CustomTextField(text: $text, placeholder: placeholder, placeholderColor: Color(#colorLiteral(red: 0.6821199059, green: 0.2117495537, blue: 0.475467205, alpha: 1)))
+            CustomTextField(text: $text, placeholder: placeholder, placeholderColor: Color.deepPurpelColor)
                 .padding(7)
                 .padding(.horizontal, 25)
-                .foregroundColor(Color(#colorLiteral(red: 0.6821199059, green: 0.2117495537, blue: 0.475467205, alpha: 1)))
-                .background(Color(#colorLiteral(red: 1, green: 0.9056817889, blue: 0.9435935616, alpha: 0.3)))
+                .foregroundColor(Color.deepPurpelColor)
+                .background(Color.homeSearchBarColor)
                 .cornerRadius(10)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color(#colorLiteral(red: 1, green: 0.9056817889, blue: 0.9435935616, alpha: 0.3)), lineWidth: 1)
+                        .stroke(Color(#colorLiteral(red: 1, green: 0.9268273115, blue: 0.9626460671, alpha: 1)), lineWidth: 1)
                 )
                 .overlay(
                     HStack {
                         Image(systemName: "magnifyingglass")
-                            .foregroundColor(Color(#colorLiteral(red: 0.6821199059, green: 0.2117495537, blue: 0.475467205, alpha: 1)))
+                            .foregroundColor(Color.deepPurpelColor)
                             .padding(.leading, 8)
                         Spacer()
                         

@@ -9,10 +9,17 @@ import SwiftUI
 
 struct RectangleDashLine: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Rectangle()
+            .frame(maxWidth: .infinity, maxHeight: 1)
+            .foregroundColor(.black.opacity(0.5))
+            .mask(
+                HStack(spacing: 4) {
+                    ForEach(0..<50) { _ in
+                        Rectangle()
+                            .frame(width: 5)
+                    }
+                }
+            )
+           
     }
-}
-
-#Preview {
-    RectangleDashLine()
 }

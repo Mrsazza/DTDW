@@ -35,7 +35,7 @@ struct RentalAssumptionsUnitView: View {
                     Text("Rental Assumptions")
                         .font(.system(size: 16))
                         .fontWeight(.bold)
-                        .foregroundColor(Color(#colorLiteral(red: 0.682, green: 0.212, blue: 0.475, alpha: 1)))
+                        .foregroundColor(Color.deepPurpelColor)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.top, 20)
                     
@@ -47,11 +47,13 @@ struct RentalAssumptionsUnitView: View {
                         Text("Unit")
                             .font(.system(size: 14))
                             .fontWeight(.bold)
+                            .foregroundStyle(Color.black)
                         Spacer()
                         
                         Text("Month")
                             .font(.system(size: 14))
                             .fontWeight(.bold)
+                            .foregroundStyle(Color.black)
                             .padding(.trailing, 20)
                     }
                 }
@@ -61,6 +63,7 @@ struct RentalAssumptionsUnitView: View {
                         HStack {
                             Text("\(units[index])")
                                 .font(.system(size: 13))
+                                .foregroundStyle(Color.black)
                             Spacer()
                             
                             TextField("$0", text: $amounts[index])
@@ -93,42 +96,16 @@ struct RentalAssumptionsUnitView: View {
                     }
                     .padding(10)
                     .frame(width: 114, height: 32)
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color(#colorLiteral(red: 0.682, green: 0.212, blue: 0.475, alpha: 1)),
-                                Color(#colorLiteral(red: 1, green: 0.906, blue: 0.944, alpha: 1))
-                            ]),
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
+                    .background(Color.addUnitButtonBackgroundColor)
                     .cornerRadius(35)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 35)
-                            .stroke(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [
-                                        Color.white.opacity(0.5),
-                                        Color.black.opacity(0.15)
-                                    ]),
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                ),
-                                lineWidth: 1
-                            )
+                    .overlay(RoundedRectangle(cornerRadius: 35)
+                        .stroke(Color.addUnitButtonStrokeColor,lineWidth: 1)
                     )
-                    .shadow(
-                        color: Color(#colorLiteral(red: 0.682, green: 0.212, blue: 0.475, alpha: 0.15)),
-                        radius: 15,
-                        x: 0,
-                        y: 4
-                    )
-                    .foregroundColor(Color(#colorLiteral(red: 0.979, green: 0.924, blue: 0.857, alpha: 1)))
+                    .shadow(color: Color.addUnitButtonShadowColor ,radius: 15,x: 0,y: 4)
+                    .foregroundColor(Color.champagneColor)
                     .font(.system(size: 13.22, weight: .medium))
                 }
                 .padding(.bottom, 20)
-                
             }
             .padding(.horizontal, 20)
             .background(Color.white)
@@ -142,7 +119,7 @@ struct RentalAssumptionsUnitView: View {
                     Text("Calculated Data")
                         .font(.system(size: 16))
                         .fontWeight(.bold)
-                        .foregroundColor(Color(#colorLiteral(red: 0.682, green: 0.212, blue: 0.475, alpha: 1)))
+                        .foregroundColor(Color.deepPurpelColor)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.top, 20)
                     
@@ -154,10 +131,12 @@ struct RentalAssumptionsUnitView: View {
                         Text("Unit")
                             .font(.system(size: 16))
                             .fontWeight(.bold)
+                            .foregroundStyle(Color.black)
                         Spacer()
                         Text("Year")
                             .font(.system(size: 16))
                             .fontWeight(.bold)
+                            .foregroundStyle(Color.black)
                     }
                 }
                 
@@ -167,18 +146,17 @@ struct RentalAssumptionsUnitView: View {
                         HStack {
                             Text("\(units[index])")
                                 .font(.system(size: 13))
+                                .foregroundStyle(Color.black)
                                 .fontWeight(.regular)
                             
                             Spacer()
                             
                             Text("$\(yearlyTotals[index], specifier: "%.2f")")
                                 .font(.system(size: 13))
+                                .foregroundStyle(Color.black)
                                 .fontWeight(.regular)
                                 .frame(width: 80, alignment: .trailing)
-                            
-                            
                         }
-                       
                     }
                     
                     RoundedRectangle(cornerRadius: 20)
@@ -191,6 +169,7 @@ struct RentalAssumptionsUnitView: View {
                     Text("Total")
                         .font(.system(size: 13))
                         .fontWeight(.regular)
+                        .foregroundStyle(Color.black)
                         .frame(maxHeight: 40, alignment: .bottom)
                     
                     Spacer()
@@ -199,9 +178,10 @@ struct RentalAssumptionsUnitView: View {
                         Text("Month")
                             .font(.system(size: 14))
                             .fontWeight(.bold)
-                        
+                            .foregroundStyle(Color.black)
                         Text("$\(totalMonthly, specifier: "%.2f")")
                             .font(.system(size: 13))
+                            .foregroundStyle(Color.black)
                             .fontWeight(.regular)
                             .minimumScaleFactor(0.5)
                             .lineLimit(1)
@@ -212,9 +192,10 @@ struct RentalAssumptionsUnitView: View {
                         Text("Year")
                             .font(.system(size: 14))
                             .fontWeight(.bold)
-                        
+                            .foregroundStyle(Color.black)
                         Text("$\(totalYearly, specifier: "%.2f")")
                             .font(.system(size: 13))
+                            .foregroundStyle(Color.black)
                             .fontWeight(.regular)
                             .minimumScaleFactor(0.5)
                             .lineLimit(1)
@@ -222,9 +203,7 @@ struct RentalAssumptionsUnitView: View {
                     .frame(width: 80, alignment: .trailing)
                 }
                 .padding(.bottom, 20)
-                
             }
-           
             .padding(.horizontal, 20)
             .background(Color.white)
             .cornerRadius(15)

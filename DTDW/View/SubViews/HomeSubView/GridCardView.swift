@@ -61,7 +61,7 @@ struct GridCardDemo: View {
                         .padding(.bottom, 20) // Add spacing between cards
                 }
             }
-            .padding() // Add padding around the entire LazyVGrid
+            .padding()
         }
     }
 }
@@ -81,6 +81,7 @@ struct GridCardView: View {
                     Text(card.title)
                         .font(.system(size: 11))
                         .fontWeight(.bold)
+                        .foregroundStyle(Color.black)
                         .minimumScaleFactor(0.5)
                         .lineLimit(1)
                     
@@ -108,25 +109,25 @@ struct GridCardView: View {
                             .font(.system(size: 10))
                             .minimumScaleFactor(0.5)
                             .fontWeight(.bold)
-                            .foregroundStyle(Color(#colorLiteral(red: 0.986738503, green: 0.9029306769, blue: 0.8132622838, alpha: 1)))
+                            .foregroundStyle(Color.champagneColor)
                     }
                     .frame(maxWidth: .infinity, maxHeight: 30)
-                    .background(LinearGradient(colors: [Color(#colorLiteral(red: 0.6681778431, green: 0.0137046827, blue: 0.4076051712, alpha: 1)), Color(#colorLiteral(red: 1, green: 0.8728173375, blue: 0.9318154454, alpha: 1))], startPoint: .leading, endPoint: .trailing))
+                    .background(Color.viewDealButtonBackgroundColor)
                     .cornerRadius(50)
                     .padding(.horizontal, 20)
                     .overlay(
                         RoundedRectangle(cornerRadius: 50)
-                            .stroke(LinearGradient(colors: [Color(#colorLiteral(red: 1, green: 0.9999999404, blue: 1, alpha: 0.5)), Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.25))], startPoint: .topLeading, endPoint: .bottomTrailing), lineWidth: 0.94)
+                            .stroke(LinearGradient(colors: [Color(#colorLiteral(red: 0.6147011518, green: 0.1258341968, blue: 0.4036872387, alpha: 1)), Color(#colorLiteral(red: 0.8818204999, green: 0.6534648538, blue: 0.7702771425, alpha: 1))], startPoint: .leading, endPoint: .trailing), lineWidth: 0.94)
                             .padding(.horizontal, 20)
                     )
-                    .shadow(color: Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.01)),radius: 4, x: 0, y: 1)
+                    .shadow(color: Color.viewDealButtonShadowColor,radius: 4, x: 0, y: 1)
                     .padding(.bottom, 10)
                 }
                 .padding(.horizontal, 10)
             }
             .background(.white)
             .cornerRadius(10)
-            .shadow(color: .black.opacity(0.1), radius: 6, x: 1, y: 1)
+            .shadow(color: Color(.black).opacity(0.1), radius: 6, x: 1, y: 1)
         }
     }
 }
@@ -136,7 +137,7 @@ struct GridCardView: View {
 struct GridCardView_Previews: PreviewProvider {
     static var previews: some View {
         GridCardView(card: GridCard(
-            imageName: "Picture", // Replace with a valid image name in your assets
+            imageName: "Picture",
             title: "Land Lady Apts on Martin St.",
             cashOnReturn: "Cash on Return 11.52%",
             capRate: "Cap Rate 8.33%",
@@ -145,6 +146,6 @@ struct GridCardView_Previews: PreviewProvider {
             }
         ))
         .frame(width: 193, height: 208)
-        .previewLayout(.sizeThatFits) // Adjusts the preview to fit the content size
+        .previewLayout(.sizeThatFits)
     }
 }

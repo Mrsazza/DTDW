@@ -9,10 +9,11 @@ import SwiftUI
 
 struct PremiumInfoView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text("Enhance your analysis with unlimited")
+            Text("access with premium features")
+        }
+        .foregroundStyle(Color(#colorLiteral(red: 0.682, green: 0.212, blue: 0.475, alpha: 0.5)))
+        .font(.system(size: 16, weight: .light))
     }
-}
-
-#Preview {
-    PremiumInfoView()
 }

@@ -56,6 +56,7 @@ struct OngoingExpenses: View {
                                 Text("Property Expenses (Per Month)")
                                     .font(.system(size: 16))
                                     .fontWeight(.bold)
+                                    .foregroundStyle(Color.black)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 
                                 RoundedRectangle(cornerRadius: 20)
@@ -101,6 +102,7 @@ struct OngoingExpenses: View {
                             Text("Property Expenses")
                                 .font(.system(size: 13))
                                 .fontWeight(.bold)
+                                .foregroundStyle(Color.black)
                             //                                .frame(width: 150, alignment: .leading)
                             
                             Spacer()
@@ -108,11 +110,13 @@ struct OngoingExpenses: View {
                             Text("Year")
                                 .font(.system(size: 13))
                                 .fontWeight(.bold)
+                                .foregroundStyle(Color.black)
                                 .frame(width: 80, alignment: .center)
                             
                             Text("% of \nTotal Income")
                                 .font(.system(size: 12))
                                 .fontWeight(.bold)
+                                .foregroundStyle(Color.black)
                                 .multilineTextAlignment(.center)
                                 .frame(width: 80, alignment: .trailing)
                                 .lineLimit(2)
@@ -132,16 +136,19 @@ struct OngoingExpenses: View {
                                 HStack {
                                     Text(item.0)
                                         .font(.system(size: 13))
+                                        .foregroundStyle(Color.black)
                                     //                                        .frame(width: 150, alignment: .leading)
                                     
                                     Spacer()
                                     
                                     Text(item.1)
                                         .font(.system(size: 13))
+                                        .foregroundStyle(Color.black)
                                         .frame(width: 80, alignment: .center)
                                     
                                     Text(item.2)
                                         .font(.system(size: 13))
+                                        .foregroundStyle(Color.black)
                                         .frame(width: 80, alignment: .trailing)
                                 }
                             }
@@ -156,6 +163,7 @@ struct OngoingExpenses: View {
                                 Text("Expenses")
                                     .font(.system(size: 13))
                                     .fontWeight(.bold)
+                                    .foregroundStyle(Color.black)
                                 //                                    .frame(width: 150, alignment: .leading)
                                 
                                 Spacer()
@@ -163,11 +171,13 @@ struct OngoingExpenses: View {
                                 Text("Year")
                                     .font(.system(size: 13))
                                     .fontWeight(.bold)
+                                    .foregroundStyle(Color.black)
                                     .frame(width: 80, alignment: .center)
                                 
                                 Text("Month")
                                     .font(.system(size: 12))
                                     .fontWeight(.bold)
+                                    .foregroundStyle(Color.black)
                                     .multilineTextAlignment(.center)
                                     .frame(width: 80, alignment: .trailing)
                                     .lineLimit(2)
@@ -177,37 +187,44 @@ struct OngoingExpenses: View {
                                 HStack {
                                     Text("Vacancy")
                                         .font(.system(size: 13))
+                                        .foregroundStyle(Color.black)
                                     //                                        .frame(width: 150, alignment: .leading)
                                     
                                     Spacer()
                                     
                                     Text("$1,200")
                                         .font(.system(size: 13))
+                                        .foregroundStyle(Color.black)
                                         .frame(width: 80, alignment: .center)
                                     
                                     Text("0.3%")
                                         .font(.system(size: 13))
+                                        .foregroundStyle(Color.black)
                                         .frame(width: 80, alignment: .trailing)
                                 }
                                 
                                 HStack {
                                     Text("Net Operating Income")
                                         .font(.system(size: 13))
+                                        .foregroundStyle(Color.black)
                                     //                                        .frame(width: 150, alignment: .leading)
                                     
                                     Spacer()
                                     
                                     Text("$20,004")
                                         .font(.system(size: 13))
+                                        .foregroundStyle(Color.black)
                                         .frame(width: 80, alignment: .center)
                                     
                                     Text("$1,667")
                                         .font(.system(size: 13))
+                                        .foregroundStyle(Color.black)
                                         .frame(width: 80, alignment: .trailing)
                                 }
                                 
                                 HStack(alignment: .top) {
                                     Text("Total Expenses & Vacancy")
+                                        .foregroundStyle(Color.black)
                                         .font(.system(size: 13))
                                     //                                        .frame(width: 150, alignment: .leading)
                                         .lineLimit(2)
@@ -216,6 +233,7 @@ struct OngoingExpenses: View {
                                     
                                     Text("$1,333")
                                         .font(.system(size: 13))
+                                        .foregroundStyle(Color.black)
                                         .frame(width: 80, alignment: .trailing)
                                 }
                                 .padding(.bottom, 20)
@@ -225,7 +243,7 @@ struct OngoingExpenses: View {
                     .padding(.horizontal, 20)
                     .background(Color.white)
                     .cornerRadius(15)
-                    .shadow(color: Color.black.opacity(0.1), radius: 4, x: 1, y: 1)
+                    .shadow(color: Color.blackOnePercentColor, radius: 4, x: 1, y: 1)
                     .padding(.horizontal, 20)
                 }
                 .padding([.top, .bottom], 20)

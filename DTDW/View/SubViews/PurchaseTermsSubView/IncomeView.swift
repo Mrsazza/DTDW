@@ -51,11 +51,13 @@ struct IncomeView: View {
                         
                         Text("Month")
                             .font(.system(size: 16))
+                            .foregroundStyle(.black)
                             .fontWeight(.bold)
                             .frame(width: 80, alignment: .trailing)
                         
                         Text("Year")
                             .font(.system(size: 16))
+                            .foregroundStyle(.black)
                             .fontWeight(.bold)
                             .frame(width: 80, alignment: .trailing)
                     }
@@ -98,7 +100,7 @@ struct SectionView<Content: View>: View {
             Text(title)
                 .font(.system(size: 16))
                 .fontWeight(.bold)
-                .foregroundColor(Color(#colorLiteral(red: 0.682, green: 0.212, blue: 0.475, alpha: 1)))
+                .foregroundColor(Color.deepPurpelColor)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, 20)
                 .padding(.horizontal, 20)
@@ -127,9 +129,11 @@ struct IncomeInputRow: View {
         HStack {
             Text(label)
                 .font(.system(size: 13))
+                .foregroundStyle(Color.black)
             Spacer()
             TextField("$0", value: $value, formatter: formatter)
                 .font(.system(size: 13))
+                .foregroundStyle(Color.black)
                 .keyboardType(.numberPad)
                 .multilineTextAlignment(.trailing)
                 .frame(width: 80)
@@ -149,15 +153,18 @@ struct SummaryRow: View {
         HStack {
             Text(label)
                 .font(.system(size: 13))
+                .foregroundStyle(Color.black)
             Spacer()
             Text("$\(NSNumber(value: monthly), formatter: numberFormatter)") // Format the monthly value
                 .font(.system(size: 13))
+                .foregroundStyle(Color.black)
                 .frame(width: 80, alignment: .trailing)
             
             // Only show yearly if it's not nil
             if let yearly = yearly {
                 Text("$\(NSNumber(value: yearly), formatter: numberFormatter)") // Format the yearly value
                     .font(.system(size: 13))
+                    .foregroundStyle(Color.black)
                     .frame(width: 80, alignment: .trailing)
             }
         }

@@ -12,40 +12,46 @@ struct ListCardView: View {
     
     var body: some View {
         ZStack {
-            HStack {
-                Image(card.imageName)
-                    .resizable()
-                    .scaledToFill()
-                    .clipShape(.circle)
-                    .frame(width: 40, height: 40)
-                VStack(alignment: .leading ,spacing: 8) {
-                    Text(card.title)
-                        .font(.system(size: 11))
-                        .fontWeight(.bold)
-                        .minimumScaleFactor(0.5)
-                        .lineLimit(1)
-                    
-                    HStack(spacing: 10) {
-                        Text(card.cashOnReturn)
-                            .font(.system(size: 7))
-                            .foregroundStyle(.black.opacity(0.5))
+            //List card button here
+            Button {
+               //button action here
+            } label: {
+                HStack {
+                    Image(card.imageName)
+                        .resizable()
+                        .scaledToFill()
+                        .clipShape(.circle)
+                        .frame(width: 40, height: 40)
+                    VStack(alignment: .leading ,spacing: 8) {
+                        Text(card.title)
+                            .font(.system(size: 11))
                             .fontWeight(.bold)
+                            .foregroundStyle(.black)
                             .minimumScaleFactor(0.5)
                             .lineLimit(1)
                         
-                        Text(card.capRate)
-                            .font(.system(size: 7))
-                            .foregroundStyle(.black.opacity(0.5))
-                            .fontWeight(.bold)
-                            .minimumScaleFactor(0.5)
-                            .lineLimit(1)
+                        HStack(spacing: 10) {
+                            Text(card.cashOnReturn)
+                                .font(.system(size: 7))
+                                .foregroundStyle(.black.opacity(0.5))
+                                .fontWeight(.bold)
+                                .minimumScaleFactor(0.5)
+                                .lineLimit(1)
+                            
+                            Text(card.capRate)
+                                .font(.system(size: 7))
+                                .foregroundStyle(.black.opacity(0.5))
+                                .fontWeight(.bold)
+                                .minimumScaleFactor(0.5)
+                                .lineLimit(1)
+                        }
                     }
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 12))
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.deepPurpelColor)
                 }
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 12))
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color(#colorLiteral(red: 0.6821199059, green: 0.2117495537, blue: 0.475467205, alpha: 1)))
             }
             .padding(14)
             .frame(maxWidth: .infinity)

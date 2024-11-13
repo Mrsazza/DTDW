@@ -7,12 +7,13 @@
 
 import SwiftUI
 
-struct DefaultTextFieldStyle: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+struct DefaultTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .foregroundColor(.black.opacity(0.5))
+            .padding(.horizontal)
+            .frame(width: 297, height: 38)
+            .background(Color(#colorLiteral(red: 0.969, green: 0.969, blue: 0.969, alpha: 1)))
+            .cornerRadius(10)
     }
-}
-
-#Preview {
-    DefaultTextFieldStyle()
 }
