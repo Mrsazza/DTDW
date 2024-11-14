@@ -17,7 +17,6 @@ extension Color {
     static let homeSearchBarColor = Color(#colorLiteral(red: 1, green: 0.9056817889, blue: 0.9435935616, alpha: 0.3))
     static let grayDividerColor = Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.1))
     static let colorDivider = Color(#colorLiteral(red: 0.6821199059, green: 0.2117495537, blue: 0.475467205, alpha: 0.15))
-    
     static let blackOnePercentColor = Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.01))
     static let mainBackgroundColor = LinearGradient(colors: [ Color(#colorLiteral(red: 1, green: 0.9056817889, blue: 0.9435935616, alpha: 1)),Color(#colorLiteral(red: 1, green: 0.9999999404, blue: 1, alpha: 1))], startPoint: .top, endPoint: .bottom)
     static let secoundryBackgroundColor = Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
