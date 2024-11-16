@@ -36,11 +36,10 @@ struct PurchaseTermsHederView: View {
             
             HStack(spacing: 2) {
                 Text("Land Landy Apt.")
-                    .font(.system(size: 14))
+                    .font(.system(size: 24))
                     .fontWeight(.semibold)
                     .foregroundStyle(.black)
                 
-                //Top Header
                 Button {
                     
                 } label: {
@@ -49,9 +48,9 @@ struct PurchaseTermsHederView: View {
                         .fontWeight(.bold)
                         .foregroundStyle(Color.black)
                 }
+                .padding(.top, 3)
             }
             Spacer()
-            
             
             Button {
                 
