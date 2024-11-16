@@ -12,6 +12,7 @@ struct DTDWApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .dynamicTypeSize(.medium)
         }
     }
 }
