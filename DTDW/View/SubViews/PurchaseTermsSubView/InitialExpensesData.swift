@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct InitialExpensesCOPData: View {
+struct InitialExpensesData: View {
     @State private var marketValue: Int?
     @State private var purchasePriceValue: Int?
     @State private var downPaymentValue: Int?
