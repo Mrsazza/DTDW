@@ -8,27 +8,18 @@
 import SwiftUI
 
 struct PurchaseTermsView: View {
-    @State private var marketValue: Int?
-    @State private var purchasePriceValue: Int?
-    @State private var downPaymentValue: Int?
-    @State private var interestRateValue: Double?
-    @State private var mortgageLengthValue: Int?
+    @EnvironmentObject var viewModel: PurchaseTermsManager
     
-    // Formatter for numbers without decimals
-    private let numberFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 0
-        return formatter
-    }()
+    private let numberFormatter = NumberFormatter()
+    private let decimalFormatter = NumberFormatter()
     
-    // Formatter for percentages and rates with decimals
-    private let decimalFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 2
-        return formatter
-    }()
+    init(viewModel: PurchaseTermsManager) {
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.maximumFractionDigits = 0
+        
+        decimalFormatter.numberStyle = .decimal
+        decimalFormatter.maximumFractionDigits = 2
+    }
     
     var body: some View {
         VStack(spacing: 20) {
@@ -46,18 +37,132 @@ struct PurchaseTermsView: View {
             }
             
             VStack(spacing: 10) {
-                InputRow(label: "Market Value", placeholder: "$400,000", value: $marketValue, formatter: numberFormatter)
-                InputRow(label: "Purchase Price", placeholder: "$250,000", value: $purchasePriceValue, formatter: numberFormatter)
-                InputRow(label: "Down Payment (%)", placeholder: "10%", value: $downPaymentValue, formatter: numberFormatter)
-                InputRow(label: "Interest Rate (%)", placeholder: "6.50", value: $interestRateValue, formatter: decimalFormatter)
-                InputRow(label: "Mortgage Length (years)", placeholder: "30", value: $mortgageLengthValue, formatter: numberFormatter)
+                HStack {
+                    Text("Market Value")
+                        .font(.system(size: 13))
+                        .foregroundStyle(.black)
+                    
+                    Spacer()
+                    
+                    TextField("$", value: $viewModel.marketValue, formatter: NumberFormatter())
+                        .font(.system(size: 13))
+                        .keyboardType(.decimalPad)
+                        .foregroundColor(.black)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 5)
+                        .minimumScaleFactor(0.05)
+                        .frame(width: 100, height: 30)
+                        .background(Color.white)
+                        .cornerRadius(5)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 5)
+                                .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                        )
+                    
+                    
+                }
+                HStack {
+                    Text("Purchase Price")
+                        .font(.system(size: 13))
+                        .foregroundStyle(.black)
+                    
+                    Spacer()
+                    
+                    TextField("$", value: $viewModel.purchasePriceValue, formatter: NumberFormatter())
+                        .font(.system(size: 13))
+                        .keyboardType(.decimalPad)
+                        .foregroundColor(.black)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 5)
+                        .minimumScaleFactor(0.05)
+                        .frame(width: 100, height: 30)
+                        .background(Color.white)
+                        .cornerRadius(5)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 5)
+                                .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                        )
+                    
+                    
+                }
+                HStack {
+                    Text("Down Payment (%)")
+                        .font(.system(size: 13))
+                        .foregroundStyle(.black)
+                    
+                    Spacer()
+                    
+                    TextField("$", value: $viewModel.downPaymentValue, formatter: NumberFormatter())
+                        .font(.system(size: 13))
+                        .keyboardType(.decimalPad)
+                        .foregroundColor(.black)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 5)
+                        .minimumScaleFactor(0.05)
+                        .frame(width: 100, height: 30)
+                        .background(Color.white)
+                        .cornerRadius(5)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 5)
+                                .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                        )
+                    
+                    
+                }
+                HStack {
+                    Text("Interest Rate (%)")
+                        .font(.system(size: 13))
+                        .foregroundStyle(.black)
+                    
+                    Spacer()
+                    
+                    TextField("$", value: $viewModel.interestRateValue, formatter: decimalFormatter)
+                        .font(.system(size: 13))
+                        .keyboardType(.decimalPad)
+                        .foregroundColor(.black)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 5)
+                        .minimumScaleFactor(0.05)
+                        .frame(width: 100, height: 30)
+                        .background(Color.white)
+                        .cornerRadius(5)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 5)
+                                .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                        )
+                    
+                    
+                }
+                HStack {
+                    Text("Mortgage Length (years)")
+                        .font(.system(size: 13))
+                        .foregroundStyle(.black)
+                    
+                    Spacer()
+                    
+                    TextField("$", value: $viewModel.mortgageLengthValue, formatter: NumberFormatter())
+                        .font(.system(size: 13))
+                        .keyboardType(.decimalPad)
+                        .foregroundColor(.black)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 5)
+                        .minimumScaleFactor(0.05)
+                        .frame(width: 100, height: 30)
+                        .background(Color.white)
+                        .cornerRadius(5)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 5)
+                                .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                        )
+                     
+                }
             }
             .padding(.bottom, 20)
         }
         .padding(.horizontal, 20)
         .background(Color.white)
-        .cornerRadius(15)
-        .shadow(color: Color.blackOnePercentColor, radius: 4, x: 1, y: 1)
+        .cornerRadius(10)
+        .shadow(color: Color.black.opacity(0.1), radius: 4, x: 1, y: 1)
         .padding(.horizontal, 20)
         .padding(.top, 20)
     }

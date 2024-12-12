@@ -78,7 +78,3 @@ struct DTDWTabView: View {
         }
     }
 }
-
-#Preview {
-    DTDWTabView()
-}

@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct PurchaseTerms: View {
+    @EnvironmentObject var viewModel: PurchaseTermsManager
+    @EnvironmentObject var vm : OngoingExpensesManager
+    
     @State private var selectedButton: ButtonType? = .cart
     
     enum ButtonType {
@@ -120,32 +124,30 @@ struct PurchaseTerms: View {
                 }
                 
                 ScrollView(.vertical, showsIndicators: false) {
-                    if selectedButton == .cart {
-                        PurchaseTermsView() 
+                    switch selectedButton {
+                    case .cart:
+                        PurchaseTermsView(viewModel: viewModel)
                         
                         CalculatedDataView()
-                    } else if selectedButton == .medical {
-                        InitialExpensesCOPData()
+                    case .medical:
+                        InitialExpensesData()
                         
-                        InitialExpemsesCOPCalculatedDataView()
-                    } else if selectedButton == .rental {
-                        
+                        InitialExpensesCalculatedDataView()
+                    case .rental:
                         RentalAssumptionsUnitView()
-                        
-                    } else if selectedButton == .income {
-                        
+                    case .income:
                         IncomeView()
-                        
-                    } else if selectedButton == .expenses {
-                        
+                    case .expenses:
                         OngoingExpenses()
-                        
-                    } else {
+                    case nil:
                         //inpute as a default
-                        PurchaseTermsView()
+                        PurchaseTermsView(viewModel: viewModel)
                         
                         CalculatedDataView()
                     }
+                }
+                .onTapGesture {
+                    hideKeyboard()
                 }
                 
                 PurchaseTermsBottomTabView()
@@ -156,4 +158,11 @@ struct PurchaseTerms: View {
 
 #Preview {
     PurchaseTerms()
+}
+
+// Add this helper function to dismiss the keyboard
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }

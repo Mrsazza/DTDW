@@ -8,14 +8,9 @@
 import SwiftUI
 
 struct InitialExpensesData: View {
-    @State private var marketValue: Int?
-    @State private var purchasePriceValue: Int?
-    @State private var downPaymentValue: Int?
-    @State private var interestRateValue: Double?
-    @State private var mortgageLengthValue: Int?
-    
-    @State private var selectedButton: ButtonType? = .costOfPurchase
-    
+    @EnvironmentObject var viewModel: PurchaseTermsManager
+    @State private var selectedButton: ButtonType = .costOfPurchase
+
     // Formatter for numbers without decimals
     private let numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -23,7 +18,7 @@ struct InitialExpensesData: View {
         formatter.maximumFractionDigits = 0
         return formatter
     }()
-    
+
     // Formatter for percentages and rates with decimals
     private let decimalFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -31,11 +26,11 @@ struct InitialExpensesData: View {
         formatter.maximumFractionDigits = 2
         return formatter
     }()
-    
+
     enum ButtonType {
         case costOfPurchase, costOfRepair
     }
-    
+
     var body: some View {
         VStack(spacing: 20) {
             VStack(spacing: 10) {
@@ -44,14 +39,15 @@ struct InitialExpensesData: View {
                     .font(.system(size: 16))
                     .fontWeight(.bold)
                     .foregroundStyle(Color.colorFont)
-                
+
                 RoundedRectangle(cornerRadius: 20)
                     .frame(maxWidth: .infinity, maxHeight: 2)
                     .foregroundStyle(Color.grayDividerColor)
             }
             .padding(.top, 20)
-            
+
             VStack(spacing: selectedButton == .costOfRepair ? 5 : 15) {
+                // Button Group
                 HStack(spacing: 10) {
                     Button(action: {
                         selectedButton = .costOfPurchase
@@ -69,7 +65,7 @@ struct InitialExpensesData: View {
                             )
                             .shadow(color: Color.blackOnePercentColor, radius: 4, x: 0, y: 1)
                     }
-                    
+
                     Button(action: {
                         selectedButton = .costOfRepair
                     }) {
@@ -87,43 +83,44 @@ struct InitialExpensesData: View {
                             .shadow(color: Color.blackOnePercentColor, radius: 4, x: 0, y: 1)
                     }
                 }
-                
-                
+
                 VStack(spacing: selectedButton == .costOfPurchase ? 15 : 0) {
-                    Text(selectedButton == .costOfPurchase ? "Startup Expenses" : "")
-                        .font(.system(size: 16))
-                        .foregroundStyle(Color.black)
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .infinity, alignment: .leadingLastTextBaseline)
-                    
-                    RoundedRectangle(cornerRadius: 20)
-                        .frame(maxWidth: .infinity, maxHeight: 2)
-                        .foregroundStyle(Color.grayDividerColor)
-                    
+                    if selectedButton == .costOfPurchase {
+                        Text("Startup Expenses")
+                            .font(.system(size: 16))
+                            .foregroundStyle(Color.black)
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+
+                        RoundedRectangle(cornerRadius: 20)
+                            .frame(maxWidth: .infinity, maxHeight: 2)
+                            .foregroundStyle(Color.grayDividerColor)
+                    }
                 }
-                
+
                 VStack(spacing: 10) {
                     if selectedButton == .costOfPurchase {
-                        InputRow(label: "Finder’s Fee", placeholder: "$0", value: $marketValue, formatter: numberFormatter)
-                        InputRow(label: "Inspection", placeholder: "$0", value: $purchasePriceValue, formatter: numberFormatter)
-                        InputRow(label: "Title Search Fee", placeholder: "$300", value: $downPaymentValue, formatter: numberFormatter)
-                        InputRow(label: "Title Insurance", placeholder: "$100", value: $interestRateValue, formatter: decimalFormatter)
-                        InputRow(label: "Appraisal", placeholder: "$0", value: $mortgageLengthValue, formatter: numberFormatter)
-                        InputRow(label: "Deed Recording Fee", placeholder: "$100", value: $mortgageLengthValue, formatter: numberFormatter)
-                        InputRow(label: "Loan Origination Fee", placeholder: "$0", value: $mortgageLengthValue, formatter: numberFormatter)
-                        InputRow(label: "Survey", placeholder: "$0", value: $mortgageLengthValue, formatter: numberFormatter)
-                        InputRow(label: "Other", placeholder: "$0", value: $mortgageLengthValue, formatter: numberFormatter)
+                        // Cost of Purchase Inputs(COP)
+                        InputRow(label: "Finder’s Fee", placeholder: "$0", value: $viewModel.findersFees, formatter: numberFormatter)
+                        InputRow(label: "Inspection", placeholder: "$0", value: $viewModel.inspection, formatter: numberFormatter)
+                        InputRow(label: "Title Search Fee", placeholder: "$300", value: $viewModel.titleSearchFee, formatter: numberFormatter)
+                        InputRow(label: "Title Insurance", placeholder: "$100", value: $viewModel.titleInsurance, formatter: decimalFormatter)
+                        InputRow(label: "Appraisal", placeholder: "$0", value: $viewModel.appraisal, formatter: numberFormatter)
+                        InputRow(label: "Deed Recording Fee", placeholder: "$100", value: $viewModel.deedRecordingFee, formatter: numberFormatter)
+                        InputRow(label: "Loan Origination Fee", placeholder: "$0", value: $viewModel.loanOriginationFee, formatter: numberFormatter)
+                        InputRow(label: "Survey", placeholder: "$0", value: $viewModel.survey, formatter: numberFormatter)
+                        InputRow(label: "Other", placeholder: "$0", value: $viewModel.copOther, formatter: numberFormatter)
                             .padding(.bottom, 15)
                     } else if selectedButton == .costOfRepair {
-                        InputRow(label: "Cosmetic Minor", placeholder: "$0", value: $marketValue, formatter: numberFormatter)
+                        // Cost of Repair Inputs(COR)
+                        InputRow(label: "Cosmetic Minor", placeholder: "$0", value: $viewModel.cosmeticMinor, formatter: numberFormatter)
                             .padding(.top, selectedButton == .costOfRepair ? 10 : 0)
-                        
-                        InputRow(label: "Cosmetic Major", placeholder: "$0", value: $marketValue, formatter: numberFormatter)
-                        InputRow(label: "Structural", placeholder: "$0", value: $marketValue, formatter: numberFormatter)
-                        InputRow(label: "Fixtures/Appliances", placeholder: "$0", value: $marketValue, formatter: numberFormatter)
-                        InputRow(label: "Landscaping", placeholder: "$0", value: $marketValue, formatter: numberFormatter)
-                        InputRow(label: "Other", placeholder: "$0", value: $marketValue, formatter: numberFormatter)
-                        InputRow(label: "Contingency Factor", placeholder: "10.0%", value: $marketValue, formatter: numberFormatter)
+                        InputRow(label: "Cosmetic Major", placeholder: "$0", value: $viewModel.cosmeticMajor, formatter: numberFormatter)
+                        InputRow(label: "Structural", placeholder: "$0", value: $viewModel.structural, formatter: numberFormatter)
+                        InputRow(label: "Fixtures/Appliances", placeholder: "$0", value: $viewModel.fixtures, formatter: numberFormatter)
+                        InputRow(label: "Landscaping", placeholder: "$0", value: $viewModel.landscaping, formatter: numberFormatter)
+                        InputRow(label: "Other", placeholder: "$0", value: $viewModel.corOther, formatter: numberFormatter)
+                        InputRow(label: "Contingency Factor (%)", placeholder: "10.0%", value: $viewModel.contingencyFactor, formatter: decimalFormatter)
                             .padding(.bottom, 15)
                     }
                 }

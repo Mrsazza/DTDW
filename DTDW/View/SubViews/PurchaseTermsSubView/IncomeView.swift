@@ -8,78 +8,60 @@
 import SwiftUI
 
 struct IncomeView: View {
-    @State private var administrativeFees: Int? = nil
-    @State private var applianceRentals: Int? = nil
-    @State private var furnitureRental: Int? = nil
-    @State private var parking: Int? = nil
-    @State private var laundryIncome: Int? = nil
-    @State private var otherIncome: Int? = nil
-
-    // Formatter for numbers without decimals
-    private let numberFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 0
-        return formatter
-    }()
-    
-    // Computed property for total income
-    private var totalIncome: Int {
-        [administrativeFees, applianceRentals, furnitureRental, parking, laundryIncome, otherIncome]
-            .compactMap { $0 }
-            .reduce(0, +)
-    }
+    @EnvironmentObject var viewModel: PurchaseTermsManager
     
     var body: some View {
-        VStack {
-            SectionView(title: "Rental Assumptions") {
+        VStack(spacing: 20) {
+            // Income Input Section
+            SectionView(title: "Income") {
                 VStack(spacing: 10) {
-                    IncomeInputRow(label: "Administrative fees", value: $administrativeFees, formatter: numberFormatter)
-                    IncomeInputRow(label: "Appliance rentals", value: $applianceRentals, formatter: numberFormatter)
-                    IncomeInputRow(label: "Furniture rental", value: $furnitureRental, formatter: numberFormatter)
-                    IncomeInputRow(label: "Parking", value: $parking, formatter: numberFormatter)
-                    IncomeInputRow(label: "Laundry Income", value: $laundryIncome, formatter: numberFormatter)
-                    IncomeInputRow(label: "Other Income", value: $otherIncome, formatter: numberFormatter)
-                }
-            }
-            
-            SectionView(title: "Calculated Data") {
-                VStack(spacing: 15) {
-                    // Pass both monthly and yearly values
                     HStack {
                         Spacer()
-                        
                         Text("Month")
                             .font(.system(size: 16))
-                            .foregroundStyle(.black)
+                            .fontWeight(.bold)
+                            .frame(width: 100, alignment: .center)
+                    }
+                    IncomeInputRow(label: "Administrative fees", value: $viewModel.administrativeFees, formatter: viewModel.numberFormatter)
+                    IncomeInputRow(label: "Appliance rentals", value: $viewModel.applianceRentals, formatter: viewModel.numberFormatter)
+                    IncomeInputRow(label: "Furniture rental", value: $viewModel.furnitureRental, formatter: viewModel.numberFormatter)
+                    IncomeInputRow(label: "Parking", value: $viewModel.parking, formatter: viewModel.numberFormatter)
+                    IncomeInputRow(label: "Laundry Income", value: $viewModel.laundryIncome, formatter: viewModel.numberFormatter)
+                    IncomeInputRow(label: "Other Income", value: $viewModel.otherIncome, formatter: viewModel.numberFormatter)
+                }
+            }
+            // Calculated Data Section
+            SectionView(title: "Calculated Data") {
+                VStack(spacing: 15) {
+                    HStack {
+                        Spacer()
+                        Text("Month")
+                            .font(.system(size: 16))
                             .fontWeight(.bold)
                             .frame(width: 80, alignment: .trailing)
                         
                         Text("Year")
                             .font(.system(size: 16))
-                            .foregroundStyle(.black)
                             .fontWeight(.bold)
                             .frame(width: 80, alignment: .trailing)
                     }
+                    // Display individual incomes and totals
+                    SummaryRow(label: "Monthly Rent", monthly: Int(viewModel.totalMonthly), yearly: Int((viewModel.totalMonthly)) * 12)
                     
-                    SummaryRow(label: "Monthly Rent", monthly: 3000, yearly: 36000)
-                    
-                    // For other rows, only pass monthly if yearly isn't required
-                    SummaryRow(label: "Administrative fees", monthly: administrativeFees ?? 0, yearly: (administrativeFees ?? 0) * 12)
-                    SummaryRow(label: "Appliance rentals", monthly: applianceRentals ?? 0, yearly: (applianceRentals ?? 0) * 12)
-                    SummaryRow(label: "Furniture rental", monthly: furnitureRental ?? 0, yearly: (furnitureRental ?? 0) * 12)
-                    SummaryRow(label: "Parking", monthly: parking ?? 0, yearly: (parking ?? 0) * 12)
-                    SummaryRow(label: "Laundry Income", monthly: laundryIncome ?? 0, yearly: (laundryIncome ?? 0) * 12)
-                    SummaryRow(label: "Other Income", monthly: otherIncome ?? 0, yearly: (otherIncome ?? 0) * 12)
-                    
-                    // Pass totalIncome with yearly value directly
-                    SummaryRow(label: "Total Income", monthly: totalIncome, yearly: totalIncome * 12)
+                    SummaryRow(label: "Administrative fees", monthly: viewModel.administrativeFees ?? 0, yearly: (viewModel.administrativeFees ?? 0) * 12)
+                    SummaryRow(label: "Appliance rentals", monthly: viewModel.applianceRentals ?? 0, yearly: (viewModel.applianceRentals ?? 0) * 12)
+                    SummaryRow(label: "Furniture rental", monthly: viewModel.furnitureRental ?? 0, yearly: (viewModel.furnitureRental ?? 0) * 12)
+                    SummaryRow(label: "Parking", monthly: viewModel.parking ?? 0, yearly: (viewModel.parking ?? 0) * 12)
+                    SummaryRow(label: "Laundry Income", monthly: viewModel.laundryIncome ?? 0, yearly: (viewModel.laundryIncome ?? 0) * 12)
+                    SummaryRow(label: "Other Income", monthly: viewModel.otherIncome ?? 0, yearly: (viewModel.otherIncome ?? 0) * 12)
+                    SummaryRow(label: "Total Income",
+                               monthly: Int(Double(viewModel.totalIncome) + viewModel.totalMonthly), // Total monthly income (additional + rental assumptions)
+                               yearly: Int(Double(viewModel.totalIncome) + viewModel.totalMonthly) * 12 // Total yearly income
+                    )
                 }
             }
-
         }
-        .padding(.vertical, 20)
-        .padding(.horizontal, 20)
+        .padding()
     }
 }
 
@@ -131,23 +113,31 @@ struct IncomeInputRow: View {
                 .font(.system(size: 13))
                 .foregroundStyle(Color.black)
             Spacer()
+            
             TextField("$0", value: $value, formatter: formatter)
                 .font(.system(size: 13))
                 .foregroundStyle(Color.black)
                 .keyboardType(.numberPad)
-                .multilineTextAlignment(.trailing)
                 .frame(width: 80)
-                .textFieldStyle(PlainTextFieldStyle())
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 5)
+                .minimumScaleFactor(0.05)
+                .frame(width: 100, height: 30)
+                .background(Color.white)
+                .cornerRadius(5)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 5)
+                        .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
+                )
         }
     }
 }
 
 // Summary Row
-// Summary Row
 struct SummaryRow: View {
     let label: String
     let monthly: Int
-    let yearly: Int? // Optional yearly value
+    let yearly: Int?
     
     var body: some View {
         HStack {
@@ -171,8 +161,6 @@ struct SummaryRow: View {
     }
 }
 
-
-
 // Global number formatter for dollar amounts
 private let numberFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
@@ -180,8 +168,3 @@ private let numberFormatter: NumberFormatter = {
     formatter.maximumFractionDigits = 0
     return formatter
 }()
-
-
-//#Preview {
-//    IncomeView()
-//}

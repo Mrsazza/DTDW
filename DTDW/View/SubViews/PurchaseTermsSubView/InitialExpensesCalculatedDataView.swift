@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InitialExpensesCalculatedDataView: View {
-    @ObservedObject var viewModel: InitialExpensesViewModel
+    @EnvironmentObject var viewModel: PurchaseTermsManager
 
     var body: some View {
         VStack(spacing: 20) {
@@ -65,12 +65,25 @@ struct InitialExpensesCalculatedDataView: View {
                         .font(.system(size: 13))
                         .foregroundStyle(Color.black)
                 }
+                
+                //Includind money down
+                HStack {
+                    Text("Includind money down")
+                        .font(.system(size: 13))
+                        .foregroundStyle(Color.black)
+                    Spacer()
+                    Text("$\(viewModel.includingMoneyDown)")
+                        .font(.system(size: 13))
+                        .foregroundStyle(Color.black)
+                }
+                .padding(.bottom, 20)
             }
         }
-        .padding()
+        .padding(.horizontal, 20)
         .background(Color.white)
-        .cornerRadius(15)
+        .cornerRadius(10)
         .shadow(color: Color.black.opacity(0.1), radius: 4, x: 1, y: 1)
+        .padding(.horizontal, 20)
+        .padding(.bottom, 20)
     }
 }
-

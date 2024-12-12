@@ -8,24 +8,7 @@
 import SwiftUI
 
 struct RentalAssumptionsUnitView: View {
-    @State private var units: [Int] = Array(1...5)
-    @State private var amounts: [String] = Array(repeating: "$0", count: 5)
-    
-    private var monthlyTotals: [Double] {
-        amounts.map { Double($0.replacingOccurrences(of: "$", with: "")) ?? 0 }
-    }
-    
-    private var yearlyTotals: [Double] {
-        monthlyTotals.map { $0 * 12 }
-    }
-    
-    private var totalMonthly: Double {
-        monthlyTotals.reduce(0, +)
-    }
-    
-    private var totalYearly: Double {
-        yearlyTotals.reduce(0, +)
-    }
+    @EnvironmentObject var viewModel: PurchaseTermsManager
 
     var body: some View {
         VStack {
@@ -59,14 +42,14 @@ struct RentalAssumptionsUnitView: View {
                 }
                 
                 VStack(spacing: 10) {
-                    ForEach(units.indices, id: \.self) { index in
+                    ForEach(viewModel.units.indices, id: \.self) { index in
                         HStack {
-                            Text("\(units[index])")
+                            Text("\(viewModel.units[index])")
                                 .font(.system(size: 13))
                                 .foregroundStyle(Color.black)
                             Spacer()
                             
-                            TextField("$0", text: $amounts[index])
+                            TextField("$0", text: $viewModel.amounts[index])
                                 .font(.system(size: 13))
                                 .fontWeight(.medium)
                                 .foregroundColor(.black)
@@ -83,12 +66,9 @@ struct RentalAssumptionsUnitView: View {
                         }
                     }
                 }
-                
                 // Add Unit button
                 Button {
-                    // Add a new unit and corresponding amount
-                    units.append(units.count + 1)
-                    amounts.append("$0") // Default value for new unit's amount
+                    viewModel.addUnit()
                 } label: {
                     HStack(spacing: 10) {
                         Text("Add Unit")
@@ -142,16 +122,16 @@ struct RentalAssumptionsUnitView: View {
                 
                 VStack(spacing: 10) {
                     // Display Calculated Monthly and Yearly Data for each Unit
-                    ForEach(units.indices, id: \.self) { index in
+                    ForEach(viewModel.units.indices, id: \.self) { index in
                         HStack {
-                            Text("\(units[index])")
+                            Text("\(viewModel.units[index])")
                                 .font(.system(size: 13))
                                 .foregroundStyle(Color.black)
                                 .fontWeight(.regular)
                             
                             Spacer()
                             
-                            Text("$\(yearlyTotals[index], specifier: "%.2f")")
+                            Text("$\(viewModel.yearlyTotals[index], specifier: "%.2f")")
                                 .font(.system(size: 13))
                                 .foregroundStyle(Color.black)
                                 .fontWeight(.regular)
@@ -179,7 +159,7 @@ struct RentalAssumptionsUnitView: View {
                             .font(.system(size: 14))
                             .fontWeight(.bold)
                             .foregroundStyle(Color.black)
-                        Text("$\(totalMonthly, specifier: "%.2f")")
+                        Text("$\(viewModel.totalMonthly, specifier: "%.2f")")
                             .font(.system(size: 13))
                             .foregroundStyle(Color.black)
                             .fontWeight(.regular)
@@ -193,7 +173,7 @@ struct RentalAssumptionsUnitView: View {
                             .font(.system(size: 14))
                             .fontWeight(.bold)
                             .foregroundStyle(Color.black)
-                        Text("$\(totalYearly, specifier: "%.2f")")
+                        Text("$\(viewModel.totalYearly, specifier: "%.2f")")
                             .font(.system(size: 13))
                             .foregroundStyle(Color.black)
                             .fontWeight(.regular)
@@ -213,8 +193,4 @@ struct RentalAssumptionsUnitView: View {
         .padding(.top, 20)
         .padding(.bottom, 20)
     }
-}
-
-#Preview {
-    RentalAssumptionsUnitView()
 }

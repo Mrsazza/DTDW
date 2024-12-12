@@ -11,6 +11,13 @@ struct HomePageView: View {
     @State private var searchText = ""
     @State private var isGridView: Bool = true
     
+    @State private var deals: [GridCard] = [
+        GridCard(imageName: "Picture", title: "Land lady apartment on set.", cashOnReturn: "Cash on Return 11.52%", capRate: "Cap Rate 8.99%", buttonAction: {
+            print("View Deal")
+        }),
+        // Add other cards here...
+    ]
+    
     private let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 10),
         GridItem(.flexible(), spacing: 10)
@@ -113,16 +120,12 @@ struct HomePageView: View {
                                     .padding(.bottom, 80)
                                 } else {
                                     VStack(spacing: 10) {
-                                        ForEach(0..<dealCount, id: \.self) { index in
-                                            ListCardView(card: GridCard(
-                                                imageName: "Picture",
-                                                title: "Land lady apartment on set.",
-                                                cashOnReturn: "Cash on Return 11.52%",
-                                                capRate: "Cap Rate 8.99%",
-                                                buttonAction: {
-                                                    print("View Deal")
+                                        ForEach(deals) { deal in
+                                            ListCardView(card: deal, onDelete: {
+                                                if let index = deals.firstIndex(where: { $0.id == deal.id }) {
+                                                    deals.remove(at: index)
                                                 }
-                                            ))
+                                            })
                                         }
                                     }
                                     .padding(.top, 20)
@@ -166,10 +169,6 @@ struct HomePageView: View {
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
-}
-
-#Preview {
-    HomePageView()
 }
 
 struct RoundedCornerShape: Shape {

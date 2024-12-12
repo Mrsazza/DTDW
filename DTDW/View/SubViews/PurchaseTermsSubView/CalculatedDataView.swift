@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CalculatedDataView: View {
+    @EnvironmentObject var viewModel: PurchaseTermsManager
+    
     var body: some View {
         VStack(spacing: 20) {
             VStack(spacing: 10) {
@@ -17,49 +19,66 @@ struct CalculatedDataView: View {
                     .foregroundStyle(Color.colorFont)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top, 20)
-                
+
                 RoundedRectangle(cornerRadius: 20)
                     .frame(maxWidth: .infinity, maxHeight: 1)
                     .foregroundColor(Color.black.opacity(0.1))
             }
-            
+
             VStack(spacing: 10) {
+                // Discount / Profit Row
                 HStack {
                     Text("Discount/ Profit")
-                    Spacer()
-                    Text("37.5")
-                    Spacer()
-                    Text("$1,50,000")
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     
+                    Text("\(((Double(viewModel.marketValue ?? 0) - Double(viewModel.purchasePriceValue ?? 0)) / Double(viewModel.marketValue ?? 1)) * 100, specifier: "%.1f")%")
+                        .frame(width: 80, alignment: .trailing)
+                    
+                    Text("$\(viewModel.discountProfit, specifier: "%.2f")")
+                        .frame(width: 100, alignment: .trailing)
                 }
+
+                // Down Payment Row
                 HStack {
                     Text("Down Payment")
-                    Spacer()
-                    Text("$25,000")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text("")
+                        .frame(width: 80, alignment: .trailing)
                     
+                    Text("$\(viewModel.downPaymentAmount, specifier: "%.2f")")
+                        .frame(width: 100, alignment: .trailing)
                 }
+
                 HStack {
                     Text("Amount Financed")
-                    Spacer()
-                    Text("90.0%")
-                    Spacer()
-                    Text("$2,25,000")
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     
+                    // Dynamically calculate the financed percentage
+                    Text("\(String(format: "%.1f", 100.0 - (Double(viewModel.downPaymentValue ?? 0))))%")
+                    
+                    Text("$\(viewModel.amountFinanced, specifier: "%.2f")")
+                        .frame(width: 100, alignment: .trailing)
                 }
-                
+
+                // Mortgage Payment Row
                 HStack {
                     Text("Mortgage Payment")
-                    Spacer()
-                    Text("$1,422")
-                    Spacer()
-                    Text("$17,065")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    Text("$\(viewModel.monthlyMortgagePayment, specifier: "%.2f")")
+                        .frame(width: 80, alignment: .trailing)
+                    
+                    Text("$\(viewModel.monthlyMortgagePayment * 12, specifier: "%.2f")") // Annual Payment
+                        .frame(width: 100, alignment: .trailing)
                 }
                 .padding(.bottom, 20)
             }
+            .frame(maxWidth: .infinity, alignment: .trailing)
             .font(.system(size: 13))
             .foregroundStyle(Color.black)
             .multilineTextAlignment(.center)
-            
+            .lineLimit(1)
+            .minimumScaleFactor(0.5)
         }
         .padding(.horizontal, 20)
         .background(Color.white)

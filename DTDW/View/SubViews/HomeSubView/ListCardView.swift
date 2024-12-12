@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ListCardView: View {
     var card: GridCard
+    var onDelete: () -> Void
     
     var body: some View {
         ZStack {
@@ -60,17 +61,10 @@ struct ListCardView: View {
             .padding(.horizontal, 20)
             .shadow(color: .black.opacity(0.1), radius: 6, x: 1, y: 1)
         }
-    }
-}
-
-#Preview {
-    ListCardView(card: GridCard(
-        imageName: "Picture", // Replace with a valid image name in your assets
-        title: "Land Lady Apts on Martin St.",
-        cashOnReturn: "Cash on Return 11.52%",
-        capRate: "Cap Rate 8.33%",
-        buttonAction: {
-            print("View Deal pressed")
+        .swipeActions {
+            Button(role: .destructive, action: onDelete) {
+                Label("Delete", systemImage: "trash")
+            }
         }
-    ) )
+    }
 }

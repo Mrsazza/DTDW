@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct OngoingExpenses: View {
-    @State private var VacancyOfTotalIncome: Int?
-    @State private var marketValue: Int?
-    @State private var purchasePriceValue: Int?
-    @State private var downPaymentValue: Int?
-    @State private var interestRateValue: Double?
-    @State private var mortgageLengthValue: Int?
+    @EnvironmentObject var purchaseTermsManager: PurchaseTermsManager
+    @EnvironmentObject var viewModel: OngoingExpensesManager
+    
+//    init() {
+//        let purchaseTermsManager = PurchaseTermsManager()
+//        _purchaseTermsManager = StateObject(wrappedValue: purchaseTermsManager)
+//        _viewModel = StateObject(wrappedValue: OngoingExpensesViewModel(purchaseTermsManager: purchaseTermsManager))
+//    }
     
     // Formatter for numbers without decimals
     private let numberFormatter: NumberFormatter = {
@@ -30,11 +32,13 @@ struct OngoingExpenses: View {
         formatter.maximumFractionDigits = 2
         return formatter
     }()
+    
+   
     var body: some View {
         ZStack {
             ScrollView {
                 VStack {
-                    // Ongoing Expenses Section
+                    //Ongoing Expenses Section
                     VStack(spacing: 20) {
                         VStack(spacing: 10) {
                             Text("Ongoing Expenses")
@@ -48,7 +52,8 @@ struct OngoingExpenses: View {
                                 .frame(maxWidth: .infinity, maxHeight: 1)
                                 .foregroundColor(Color.black.opacity(0.1))
                             
-                            InputRow(label: "Vacancy (% of total Income)", placeholder: "5.0%", value: $VacancyOfTotalIncome, formatter: numberFormatter)
+                            InputRow(label: "Vacancy (% of total Income)", placeholder: "5.0%", value: Binding($viewModel.vacancyOfTotalIncome), formatter: numberFormatter)
+
                         }
                         
                         VStack(spacing: 10) {
@@ -64,14 +69,13 @@ struct OngoingExpenses: View {
                                     .foregroundColor(Color.black.opacity(0.1))
                             }
                             
-                            InputRow(label: "Property Management", placeholder: "$50", value: $marketValue, formatter: numberFormatter)
+                            InputRow(label: "Property Management", placeholder: "$50", value: Binding($viewModel.propertyManagement), formatter: numberFormatter)
                                 .padding(.top, 5)
-                            InputRow(label: "Leasing Costs", placeholder: "$0", value: $purchasePriceValue, formatter: numberFormatter)
-                            InputRow(label: "Maintenance", placeholder: "$100%", value: $downPaymentValue, formatter: numberFormatter)
-                            InputRow(label: "Utilities", placeholder: "$500", value: $interestRateValue, formatter: decimalFormatter)
-                            InputRow(label: "Property Taxes", placeholder: "$412", value: $mortgageLengthValue, formatter: numberFormatter)
-                            InputRow(label: "Insurance", placeholder: "$121", value: $mortgageLengthValue, formatter: numberFormatter)
-                            InputRow(label: "Other", placeholder: "$0", value: $mortgageLengthValue, formatter: numberFormatter)
+                            InputRow(label: "Leasing Costs", placeholder: "$0", value: Binding($viewModel.leasingCosts), formatter: numberFormatter)
+                            InputRow(label: "Maintenance", placeholder: "$100%", value: Binding($viewModel.utilities), formatter: decimalFormatter)
+                            InputRow(label: "Property Taxes", placeholder: "$412", value: Binding($viewModel.propertyTaxes), formatter: numberFormatter)
+                            InputRow(label: "Insurance", placeholder: "$121", value: Binding($viewModel.insurance), formatter: numberFormatter)
+                            InputRow(label: "Other", placeholder: "$0", value: Binding($viewModel.otherOngoingExpenses), formatter: numberFormatter)
                         }
                         .padding(.bottom, 20)
                     }
@@ -83,7 +87,7 @@ struct OngoingExpenses: View {
                     
                     // Calculated Data Section
                     VStack(spacing: 15) {
-                        // Header
+                        // Header Section
                         VStack(spacing: 10) {
                             Text("Calculated Data")
                                 .font(.system(size: 16))
@@ -97,13 +101,12 @@ struct OngoingExpenses: View {
                                 .foregroundColor(Color.black.opacity(0.1))
                         }
                         
-                        // Column Headers
+                        // Column Headers Section
                         HStack(alignment: .bottom) {
                             Text("Property Expenses")
                                 .font(.system(size: 13))
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color.black)
-                            //                                .frame(width: 150, alignment: .leading)
                             
                             Spacer()
                             
@@ -123,48 +126,64 @@ struct OngoingExpenses: View {
                         }
                         .padding(.bottom, 10)
                         
-                        // Data Rows
-                        Group {
-                            ForEach([("Property Management", "$600", "1.7%"),
-                                     ("Leasing Costs", "$0", "0.0%"),
-                                     ("Maintenance", "$1,200", "0.3%"),
-                                     ("Utilities", "$6,000", "1.5%"),
-                                     ("Property Taxes", "$1,200", "0.3%"),
-                                     ("Insurance", "$1,200", "0.3%"),
-                                     ("Other", "$1,200", "0.3%"),
-                                     ("Total Expenses & Vacancy", "$15,996", "10.1%")], id: \.0) { item in
-                                HStack {
-                                    Text(item.0)
-                                        .font(.system(size: 13))
-                                        .foregroundStyle(Color.black)
-                                    //                                        .frame(width: 150, alignment: .leading)
-                                    
-                                    Spacer()
-                                    
-                                    Text(item.1)
-                                        .font(.system(size: 13))
-                                        .foregroundStyle(Color.black)
-                                        .frame(width: 80, alignment: .center)
-                                    
-                                    Text(item.2)
-                                        .font(.system(size: 13))
-                                        .foregroundStyle(Color.black)
-                                        .frame(width: 80, alignment: .trailing)
-                                }
-                            }
+                        // Property Expense Rows
+                        VStack(spacing: 10) {
+                            PropertyExpenseRow(
+                                name: "Property Management",
+                                yearAmount: "$\(Int(viewModel.propertyManagementYearAmount))",
+                                percentage: purchaseTermsManager.totalMonthly > 0
+                                    ? "\(String(format: "%.1f", (Double(viewModel.propertyManagement) / viewModel.totalOngoingIncomeMonthly) * 100))%"
+                                    : "0.0%"
+                            )
+                            
+                            PropertyExpenseRow(
+                                name: "Leasing Costs",
+                                yearAmount: "$\(Int(viewModel.leasingCostsYearAmount))",
+                                percentage: purchaseTermsManager.totalMonthly > 0
+                                ? "\(String(format: "%.1f", (Double(viewModel.leasingCosts) / viewModel.totalOngoingIncomeMonthly) * 100))%"
+                                    : "0.0%"
+                            )
+
+                            
+                            PropertyExpenseRow(
+                                name: "Maintenance", yearAmount: "$\(Int(viewModel.maintenanceYearAmount))",
+                                percentage: "\(String(format: "%.1f", (viewModel.maintenanceYearAmount / Double(purchaseTermsManager.marketValue!)) * 100))%"
+                            )
+                            
+                            PropertyExpenseRow(
+                                name: "Utilities", yearAmount: "$\(Int(viewModel.utilitiesYearAmount))",
+                                percentage: "\(String(format: "%.1f", (viewModel.utilitiesYearAmount /  Double(purchaseTermsManager.marketValue!)) * 100))%")
+                            
+                            PropertyExpenseRow(name: "Property Taxes", yearAmount: "$\(Int(viewModel.propertyTaxesYearAmount))", percentage: "\(String(format: "%.1f", (viewModel.propertyTaxesYearAmount / Double(purchaseTermsManager.marketValue!)) * 100))%")
+                            
+                            PropertyExpenseRow(name: "Insurance", yearAmount: "$\(Int(viewModel.insuranceYearAmount))", percentage: "\(String(format: "%.1f", (viewModel.insuranceYearAmount / Double(purchaseTermsManager.marketValue!)) * 100))%")
+                            
+                            PropertyExpenseRow(name: "Other", yearAmount: "$\(Int(viewModel.otherYearAmount))", percentage: "\(String(format: "%.1f", (viewModel.otherYearAmount / Double(purchaseTermsManager.marketValue!)) * 100))%")
+                            
+                            PropertyExpenseRow(
+                                name: "Total Expenses & Vacancy",
+                                yearAmount: "$\(Int(viewModel.totalExpenses))",
+                                percentage: purchaseTermsManager.totalMonthly > 0
+                                ? "\(String(format: "%.1f", viewModel.vacancyOfTotalIncome + (Double(viewModel.propertyManagement) / viewModel.totalOngoingIncomeMonthly) * 100 + (Double(viewModel.leasingCosts) / viewModel.totalOngoingIncomeMonthly) * 100 + (viewModel.maintenanceYearAmount / Double(purchaseTermsManager.marketValue!)) * 100 + (viewModel.utilitiesYearAmount /  Double(purchaseTermsManager.marketValue!)) * 100 + (viewModel.propertyTaxesYearAmount / Double(purchaseTermsManager.marketValue!)) * 100 + (viewModel.insuranceYearAmount / Double(purchaseTermsManager.marketValue!)) * 100 + (viewModel.otherYearAmount / Double(purchaseTermsManager.marketValue!)) * 100))%"
+                                
+                                
+                                
+                                : "\(String(format: "%.1f", viewModel.vacancyOfTotalIncome))%"
+                            )
                         }
                         
+                        // Divider line
                         RoundedRectangle(cornerRadius: 20)
                             .frame(maxWidth: .infinity, maxHeight: 1)
                             .foregroundColor(Color.black.opacity(0.1))
                         
+                        // Second Section Header (Expenses with Monthly Calculations)
                         VStack(spacing: 20) {
                             HStack {
                                 Text("Expenses")
                                     .font(.system(size: 13))
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color.black)
-                                //                                    .frame(width: 150, alignment: .leading)
                                 
                                 Spacer()
                                 
@@ -183,55 +202,27 @@ struct OngoingExpenses: View {
                                     .lineLimit(2)
                             }
                             
+                            // Expense Rows for Year and Month
                             VStack(spacing: 10) {
+                                ExpenseRow(
+                                    name: "Vacancy",
+                                    yearAmount: "$\(Int(viewModel.vacancyYearAmount))",
+                                    monthAmount: "$\(Int(viewModel.vacancyMonthAmount))"
+                                )
+                                ExpenseRow(
+                                    name: "Net Operating Income",
+                                    yearAmount: "$\(Int(viewModel.netOperatingIncomeYearAmount))",
+                                    monthAmount: "$\(Int(viewModel.netOperatingIncomeMonthAmount))"
+                                )
                                 HStack {
-                                    Text("Vacancy")
-                                        .font(.system(size: 13))
-                                        .foregroundStyle(Color.black)
-                                    //                                        .frame(width: 150, alignment: .leading)
-                                    
-                                    Spacer()
-                                    
-                                    Text("$1,200")
-                                        .font(.system(size: 13))
-                                        .foregroundStyle(Color.black)
-                                        .frame(width: 80, alignment: .center)
-                                    
-                                    Text("0.3%")
-                                        .font(.system(size: 13))
-                                        .foregroundStyle(Color.black)
-                                        .frame(width: 80, alignment: .trailing)
-                                }
-                                
-                                HStack {
-                                    Text("Net Operating Income")
-                                        .font(.system(size: 13))
-                                        .foregroundStyle(Color.black)
-                                    //                                        .frame(width: 150, alignment: .leading)
-                                    
-                                    Spacer()
-                                    
-                                    Text("$20,004")
-                                        .font(.system(size: 13))
-                                        .foregroundStyle(Color.black)
-                                        .frame(width: 80, alignment: .center)
-                                    
-                                    Text("$1,667")
-                                        .font(.system(size: 13))
-                                        .foregroundStyle(Color.black)
-                                        .frame(width: 80, alignment: .trailing)
-                                }
-                                
-                                HStack(alignment: .top) {
                                     Text("Total Expenses & Vacancy")
-                                        .foregroundStyle(Color.black)
                                         .font(.system(size: 13))
-                                    //                                        .frame(width: 150, alignment: .leading)
-                                        .lineLimit(2)
+                                        .foregroundStyle(Color.black)
                                     
                                     Spacer()
                                     
-                                    Text("$1,333")
+                                   
+                                    Text("$\(Int(viewModel.totalExpensesAndVacancyMonthAmount))")
                                         .font(.system(size: 13))
                                         .foregroundStyle(Color.black)
                                         .frame(width: 80, alignment: .trailing)
@@ -243,7 +234,7 @@ struct OngoingExpenses: View {
                     .padding(.horizontal, 20)
                     .background(Color.white)
                     .cornerRadius(15)
-                    .shadow(color: Color.blackOnePercentColor, radius: 4, x: 1, y: 1)
+                    .shadow(color: Color.black.opacity(0.1), radius: 4, x: 1, y: 1)
                     .padding(.horizontal, 20)
                 }
                 .padding([.top, .bottom], 20)
@@ -252,6 +243,57 @@ struct OngoingExpenses: View {
     }
 }
 
-#Preview {
-    OngoingExpenses()
+
+// Custom Row for Property Expenses
+struct PropertyExpenseRow: View {
+    var name: String
+    var yearAmount: String
+    var percentage: String
+    
+    var body: some View {
+        HStack {
+            Text(name)
+                .font(.system(size: 13))
+                .foregroundStyle(Color.black)
+            
+            Spacer()
+            
+            Text(yearAmount)
+                .font(.system(size: 13))
+                .foregroundStyle(Color.black)
+                .frame(width: 80, alignment: .center)
+            
+            Text(percentage)
+                .font(.system(size: 13))
+                .foregroundStyle(Color.black)
+                .frame(width: 80, alignment: .trailing)
+        }
+    }
+}
+
+// Custom Row for Expenses (Year & Month)
+struct ExpenseRow: View {
+    var name: String
+    var yearAmount: String
+    var monthAmount: String
+    
+    var body: some View {
+        HStack {
+            Text(name)
+                .font(.system(size: 13))
+                .foregroundStyle(Color.black)
+            
+            Spacer()
+            
+            Text(yearAmount)
+                .font(.system(size: 13))
+                .foregroundStyle(Color.black)
+                .frame(width: 80, alignment: .center)
+            
+            Text(monthAmount)
+                .font(.system(size: 13))
+                .foregroundStyle(Color.black)
+                .frame(width: 80, alignment: .trailing)
+        }
+    }
 }
