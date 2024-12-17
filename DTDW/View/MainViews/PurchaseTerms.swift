@@ -13,6 +13,7 @@ struct PurchaseTerms: View {
     @EnvironmentObject var vm : OngoingExpensesManager
     
     @State private var selectedButton: ButtonType? = .cart
+    @Bindable var propertyData: PropertyData
     
     enum ButtonType {
         case cart, medical, rental, income, expenses
@@ -126,7 +127,7 @@ struct PurchaseTerms: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     switch selectedButton {
                     case .cart:
-                        PurchaseTermsView(viewModel: viewModel)
+                        PurchaseTermsView(viewModel: viewModel, propertyData: propertyData)
                         
                         CalculatedDataView()
                     case .medical:
@@ -141,7 +142,7 @@ struct PurchaseTerms: View {
                         OngoingExpenses()
                     case nil:
                         //inpute as a default
-                        PurchaseTermsView(viewModel: viewModel)
+                        PurchaseTermsView(viewModel: viewModel, propertyData: propertyData)
                         
                         CalculatedDataView()
                     }
@@ -157,7 +158,7 @@ struct PurchaseTerms: View {
 }
 
 #Preview {
-    PurchaseTerms()
+    PurchaseTerms( propertyData: PropertyData(propertyName: "Demo Property", propertyCalculatabeleData: demoPropertyCalculatableData))
 }
 
 // Add this helper function to dismiss the keyboard

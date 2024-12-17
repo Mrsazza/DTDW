@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct HomePageView: View {
     @State private var searchText = ""
     @State private var isGridView: Bool = true
+    @Query private var properties: [PropertyData]
     
     @State private var deals: [GridCard] = [
         GridCard(imageName: "Picture", title: "Land lady apartment on set.", cashOnReturn: "Cash on Return 11.52%", capRate: "Cap Rate 8.99%", buttonAction: {
@@ -103,14 +105,14 @@ struct HomePageView: View {
                             if dealCount > 0 {
                                 if isGridView {
                                     LazyVGrid(columns: columns, spacing: 25) {
-                                        ForEach(0..<dealCount, id: \.self) { index in
+                                        ForEach(properties, id: \.id) { property in
                                             GridCardView(card: GridCard(
                                                 imageName: "Picture",
-                                                title: "Land lady apartment on set.",
+                                                title: "\(property.propertyName)",
                                                 cashOnReturn: "Cash on Return 11.52%",
                                                 capRate: "Cap Rate 8.99%",
                                                 buttonAction: {
-                                                    print("View Deal")
+                                                    print(property.propertyCalculatabeleData?.marketValue)
                                                 }
                                             ))
                                         }

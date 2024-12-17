@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 enum Tab {
     case home
@@ -16,6 +17,9 @@ enum Tab {
 struct DTDWTabView: View {
     @State private var selectedTab: Tab = .home
     @State private var isPresentingPurchaseTerms = false
+    @Environment(\.modelContext) private var modelContext
+    @State private var newProperty: PropertyData = PropertyData(propertyName: "New Property", propertyCalculatabeleData: demoPropertyCalculatableData)
+    @State private var propertyID: String?
     
     var body: some View {
         ZStack {
@@ -38,7 +42,9 @@ struct DTDWTabView: View {
                 .zIndex(0)
         }
         .fullScreenCover(isPresented: $isPresentingPurchaseTerms) {
-            PurchaseTerms()
+            if let newProp = modelContext.model(for: newProperty.persistentModelID) as? PropertyData {
+                    PurchaseTerms(propertyData: newProp)
+            }
         }
     }
     
@@ -66,7 +72,11 @@ struct DTDWTabView: View {
     
     private func plusTabButton() -> some View {
         Button {
+            modelContext.insert(newProperty)
+            try? modelContext.save()
             isPresentingPurchaseTerms = true // Show full screen cover when tapped
+           
+            
         } label: {
             Image(systemName: "plus")
                 .font(.system(size: 32, weight: .bold))

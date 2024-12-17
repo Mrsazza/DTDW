@@ -11,8 +11,19 @@ import SwiftData
 
 @main
 struct DTDWApp: App {
-    @StateObject var purchaseTermsManager = PurchaseTermsManager()
-    @StateObject var ongoingExpensesViewModel = OngoingExpensesManager()
+    
+    var sharedModelContainer: ModelContainer = {
+        let schema = Schema([
+            PropertyData.self
+        ])
+        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+
+        do {
+            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+        } catch {
+            fatalError("Could not create ModelContainer: \(error)")
+        }
+    }()
     
     init() {
         FirebaseApp.configure()
@@ -22,8 +33,9 @@ struct DTDWApp: App {
         WindowGroup {
             ContentView()
                 .dynamicTypeSize(.medium)
-                .environmentObject(purchaseTermsManager)
-                .environmentObject(ongoingExpensesViewModel)
+                .environmentObject(PurchaseTermsManager())
+                .environmentObject(OngoingExpensesManager())
+                .modelContainer(sharedModelContainer)
             
         }
     }

@@ -40,18 +40,6 @@ class PurchaseTermsManager: ObservableObject {
     @Published var units: [Int] = []
     @Published var amounts: [String]
     
-    var cashOnCashReturn: Double {
-        guard let purchasePriceValue = purchasePriceValue else { return 0 }
-        
-        // Count only the units with non-zero amounts
-        let validUnitsCount = amounts.filter { amount in
-            let amountValue = Double(amount.replacingOccurrences(of: "$", with: "")) ?? 0
-            return amountValue > 0
-        }.count
-        
-        return validUnitsCount > 0 ? Double(purchasePriceValue) / Double(validUnitsCount) : 0
-    }
-    
     //Income..
     @Published var administrativeFees: Int? = nil
     @Published var applianceRentals: Int? = nil
@@ -149,6 +137,19 @@ class PurchaseTermsManager: ObservableObject {
     // Calculate Rental Assumptions yearly totals
     var yearlyTotals: [Double] {
         monthlyTotals.map { $0 * 12 }
+    }
+    
+    // Rental Assumption
+    var cashOnCashReturn: Double {
+        guard let purchasePriceValue = purchasePriceValue else { return 0 }
+        
+        // Count only the units with non-zero amounts
+        let validUnitsCount = amounts.filter { amount in
+            let amountValue = Double(amount.replacingOccurrences(of: "$", with: "")) ?? 0
+            return amountValue > 0
+        }.count
+        
+        return validUnitsCount > 0 ? Double(purchasePriceValue) / Double(validUnitsCount) : 0
     }
     
     // Total Rental Assumptions Monthly Income
