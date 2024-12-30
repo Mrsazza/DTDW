@@ -4,7 +4,6 @@
 //
 //  Created by Sazza on 5/11/24.
 //
-
 import SwiftUI
 import Firebase
 import SwiftData
@@ -36,6 +35,7 @@ struct DTDWApp: App {
                 .environmentObject(PurchaseTermsManager())
                 .environmentObject(OngoingExpensesManager())
                 .modelContainer(sharedModelContainer)
+                .modelContainer(for: [PropertyData.self])
             
         }
     }

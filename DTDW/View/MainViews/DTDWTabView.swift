@@ -17,34 +17,32 @@ enum Tab {
 struct DTDWTabView: View {
     @State private var selectedTab: Tab = .home
     @State private var isPresentingPurchaseTerms = false
+    @State private var isPresentingSavedPurchaseTerms = false
+    @State private var selectedProperty: PropertyData?
     @Environment(\.modelContext) private var modelContext
     @State private var newProperty: PropertyData = PropertyData(propertyName: "New Property", propertyCalculatabeleData: demoPropertyCalculatableData)
-    @State private var propertyID: String?
     
     var body: some View {
         ZStack {
             switch selectedTab {
             case .home:
                 HomePageView()
-                   
             case .settings:
                 SettingsView()
-                
             default:
-                EmptyView() //Placeholder, since PurchaseTerms is shown as a full screen cover
+                EmptyView() // Placeholder for future tabs
             }
             
             tabBar
                 .background(Color.white)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-                .shadow(color: Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.01)),radius: 4, x: 0, y: -1)
+                .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: -1)
                 .ignoresSafeArea()
                 .zIndex(0)
         }
         .fullScreenCover(isPresented: $isPresentingPurchaseTerms) {
-            if let newProp = modelContext.model(for: newProperty.persistentModelID) as? PropertyData {
-                    PurchaseTerms(propertyData: newProp)
-            }
+            // This opens the PurchaseTerms view with new property
+            PurchaseTerms(propertyData: newProperty)
         }
     }
     
@@ -52,7 +50,7 @@ struct DTDWTabView: View {
         HStack(alignment: .center) {
             tabButton(for: .home, imageNameWhite: "HomeImageWhite", imageNameBlack: "HomeImageBlack", title: "Home")
             
-            plusTabButton() // Use a separate button view for the 'plus' tab
+            plusTabButton()
                 .padding(.bottom, 10)
             
             tabButton(for: .settings, imageNameWhite: "SettingsImageWhite", imageNameBlack: "SettingsImageBlack", title: "Settings")
@@ -72,11 +70,12 @@ struct DTDWTabView: View {
     
     private func plusTabButton() -> some View {
         Button {
+            // Insert a new property and save it
             modelContext.insert(newProperty)
             try? modelContext.save()
-            isPresentingPurchaseTerms = true // Show full screen cover when tapped
-           
             
+            // Show the PurchaseTerms fullscreen
+            isPresentingPurchaseTerms = true
         } label: {
             Image(systemName: "plus")
                 .font(.system(size: 32, weight: .bold))
@@ -84,7 +83,9 @@ struct DTDWTabView: View {
                 .frame(width: 54, height: 54)
                 .background(Color.white)
                 .clipShape(Circle())
-                .shadow(color: Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.15)),radius: 2, x: 1, y: 2)
+                .shadow(color: Color.black.opacity(0.15), radius: 2, x: 1, y: 2)
         }
     }
 }
+
+

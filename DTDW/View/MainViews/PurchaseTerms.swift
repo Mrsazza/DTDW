@@ -127,9 +127,9 @@ struct PurchaseTerms: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     switch selectedButton {
                     case .cart:
-                        PurchaseTermsView(viewModel: viewModel, propertyData: propertyData)
+                        PurchaseTermsView(propertyData: propertyData)
                         
-                        CalculatedDataView()
+                        CalculatedDataView(propertyData: propertyData)
                     case .medical:
                         InitialExpensesData()
                         
@@ -142,9 +142,9 @@ struct PurchaseTerms: View {
                         OngoingExpenses()
                     case nil:
                         //inpute as a default
-                        PurchaseTermsView(viewModel: viewModel, propertyData: propertyData)
+                        PurchaseTermsView(propertyData: propertyData)
                         
-                        CalculatedDataView()
+                        CalculatedDataView(propertyData: propertyData)
                     }
                 }
                 .onTapGesture {

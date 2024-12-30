@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CalculatedDataView: View {
-    @EnvironmentObject var viewModel: PurchaseTermsManager
+    @Bindable var propertyData: PropertyData // Use SwiftData's property
     
     var body: some View {
         VStack(spacing: 20) {
@@ -30,11 +30,13 @@ struct CalculatedDataView: View {
                 HStack {
                     Text("Discount/ Profit")
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    Text("\(((Double(viewModel.marketValue ?? 0) - Double(viewModel.purchasePriceValue ?? 0)) / Double(viewModel.marketValue ?? 1)) * 100, specifier: "%.1f")%")
+
+                    // Percentage Calculation
+                    Text("\(discountProfitPercentage(), specifier: "%.1f")%")
                         .frame(width: 80, alignment: .trailing)
-                    
-                    Text("$\(viewModel.discountProfit, specifier: "%.2f")")
+
+                    // Absolute Profit
+                    Text("$\(discountProfit(), specifier: "%.2f")")
                         .frame(width: 100, alignment: .trailing)
                 }
 
@@ -44,19 +46,20 @@ struct CalculatedDataView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Text("")
                         .frame(width: 80, alignment: .trailing)
-                    
-                    Text("$\(viewModel.downPaymentAmount, specifier: "%.2f")")
+
+                    Text("$\(downPaymentAmount(), specifier: "%.2f")")
                         .frame(width: 100, alignment: .trailing)
                 }
 
+                // Amount Financed Row
                 HStack {
                     Text("Amount Financed")
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    // Dynamically calculate the financed percentage
-                    Text("\(String(format: "%.1f", 100.0 - (Double(viewModel.downPaymentValue ?? 0))))%")
-                    
-                    Text("$\(viewModel.amountFinanced, specifier: "%.2f")")
+
+                    // Dynamically calculate financed percentage
+                    Text("\(financedPercentage(), specifier: "%.1f")%")
+
+                    Text("$\(amountFinanced(), specifier: "%.2f")")
                         .frame(width: 100, alignment: .trailing)
                 }
 
@@ -64,11 +67,13 @@ struct CalculatedDataView: View {
                 HStack {
                     Text("Mortgage Payment")
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    Text("$\(viewModel.monthlyMortgagePayment, specifier: "%.2f")")
+
+                    // Monthly Payment
+                    Text("$\(monthlyMortgagePayment(), specifier: "%.2f")")
                         .frame(width: 80, alignment: .trailing)
-                    
-                    Text("$\(viewModel.monthlyMortgagePayment * 12, specifier: "%.2f")") // Annual Payment
+
+                    // Annual Payment
+                    Text("$\(monthlyMortgagePayment() * 12, specifier: "%.2f")")
                         .frame(width: 100, alignment: .trailing)
                 }
                 .padding(.bottom, 20)
@@ -86,5 +91,41 @@ struct CalculatedDataView: View {
         .shadow(color: Color.black.opacity(0.1), radius: 4, x: 1, y: 1)
         .padding(.horizontal, 20)
         .padding(.bottom, 20)
+    }
+
+    // MARK: - Helper Calculations
+    private func discountProfit() -> Double {
+        let marketValue = Double(propertyData.propertyCalculatabeleData?.marketValue ?? 0)
+        let purchasePrice = Double(propertyData.propertyCalculatabeleData?.purchasePriceValue ?? 0)
+        return max(0, marketValue - purchasePrice)
+    }
+
+    private func discountProfitPercentage() -> Double {
+        let marketValue = Double(propertyData.propertyCalculatabeleData?.marketValue ?? 1) // Avoid division by zero
+        return discountProfit() / marketValue * 100
+    }
+
+    private func downPaymentAmount() -> Double {
+        let purchasePrice = Double(propertyData.propertyCalculatabeleData?.purchasePriceValue ?? 0)
+        let downPayment = Double(propertyData.propertyCalculatabeleData?.downPaymentValue ?? 0) / 100
+        return purchasePrice * downPayment
+    }
+
+    private func amountFinanced() -> Double {
+        let purchasePrice = Double(propertyData.propertyCalculatabeleData?.purchasePriceValue ?? 0)
+        return purchasePrice - downPaymentAmount()
+    }
+
+    private func financedPercentage() -> Double {
+        return 100.0 - Double((propertyData.propertyCalculatabeleData?.downPaymentValue ?? 0))
+    }
+
+    private func monthlyMortgagePayment() -> Double {
+        let interestRate = Double(propertyData.propertyCalculatabeleData?.interestRateValue ?? 0) / 100 / 12
+        let loanTermMonths = Double((propertyData.propertyCalculatabeleData?.mortgageLengthValue ?? 0) * 12)
+        let principal = amountFinanced()
+
+        guard interestRate > 0 else { return principal / loanTermMonths }
+        return principal * (interestRate * pow(1 + interestRate, loanTermMonths)) / (pow(1 + interestRate, loanTermMonths) - 1)
     }
 }

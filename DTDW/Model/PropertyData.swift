@@ -10,19 +10,26 @@ import SwiftData
 
 @Model
 class PropertyData {
-    @Attribute(.unique)
+    @Attribute(.unique) // Ensures uniqueness of the ID
     var id: String
+
     var propertyName: String
-    @Attribute(.externalStorage)
+
+    @Attribute(.externalStorage) // For efficient handling of potentially large image data
     var imageData: Data?
+
     var propertyCalculatabeleData: PropertyCalculatableData?
-   
-    init(id: String = UUID().uuidString, propertyName: String, imageData: Data? = nil, propertyCalculatabeleData: PropertyCalculatableData? = nil) {
+
+    // SwiftData requires an explicit initializer if custom initializations are needed.
+    init(
+        id: String = UUID().uuidString,
+        propertyName: String,
+        imageData: Data? = nil,
+        propertyCalculatabeleData: PropertyCalculatableData? = nil
+    ) {
         self.id = id
         self.propertyName = propertyName
         self.imageData = imageData
         self.propertyCalculatabeleData = propertyCalculatabeleData
     }
 }
-
-

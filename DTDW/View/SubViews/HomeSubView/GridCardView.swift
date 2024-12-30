@@ -104,6 +104,7 @@ struct GridCardView: View {
                     
                     Button {
                         card.buttonAction()
+                        
                     } label: {
                         Text("View Deal")
                             .font(.system(size: 10))

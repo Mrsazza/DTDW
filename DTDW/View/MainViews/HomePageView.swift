@@ -17,15 +17,17 @@ struct HomePageView: View {
         GridCard(imageName: "Picture", title: "Land lady apartment on set.", cashOnReturn: "Cash on Return 11.52%", capRate: "Cap Rate 8.99%", buttonAction: {
             print("View Deal")
         }),
-        // Add other cards here...
     ]
+    
+    @State private var isPresentingPurchaseTerms = false
+    @State private var isPresentingSavedPurchaseTerms = false
+    @State private var selectedProperty: PropertyData?
     
     private let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 10),
         GridItem(.flexible(), spacing: 10)
     ]
     
-    // Example deal data count (replace with actual data logic)
     private let dealCount = 8
     
     var body: some View {
@@ -69,7 +71,7 @@ struct HomePageView: View {
                         .padding(.top, 20)
                     
                     // Search bar
-                    SearchBar(text: $searchText)  
+                    SearchBar(text: $searchText)
                     
                     // Your Deals Section
                     VStack(spacing: 5) {
@@ -113,6 +115,8 @@ struct HomePageView: View {
                                                 capRate: "Cap Rate 8.99%",
                                                 buttonAction: {
                                                     print(property.propertyCalculatabeleData?.marketValue)
+                                                    selectedProperty = property
+                                                    isPresentingSavedPurchaseTerms = true
                                                 }
                                             ))
                                         }
@@ -167,11 +171,18 @@ struct HomePageView: View {
                 .edgesIgnoringSafeArea(.bottom)
             }
         }
+        .sheet(isPresented: $isPresentingSavedPurchaseTerms) {
+            if let property = selectedProperty {
+                PurchaseTerms(propertyData: property)
+            }
+        }
     }
+    
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
+
 
 struct RoundedCornerShape: Shape {
     var corners: UIRectCorner
