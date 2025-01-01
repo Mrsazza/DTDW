@@ -18,14 +18,14 @@ class PropertyData {
     @Attribute(.externalStorage) // For efficient handling of potentially large image data
     var imageData: Data?
 
-    var propertyCalculatabeleData: PropertyCalculatableData?
+    var propertyCalculatabeleData: PropertyCalculatableData
 
     // SwiftData requires an explicit initializer if custom initializations are needed.
     init(
         id: String = UUID().uuidString,
         propertyName: String,
         imageData: Data? = nil,
-        propertyCalculatabeleData: PropertyCalculatableData? = nil
+        propertyCalculatabeleData: PropertyCalculatableData
     ) {
         self.id = id
         self.propertyName = propertyName

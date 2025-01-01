@@ -114,10 +114,9 @@ struct HomePageView: View {
                                                 cashOnReturn: "Cash on Return 11.52%",
                                                 capRate: "Cap Rate 8.99%",
                                                 buttonAction: {
-                                                    print(property.propertyCalculatabeleData?.marketValue)
-                                                    selectedProperty = property
-                                                    isPresentingSavedPurchaseTerms = true
-                                                }
+                                                              selectedProperty = property
+                                                              isPresentingSavedPurchaseTerms = true
+                                                          }
                                             ))
                                         }
                                     }
@@ -171,9 +170,17 @@ struct HomePageView: View {
                 .edgesIgnoringSafeArea(.bottom)
             }
         }
-        .sheet(isPresented: $isPresentingSavedPurchaseTerms) {
-            if let property = selectedProperty {
-                PurchaseTerms(propertyData: property)
+        
+        
+        .fullScreenCover(item: $selectedProperty, onDismiss: {
+            selectedProperty = nil
+        }) {item in
+            Group {
+//                if let property = selectedProperty {
+                PurchaseTerms(propertyData: item)
+//                } else {
+//                    Text("NO VALUE")
+//                }
             }
         }
     }

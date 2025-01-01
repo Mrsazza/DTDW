@@ -95,34 +95,34 @@ struct CalculatedDataView: View {
 
     // MARK: - Helper Calculations
     private func discountProfit() -> Double {
-        let marketValue = Double(propertyData.propertyCalculatabeleData?.marketValue ?? 0)
-        let purchasePrice = Double(propertyData.propertyCalculatabeleData?.purchasePriceValue ?? 0)
+        let marketValue = Double(propertyData.propertyCalculatabeleData.marketValue)
+        let purchasePrice = Double(propertyData.propertyCalculatabeleData.purchasePriceValue)
         return max(0, marketValue - purchasePrice)
     }
 
     private func discountProfitPercentage() -> Double {
-        let marketValue = Double(propertyData.propertyCalculatabeleData?.marketValue ?? 1) // Avoid division by zero
+        let marketValue = Double(propertyData.propertyCalculatabeleData.marketValue) // Avoid division by zero
         return discountProfit() / marketValue * 100
     }
 
     private func downPaymentAmount() -> Double {
-        let purchasePrice = Double(propertyData.propertyCalculatabeleData?.purchasePriceValue ?? 0)
-        let downPayment = Double(propertyData.propertyCalculatabeleData?.downPaymentValue ?? 0) / 100
+        let purchasePrice = Double(propertyData.propertyCalculatabeleData.purchasePriceValue)
+        let downPayment = Double(propertyData.propertyCalculatabeleData.downPaymentValue) / 100
         return purchasePrice * downPayment
     }
 
     private func amountFinanced() -> Double {
-        let purchasePrice = Double(propertyData.propertyCalculatabeleData?.purchasePriceValue ?? 0)
+        let purchasePrice = Double(propertyData.propertyCalculatabeleData.purchasePriceValue)
         return purchasePrice - downPaymentAmount()
     }
 
     private func financedPercentage() -> Double {
-        return 100.0 - Double((propertyData.propertyCalculatabeleData?.downPaymentValue ?? 0))
+        return 100.0 - Double((propertyData.propertyCalculatabeleData.downPaymentValue))
     }
 
     private func monthlyMortgagePayment() -> Double {
-        let interestRate = Double(propertyData.propertyCalculatabeleData?.interestRateValue ?? 0) / 100 / 12
-        let loanTermMonths = Double((propertyData.propertyCalculatabeleData?.mortgageLengthValue ?? 0) * 12)
+        let interestRate = Double(propertyData.propertyCalculatabeleData.interestRateValue) / 100 / 12
+        let loanTermMonths = Double((propertyData.propertyCalculatabeleData.mortgageLengthValue) * 12)
         let principal = amountFinanced()
 
         guard interestRate > 0 else { return principal / loanTermMonths }

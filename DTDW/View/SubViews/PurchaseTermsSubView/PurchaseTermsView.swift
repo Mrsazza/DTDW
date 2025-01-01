@@ -47,16 +47,17 @@ struct PurchaseTermsView: View {
                         .foregroundStyle(.black)
                     
                     Spacer()
-                    
-                    TextField("$", value: Binding(
-                        get: { propertyData.propertyCalculatabeleData?.marketValue ?? 0 },
-                        set: { newValue in
-                            if propertyData.propertyCalculatabeleData == nil {
-                                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
-                            }
-                            propertyData.propertyCalculatabeleData?.marketValue = newValue
-                        }
-                    ), formatter: numberFormatter)
+                    TextField("$", value: $propertyData.propertyCalculatabeleData.marketValue, format: .number)
+                        .formattedTextField()
+//                    TextField("$", value: Binding(
+//                        get: { propertyData.propertyCalculatabeleData?.marketValue ?? 0 },
+//                        set: { newValue in
+//                            if propertyData.propertyCalculatabeleData == nil {
+//                                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
+//                            }
+//                            propertyData.propertyCalculatabeleData?.marketValue = newValue
+//                        }
+//                    ), formatter: numberFormatter)
                     .formattedTextField()
                 }
                 
@@ -67,90 +68,91 @@ struct PurchaseTermsView: View {
                         .foregroundStyle(.black)
                     
                     Spacer()
-                    
-                    TextField("$", value: Binding(
-                        get: { propertyData.propertyCalculatabeleData?.purchasePriceValue ?? 0 },
-                        set: { newValue in
-                            if propertyData.propertyCalculatabeleData == nil {
-                                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
-                            }
-                            propertyData.propertyCalculatabeleData?.purchasePriceValue = newValue
-                        }
-                    ), formatter: numberFormatter)
-                    .formattedTextField()
+                    TextField("$", value: $propertyData.propertyCalculatabeleData.purchasePriceValue, format: .number)
+                        .formattedTextField()
+//                    TextField("$", value: Binding(
+//                        get: { propertyData.propertyCalculatabeleData?.purchasePriceValue ?? 0 },
+//                        set: { newValue in
+//                            if propertyData.propertyCalculatabeleData == nil {
+//                                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
+//                            }
+//                            propertyData.propertyCalculatabeleData?.purchasePriceValue = newValue
+//                        }
+//                    ), formatter: numberFormatter)
+//                    .formattedTextField()
                 }
                 
-                // Down Payment (%)
+//                // Down Payment (%)
                 HStack {
                     Text("Down Payment (%)")
                         .font(.system(size: 13))
                         .foregroundStyle(.black)
                     
                     Spacer()
-                    
-                    TextField("%", value: Binding(
-                        get: { (propertyData.propertyCalculatabeleData?.downPaymentValue ?? 0) * 100 },
-                        set: { newValue in
-                            if propertyData.propertyCalculatabeleData == nil {
-                                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
-                            }
-                            propertyData.propertyCalculatabeleData?.downPaymentValue = newValue / 100
-                        }
-                    ), formatter: decimalFormatter)
+                    TextField("$", value: $propertyData.propertyCalculatabeleData.downPaymentValue, formatter: decimalFormatter)
+//                    TextField("%", value: Binding(
+//                        get: { (propertyData.propertyCalculatabeleData?.downPaymentValue ?? 0) * 100 },
+//                        set: { newValue in
+//                            if propertyData.propertyCalculatabeleData == nil {
+//                                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
+//                            }
+//                            propertyData.propertyCalculatabeleData?.downPaymentValue = newValue / 100
+//                        }
+//                    ), formatter: decimalFormatter)
                     .formattedTextField()
                 }
-                
-                // Interest Rate (%)
+//                
+//                // Interest Rate (%)
                 HStack {
                     Text("Interest Rate (%)")
                         .font(.system(size: 13))
                         .foregroundStyle(.black)
                     
                     Spacer()
-                    
-                    TextField("%", value: Binding(
-                        get: { (propertyData.propertyCalculatabeleData?.interestRateValue ?? 0) * 100 },
-                        set: { newValue in
-                            if propertyData.propertyCalculatabeleData == nil {
-                                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
-                            }
-                            propertyData.propertyCalculatabeleData?.interestRateValue = newValue / 100
-                        }
-                    ), formatter: decimalFormatter)
+                    TextField("$", value: $propertyData.propertyCalculatabeleData.interestRateValue, formatter: decimalFormatter)
+//                    TextField("%", value: Binding(
+//                        get: { (propertyData.propertyCalculatabeleData?.interestRateValue ?? 0) * 100 },
+//                        set: { newValue in
+//                            if propertyData.propertyCalculatabeleData == nil {
+//                                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
+//                            }
+//                            propertyData.propertyCalculatabeleData?.interestRateValue = newValue / 100
+//                        }
+//                    ), formatter: decimalFormatter)
                     .formattedTextField()
                 }
-                
-                // Mortgage Length (Years)
+//                
+//                // Mortgage Length (Years)
                 HStack {
                     Text("Mortgage Length (years)")
                         .font(.system(size: 13))
                         .foregroundStyle(.black)
                     
                     Spacer()
-                    
-                    TextField("Years", value: Binding(
-                        get: { propertyData.propertyCalculatabeleData?.mortgageLengthValue ?? 0 },
-                        set: { newValue in
-                            if propertyData.propertyCalculatabeleData == nil {
-                                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
-                            }
-                            propertyData.propertyCalculatabeleData?.mortgageLengthValue = newValue
-                        }
-                    ), formatter: numberFormatter)
+                    TextField("$", value: $propertyData.propertyCalculatabeleData.mortgageLengthValue, format: .number)
+//                    TextField("Years", value: Binding(
+//                        get: { propertyData.propertyCalculatabeleData?.mortgageLengthValue ?? 0 },
+//                        set: { newValue in
+//                            if propertyData.propertyCalculatabeleData == nil {
+//                                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
+//                            }
+//                            propertyData.propertyCalculatabeleData?.mortgageLengthValue = newValue
+//                        }
+//                    ), formatter: numberFormatter)
                     .formattedTextField()
                 }
             }
-            .padding(.bottom, 20)
+//            .padding(.bottom, 20)
         }
         .padding(.horizontal, 20)
         .background(Color.white)
         .clipShape(RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20))
         .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 10)
-        .onAppear {
-            if propertyData.propertyCalculatabeleData == nil {
-                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
-            }
-        }
+//        .onAppear {
+//            if propertyData.propertyCalculatabeleData == nil {
+//                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
+//            }
+//        }
     }
 }
 
