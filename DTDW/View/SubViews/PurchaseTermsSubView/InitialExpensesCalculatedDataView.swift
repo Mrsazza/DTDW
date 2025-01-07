@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct InitialExpensesCalculatedDataView: View {
-    @EnvironmentObject var viewModel: PurchaseTermsManager
-
+    @StateObject var viewModel: PurchaseTermsViewModel
+    
     var body: some View {
         VStack(spacing: 20) {
             VStack(spacing: 10) {

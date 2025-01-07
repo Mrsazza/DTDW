@@ -7,105 +7,98 @@
 import Foundation
 
 struct PropertyCalculatableData: Codable {
-    var vacancyOfTotalIncome: Double?
-    var propertyManagement: Double?
-    var leasingCosts: Double?
-    var maintenance: Double?
-    var utilities: Double?
-    var propertyTaxes: Double?
-    var insurance: Double?
-    var otherOngoingExpenses: Double?
+    var vacancyOfTotalIncome: Double =  5.0
+    var propertyManagement: Double = 50
+    var leasingCosts: Double = 0
+    var maintenance: Double = 100
+    var utilities: Double = 500
+    var propertyTaxes: Double = 412
+    var insurance: Double = 121
+    var otherOngoingExpenses: Double = 0
     
-    var cashOnCashReturn: Double?
-   
+    var cashOnCashReturn: Double? = 11.52
+    var capRate: Double? = 8.33
     
-    var marketValue: Int = 0
-    var purchasePriceValue: Int = 0
-    var downPaymentValue: Int = 0
-    var interestRateValue: Double = 0.0
-    var mortgageLengthValue: Int = 0
+    var marketValue: Double = 400000.0
+    var purchasePriceValue: Double = 250000.0
+    var downPaymentValue: Double = 10.0
+    var interestRateValue: Double = 6.50
+    var mortgageLengthValue: Double = 30.0
     
     // Inputs
-    var findersFees: Int?
-    var inspection: Int?
-    var titleSearchFee: Int?
-    var titleInsurance: Double?
-    var appraisal: Int?
-    var deedRecordingFee: Int?
-    var loanOriginationFee: Int?
-    var survey: Int?
-    var copOther: Int?
+    var findersFees: Int? = 0
+    var inspection: Int? = 0
+    var titleSearchFee: Int? = 300
+    var titleInsurance: Int? = 100
+    var appraisal: Int? = 0
+    var deedRecordingFee: Int? = 100
+    var loanOriginationFee: Int? = 0
+    var survey: Int? = 0
+    var copOther: Int? = 0
     
-    var cosmeticMinor: Int?
-    var cosmeticMajor: Int?
-    var structural: Int?
-    var fixtures: Int?
-    var landscaping: Int?
-    var corOther: Int?
-    var contingencyFactor: Double? // Default percentage
+    var cosmeticMinor: Int? = 0
+    var cosmeticMajor: Int? = 0
+    var structural: Int? = 0
+    var fixtures: Int? = 0
+    var landscaping: Int? = 0
+    var corOther: Int? = 0
+    var contingencyFactor: Double? = 10.0
     
     //Rental Assumptions...
-    var units: [Int]?
-    var amounts: [String]?
+    var units: [Int] = []
+    var amounts: [String] = []
     
     //Income..
-    var administrativeFees: Int?
-    var applianceRentals: Int?
-    var furnitureRental: Int?
-    var parking: Int?
-    var laundryIncome: Int?
-    var otherIncome: Int?
+    var administrativeFees: Double? = 0
+    var applianceRentals: Double? = 0
+    var furnitureRental: Double? = 0
+    var parking: Double? = 0
+    var laundryIncome: Double? = 0
+    var otherIncome: Double? = 0
 }
 
 var demoPropertyCalculatableData = PropertyCalculatableData (
-    vacancyOfTotalIncome : 0.15,
-    propertyManagement: 0.05,
-    leasingCosts: 0.05,
-    maintenance: 0.05,
-    utilities:  0.05,
-    propertyTaxes: 0.05,
-    insurance: 0.05,
-    otherOngoingExpenses: 0.05,
+    vacancyOfTotalIncome : 5.0,
+    propertyManagement: 50.0,
+    leasingCosts: 0.0,
+    maintenance: 100.0,
+    utilities:  500.0,
+    propertyTaxes: 412.0,
+    insurance: 121.0,
+    otherOngoingExpenses: 0.0,
     
-    cashOnCashReturn: 0.05,
-    
-    marketValue: 400000,
-    purchasePriceValue: 250000,
-    downPaymentValue: 10,
+    marketValue: 400000.0,
+    purchasePriceValue: 250000.0,
+    downPaymentValue: 10.0,
     interestRateValue: 6.50,
     mortgageLengthValue: 30,
     
-    // Inputs
-    findersFees: 5,
-    inspection: 5,
-    titleSearchFee: 5,
-    titleInsurance: 0.05,
-    appraisal: 5,
-    deedRecordingFee: 5,
-    loanOriginationFee: 5,
-    survey: 5,
-    copOther: 5,
+    findersFees: 0,
+    inspection: 0,
+    titleSearchFee: 300,
+    titleInsurance: 100,
+    appraisal: 0,
+    deedRecordingFee: 100,
+    loanOriginationFee: 0,
+    survey: 0,
+    copOther: 0,
     
-    cosmeticMinor: 5,
-    cosmeticMajor: 5,
-    structural: 5,
-    fixtures: 5,
-    landscaping:  5,
-    corOther: 5,
-    contingencyFactor: 0.05,// Default percentage
+    cosmeticMinor: 0,
+    cosmeticMajor: 0,
+    structural: 0,
+    fixtures: 0,
+    landscaping:  0,
+    corOther: 0,
+    contingencyFactor: 10.0, // Default percentage
     
     //Rental Assumptions...
-    units: [5],
-    amounts:  ["Hola"],
-    
-    //Income..
-    administrativeFees: 5,
-    applianceRentals: 5,
-    furnitureRental: 5,
-    parking: 5,
-    laundryIncome: 5,
-    otherIncome: 5
-    
+    units: [1 , 2, 3, 4, 5, 6], // Default unit
+    amounts: ["1200", "1200", "600", "0", "0", "0" ], // Default amount
+
+    administrativeFees: 0,
+    applianceRentals: 0,
+    furnitureRental: 0,
+    parking: 0,
+    laundryIncome: 0,
+    otherIncome: 0
 )
-
-

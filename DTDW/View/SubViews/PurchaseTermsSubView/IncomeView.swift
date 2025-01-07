@@ -8,7 +8,15 @@
 import SwiftUI
 
 struct IncomeView: View {
-    @EnvironmentObject var viewModel: PurchaseTermsManager
+    @Bindable var propertyData: PropertyData
+    @StateObject var viewModel: PurchaseTermsViewModel
+    
+    var numberFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 0
+        return formatter
+    }()
     
     var body: some View {
         VStack(spacing: 20) {
@@ -22,12 +30,12 @@ struct IncomeView: View {
                             .fontWeight(.bold)
                             .frame(width: 100, alignment: .center)
                     }
-                    IncomeInputRow(label: "Administrative fees", value: $viewModel.administrativeFees, formatter: viewModel.numberFormatter)
-                    IncomeInputRow(label: "Appliance rentals", value: $viewModel.applianceRentals, formatter: viewModel.numberFormatter)
-                    IncomeInputRow(label: "Furniture rental", value: $viewModel.furnitureRental, formatter: viewModel.numberFormatter)
-                    IncomeInputRow(label: "Parking", value: $viewModel.parking, formatter: viewModel.numberFormatter)
-                    IncomeInputRow(label: "Laundry Income", value: $viewModel.laundryIncome, formatter: viewModel.numberFormatter)
-                    IncomeInputRow(label: "Other Income", value: $viewModel.otherIncome, formatter: viewModel.numberFormatter)
+                    IncomeInputRow(label: "Administrative fees", value: $propertyData.propertyCalculatabeleData.administrativeFees, formatter: numberFormatter)
+                    IncomeInputRow(label: "Appliance rentals", value: $propertyData.propertyCalculatabeleData.applianceRentals, formatter: numberFormatter)
+                    IncomeInputRow(label: "Furniture rental", value: $propertyData.propertyCalculatabeleData.furnitureRental, formatter: numberFormatter)
+                    IncomeInputRow(label: "Parking", value: $propertyData.propertyCalculatabeleData.parking, formatter: numberFormatter)
+                    IncomeInputRow(label: "Laundry Income", value: $propertyData.propertyCalculatabeleData.laundryIncome, formatter: numberFormatter)
+                    IncomeInputRow(label: "Other Income", value: $propertyData.propertyCalculatabeleData.otherIncome, formatter: numberFormatter)
                 }
             }
             // Calculated Data Section
@@ -46,18 +54,26 @@ struct IncomeView: View {
                             .frame(width: 80, alignment: .trailing)
                     }
                     // Display individual incomes and totals
-                    SummaryRow(label: "Monthly Rent", monthly: Int(viewModel.totalMonthly), yearly: Int((viewModel.totalMonthly)) * 12)
+                    SummaryRow(label: "Monthly Rent",monthly: viewModel.totalMonthlyRentalIncome(), yearly: Double(Int(viewModel.totalMonthlyRentalIncome())) * 12)
+                    SummaryRow(label: "Administrative fees", monthly: viewModel.monthlyAdministrativeFees(), yearly: viewModel.yearlyAdministrativeFees())
+                    SummaryRow(label: "Appliance rentals", monthly: viewModel.monthlyApplianceRentals(),
+                               yearly: viewModel.yearlyApplianceRentals())
+                    SummaryRow(label: "Furniture rental",
+                               monthly: viewModel.monthlyFurnitureRental(),
+                               yearly: viewModel.yearlyFurnitureRental())
+                    SummaryRow(label: "Parking",
+                               monthly: viewModel.monthlyParkingIncome(),
+                               yearly: viewModel.yearlyParkingIncome())
+                    SummaryRow(label: "Laundry Income",
+                               monthly: viewModel.monthlyLaundryIncome(),
+                               yearly: viewModel.yearlyLaundryIncome())
+                    SummaryRow(label: "Other Income",
+                               monthly: viewModel.monthlyOtherIncome(),
+                               yearly: viewModel.yearlyOtherIncome())
                     
-                    SummaryRow(label: "Administrative fees", monthly: viewModel.administrativeFees ?? 0, yearly: (viewModel.administrativeFees ?? 0) * 12)
-                    SummaryRow(label: "Appliance rentals", monthly: viewModel.applianceRentals ?? 0, yearly: (viewModel.applianceRentals ?? 0) * 12)
-                    SummaryRow(label: "Furniture rental", monthly: viewModel.furnitureRental ?? 0, yearly: (viewModel.furnitureRental ?? 0) * 12)
-                    SummaryRow(label: "Parking", monthly: viewModel.parking ?? 0, yearly: (viewModel.parking ?? 0) * 12)
-                    SummaryRow(label: "Laundry Income", monthly: viewModel.laundryIncome ?? 0, yearly: (viewModel.laundryIncome ?? 0) * 12)
-                    SummaryRow(label: "Other Income", monthly: viewModel.otherIncome ?? 0, yearly: (viewModel.otherIncome ?? 0) * 12)
                     SummaryRow(label: "Total Income",
-                               monthly: Int(Double(viewModel.totalIncome) + viewModel.totalMonthly), // Total monthly income (additional + rental assumptions)
-                               yearly: Int(Double(viewModel.totalIncome) + viewModel.totalMonthly) * 12 // Total yearly income
-                    )
+                               monthly: viewModel.totalMonthlyIncome(),
+                               yearly: viewModel.totalMonthlyIncome() * 12)
                 }
             }
         }
@@ -104,7 +120,7 @@ struct SectionView<Content: View>: View {
 // Income Input Row
 struct IncomeInputRow: View {
     let label: String
-    @Binding var value: Int?
+    @Binding var value: Double?
     let formatter: NumberFormatter
     
     var body: some View {
@@ -136,8 +152,8 @@ struct IncomeInputRow: View {
 // Summary Row
 struct SummaryRow: View {
     let label: String
-    let monthly: Int
-    let yearly: Int?
+    let monthly: Double
+    let yearly: Double?
     
     var body: some View {
         HStack {

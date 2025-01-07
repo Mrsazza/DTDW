@@ -7,15 +7,9 @@
 
 import SwiftUI
 
-struct OngoingExpenses: View {
-    @EnvironmentObject var purchaseTermsManager: PurchaseTermsManager
-    @EnvironmentObject var viewModel: OngoingExpensesManager
-    
-//    init() {
-//        let purchaseTermsManager = PurchaseTermsManager()
-//        _purchaseTermsManager = StateObject(wrappedValue: purchaseTermsManager)
-//        _viewModel = StateObject(wrappedValue: OngoingExpensesViewModel(purchaseTermsManager: purchaseTermsManager))
-//    }
+struct OngoingExpensesView: View {
+    @Bindable var propertyData: PropertyData
+    @StateObject var viewModel: PurchaseTermsViewModel
     
     // Formatter for numbers without decimals
     private let numberFormatter: NumberFormatter = {
@@ -33,7 +27,6 @@ struct OngoingExpenses: View {
         return formatter
     }()
     
-   
     var body: some View {
         ZStack {
             ScrollView {
@@ -52,7 +45,7 @@ struct OngoingExpenses: View {
                                 .frame(maxWidth: .infinity, maxHeight: 1)
                                 .foregroundColor(Color.black.opacity(0.1))
                             
-                            InputRow(label: "Vacancy (% of total Income)", placeholder: "5.0%", value: Binding($viewModel.vacancyOfTotalIncome), formatter: numberFormatter)
+                            InputRow(label: "Vacancy (% of total Income)", placeholder: "5.0%", value: Binding($propertyData.propertyCalculatabeleData.vacancyOfTotalIncome), formatter: numberFormatter)
 
                         }
                         
@@ -69,13 +62,14 @@ struct OngoingExpenses: View {
                                     .foregroundColor(Color.black.opacity(0.1))
                             }
                             
-                            InputRow(label: "Property Management", placeholder: "$50", value: Binding($viewModel.propertyManagement), formatter: numberFormatter)
+                            InputRow(label: "Property Management", placeholder: "$50", value: Binding($propertyData.propertyCalculatabeleData.propertyManagement), formatter: numberFormatter)
                                 .padding(.top, 5)
-                            InputRow(label: "Leasing Costs", placeholder: "$0", value: Binding($viewModel.leasingCosts), formatter: numberFormatter)
-                            InputRow(label: "Maintenance", placeholder: "$100%", value: Binding($viewModel.utilities), formatter: decimalFormatter)
-                            InputRow(label: "Property Taxes", placeholder: "$412", value: Binding($viewModel.propertyTaxes), formatter: numberFormatter)
-                            InputRow(label: "Insurance", placeholder: "$121", value: Binding($viewModel.insurance), formatter: numberFormatter)
-                            InputRow(label: "Other", placeholder: "$0", value: Binding($viewModel.otherOngoingExpenses), formatter: numberFormatter)
+                            InputRow(label: "Leasing Costs", placeholder: "$0", value: Binding($propertyData.propertyCalculatabeleData.leasingCosts), formatter: numberFormatter)
+                            InputRow(label: "Maintenance", placeholder: "$100%", value: Binding($propertyData.propertyCalculatabeleData.maintenance), formatter: decimalFormatter)
+                            InputRow(label: "Utilities", placeholder: "$500", value: Binding($propertyData.propertyCalculatabeleData.utilities), formatter: numberFormatter)
+                            InputRow(label: "Property Taxes", placeholder: "$412", value: Binding($propertyData.propertyCalculatabeleData.propertyTaxes), formatter: numberFormatter)
+                            InputRow(label: "Insurance", placeholder: "$121", value: Binding($propertyData.propertyCalculatabeleData.insurance), formatter: numberFormatter)
+                            InputRow(label: "Other", placeholder: "$0", value: Binding($propertyData.propertyCalculatabeleData.otherOngoingExpenses), formatter: numberFormatter)
                         }
                         .padding(.bottom, 20)
                     }
@@ -130,45 +124,42 @@ struct OngoingExpenses: View {
                         VStack(spacing: 10) {
                             PropertyExpenseRow(
                                 name: "Property Management",
-                                yearAmount: "$\(Int(viewModel.propertyManagementYearAmount))",
-                                percentage: purchaseTermsManager.totalMonthly > 0
-                                    ? "\(String(format: "%.1f", (Double(viewModel.propertyManagement) / viewModel.totalOngoingIncomeMonthly) * 100))%"
-                                    : "0.0%"
+                                yearAmount: "$\(Double(viewModel.propertyManagementYearAmount))",
+                                percentage: viewModel.propertyManagementPercentage
                             )
                             
                             PropertyExpenseRow(
                                 name: "Leasing Costs",
                                 yearAmount: "$\(Int(viewModel.leasingCostsYearAmount))",
-                                percentage: purchaseTermsManager.totalMonthly > 0
-                                ? "\(String(format: "%.1f", (Double(viewModel.leasingCosts) / viewModel.totalOngoingIncomeMonthly) * 100))%"
-                                    : "0.0%"
+                                percentage: viewModel.leasingCostsPercentage
                             )
 
                             
                             PropertyExpenseRow(
                                 name: "Maintenance", yearAmount: "$\(Int(viewModel.maintenanceYearAmount))",
-                                percentage: "\(String(format: "%.1f", (viewModel.maintenanceYearAmount / Double(purchaseTermsManager.marketValue!)) * 100))%"
+                                percentage: viewModel.maintenancePercentage
                             )
                             
                             PropertyExpenseRow(
                                 name: "Utilities", yearAmount: "$\(Int(viewModel.utilitiesYearAmount))",
-                                percentage: "\(String(format: "%.1f", (viewModel.utilitiesYearAmount /  Double(purchaseTermsManager.marketValue!)) * 100))%")
+                                percentage: viewModel.utilitiesPercentage
+                                )
                             
-                            PropertyExpenseRow(name: "Property Taxes", yearAmount: "$\(Int(viewModel.propertyTaxesYearAmount))", percentage: "\(String(format: "%.1f", (viewModel.propertyTaxesYearAmount / Double(purchaseTermsManager.marketValue!)) * 100))%")
+                            PropertyExpenseRow(name: "Property Taxes", yearAmount: "$\(Int(viewModel.propertyTaxesYearAmount))", percentage: viewModel.propertyTaxesPercentage
+                            )
                             
-                            PropertyExpenseRow(name: "Insurance", yearAmount: "$\(Int(viewModel.insuranceYearAmount))", percentage: "\(String(format: "%.1f", (viewModel.insuranceYearAmount / Double(purchaseTermsManager.marketValue!)) * 100))%")
+                            PropertyExpenseRow(name: "Insurance", yearAmount: "$\(Int(viewModel.insuranceYearAmount))", percentage: viewModel.insurancePercentage
+                            )
                             
-                            PropertyExpenseRow(name: "Other", yearAmount: "$\(Int(viewModel.otherYearAmount))", percentage: "\(String(format: "%.1f", (viewModel.otherYearAmount / Double(purchaseTermsManager.marketValue!)) * 100))%")
+                            PropertyExpenseRow(name: "Other", yearAmount: "$\(Int(viewModel.otherYearAmount))", percentage: viewModel.otherPercentage
+                            )
                             
                             PropertyExpenseRow(
                                 name: "Total Expenses & Vacancy",
                                 yearAmount: "$\(Int(viewModel.totalExpenses))",
-                                percentage: purchaseTermsManager.totalMonthly > 0
-                                ? "\(String(format: "%.1f", viewModel.vacancyOfTotalIncome + (Double(viewModel.propertyManagement) / viewModel.totalOngoingIncomeMonthly) * 100 + (Double(viewModel.leasingCosts) / viewModel.totalOngoingIncomeMonthly) * 100 + (viewModel.maintenanceYearAmount / Double(purchaseTermsManager.marketValue!)) * 100 + (viewModel.utilitiesYearAmount /  Double(purchaseTermsManager.marketValue!)) * 100 + (viewModel.propertyTaxesYearAmount / Double(purchaseTermsManager.marketValue!)) * 100 + (viewModel.insuranceYearAmount / Double(purchaseTermsManager.marketValue!)) * 100 + (viewModel.otherYearAmount / Double(purchaseTermsManager.marketValue!)) * 100))%"
-                                
-                                
-                                
-                                : "\(String(format: "%.1f", viewModel.vacancyOfTotalIncome))%"
+                                percentage: viewModel.totalMonthly() > 0
+                                ? viewModel.combinedExpensePercentages
+                                : "\(String(format: "%.1f", propertyData.propertyCalculatabeleData.vacancyOfTotalIncome))%"
                             )
                         }
                         

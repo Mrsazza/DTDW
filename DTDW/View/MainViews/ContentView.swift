@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Bindable var propertyData: PropertyData
     var body: some View {
-        DTDWTabView()
+        DTDWTabView(propertyData: propertyData)
     }
 }
 

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct PurchaseTermsBottomTabView: View {
-    @EnvironmentObject var purchaseTermsViewModel: PurchaseTermsManager
-    @EnvironmentObject var ongoingViewModel: OngoingExpensesManager
+    @Bindable var propertyData: PropertyData
+    @StateObject var viewModel: PurchaseTermsViewModel
     
     @State private var currentPage = 0
     
@@ -18,7 +18,7 @@ struct PurchaseTermsBottomTabView: View {
             VStack(spacing: 20) {
                 HStack {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text(String(format: "$%.2f", ((((Double(purchaseTermsViewModel.totalIncome) + purchaseTermsViewModel.totalMonthly) - (Double(ongoingViewModel.totalExpensesAndVacancyMonthAmount))) - purchaseTermsViewModel.monthlyMortgagePayment) * 12) / Double(purchaseTermsViewModel.includingMoneyDown) * 100))
+                        Text(String(format: "$%.2f", viewModel.pricePerUnit))
                             .font(.system(size: 18))
                             .fontWeight(.bold)
                             .foregroundStyle(Color.black)
@@ -29,7 +29,7 @@ struct PurchaseTermsBottomTabView: View {
                     Spacer()
                     
                     VStack(alignment: .trailing, spacing: 10) {
-                        Text(String(format: "$%.2f", purchaseTermsViewModel.cashOnCashReturn))
+                        Text(String(format: "$%.2f", viewModel.cashOnCashReturn))
                             .font(.system(size: 18))
                             .fontWeight(.bold)
                             .foregroundStyle(Color.black)
@@ -41,7 +41,7 @@ struct PurchaseTermsBottomTabView: View {
                 
                 HStack {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text(String(format: "$%.2f", ((Double(purchaseTermsViewModel.totalIncome) + purchaseTermsViewModel.totalMonthly) - (Double(ongoingViewModel.totalExpensesAndVacancyMonthAmount))) - purchaseTermsViewModel.monthlyMortgagePayment))
+                        Text(String(format: "$%.2f", viewModel.monthlyCashFlow))
                             .font(.system(size: 18))
                             .fontWeight(.bold)
                             .foregroundStyle(Color.black)
@@ -52,7 +52,7 @@ struct PurchaseTermsBottomTabView: View {
                     Spacer()
                     
                     VStack(alignment: .trailing, spacing: 10) {
-                        Text(String(format: "$%.2f", (((Double(purchaseTermsViewModel.totalIncome) + purchaseTermsViewModel.totalMonthly) - (Double(ongoingViewModel.totalExpensesAndVacancyMonthAmount))) - purchaseTermsViewModel.monthlyMortgagePayment) * 12))
+                        Text(String(format: "$%.2f", viewModel.annualCashFlow))
                             .font(.system(size: 18))
                             .fontWeight(.bold)
                             .foregroundStyle(Color.black)
@@ -68,7 +68,7 @@ struct PurchaseTermsBottomTabView: View {
             VStack(spacing: 20) {
                 HStack {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text(String(format: "%.2f", ((ongoingViewModel.netOperatingIncomeYearAmount) / (purchaseTermsViewModel.monthlyMortgagePayment * 12))))
+                        Text(String(format: "%.2f", viewModel.dSCR))
                             .font(.system(size: 18))
                             .fontWeight(.bold)
                             .foregroundStyle(Color.black)
@@ -80,7 +80,7 @@ struct PurchaseTermsBottomTabView: View {
                     Spacer()
                     
                     VStack(alignment: .trailing, spacing: 10) {
-                        Text("\((((Double(ongoingViewModel.netOperatingIncomeMonthAmount)) / (Double(ongoingViewModel.netOperatingIncomeYearAmount))) * 100), specifier: "%.2f")%")
+                        Text("\(viewModel.capRate, specifier: "%.2f")%")
                             .font(.system(size: 18))
                             .fontWeight(.bold)
                             .foregroundStyle(Color.black)
@@ -92,7 +92,7 @@ struct PurchaseTermsBottomTabView: View {
                 
                 HStack {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("$\(ongoingViewModel.netOperatingIncomeYearAmount, specifier: "%.2f")")
+                        Text("$\(viewModel.anualNOI, specifier: "%.2f")")
                             .font(.system(size: 18))
                             .fontWeight(.bold)
                             .foregroundStyle(Color.black)
@@ -104,7 +104,7 @@ struct PurchaseTermsBottomTabView: View {
                     Spacer()
                     
                     VStack(alignment: .trailing, spacing: 10) {
-                        Text("$\(purchaseTermsViewModel.monthlyMortgagePayment * 12, specifier: "%.2f")")
+                        Text("$\(viewModel.anualDebtService, specifier: "%.2f")")
                             .font(.system(size: 18))
                             .fontWeight(.bold)
                             .foregroundStyle(Color.black)

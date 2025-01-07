@@ -8,10 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct PurchaseTerms: View {
-    @EnvironmentObject var viewModel: PurchaseTermsManager
-    @EnvironmentObject var vm : OngoingExpensesManager
-    
+struct PurchaseTermsMainView: View {
     @State private var selectedButton: ButtonType? = .cart
     @Bindable var propertyData: PropertyData
     
@@ -27,7 +24,7 @@ struct PurchaseTerms: View {
             VStack(spacing: 0) {
                 VStack(spacing: 0) {
                     //MARK: Top Header
-                    PurchaseTermsHederView()
+                    PurchaseTermsHederView(propertyName: $propertyData.propertyName)
                     
                     HStack {
                         Button {
@@ -129,36 +126,36 @@ struct PurchaseTerms: View {
                     case .cart:
                         PurchaseTermsView(propertyData: propertyData)
                         
-                        CalculatedDataView(propertyData: propertyData)
+                        PurchaseTermsCalculatedDataView(viewModel: PurchaseTermsViewModel(propertyData: propertyData))
                     case .medical:
-                        InitialExpensesData()
+                        InitialExpensesDataView(propertyData: propertyData)
                         
-                        InitialExpensesCalculatedDataView()
+                        InitialExpensesCalculatedDataView(viewModel: PurchaseTermsViewModel(propertyData: propertyData))
                     case .rental:
-                        RentalAssumptionsUnitView()
+                        RentalAssumptionsUnitView(propertyData: propertyData)
                     case .income:
-                        IncomeView()
+                        IncomeView(propertyData: propertyData, viewModel: PurchaseTermsViewModel(propertyData: propertyData))
                     case .expenses:
-                        OngoingExpenses()
+                        OngoingExpensesView(propertyData: propertyData, viewModel: PurchaseTermsViewModel(propertyData: propertyData))
                     case nil:
                         //inpute as a default
                         PurchaseTermsView(propertyData: propertyData)
                         
-                        CalculatedDataView(propertyData: propertyData)
+                        PurchaseTermsCalculatedDataView(viewModel: PurchaseTermsViewModel(propertyData: propertyData))
                     }
                 }
                 .onTapGesture {
                     hideKeyboard()
                 }
                 
-                PurchaseTermsBottomTabView()
+                PurchaseTermsBottomTabView(propertyData: propertyData, viewModel: PurchaseTermsViewModel(propertyData: propertyData))
             }
         }
     }
 }
 
 #Preview {
-    PurchaseTerms( propertyData: PropertyData(propertyName: "Demo Property", propertyCalculatabeleData: demoPropertyCalculatableData))
+    PurchaseTermsMainView(propertyData: PropertyData(propertyName: "Demo Property", propertyCalculatabeleData: demoPropertyCalculatableData))
 }
 
 // Add this helper function to dismiss the keyboard

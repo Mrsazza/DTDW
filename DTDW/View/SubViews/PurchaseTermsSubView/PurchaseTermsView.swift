@@ -49,60 +49,30 @@ struct PurchaseTermsView: View {
                     Spacer()
                     TextField("$", value: $propertyData.propertyCalculatabeleData.marketValue, format: .number)
                         .formattedTextField()
-//                    TextField("$", value: Binding(
-//                        get: { propertyData.propertyCalculatabeleData?.marketValue ?? 0 },
-//                        set: { newValue in
-//                            if propertyData.propertyCalculatabeleData == nil {
-//                                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
-//                            }
-//                            propertyData.propertyCalculatabeleData?.marketValue = newValue
-//                        }
-//                    ), formatter: numberFormatter)
-                    .formattedTextField()
                 }
                 
-                // Purchase Price
                 HStack {
                     Text("Purchase Price")
                         .font(.system(size: 13))
                         .foregroundStyle(.black)
                     
                     Spacer()
+                    
                     TextField("$", value: $propertyData.propertyCalculatabeleData.purchasePriceValue, format: .number)
                         .formattedTextField()
-//                    TextField("$", value: Binding(
-//                        get: { propertyData.propertyCalculatabeleData?.purchasePriceValue ?? 0 },
-//                        set: { newValue in
-//                            if propertyData.propertyCalculatabeleData == nil {
-//                                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
-//                            }
-//                            propertyData.propertyCalculatabeleData?.purchasePriceValue = newValue
-//                        }
-//                    ), formatter: numberFormatter)
-//                    .formattedTextField()
                 }
                 
-//                // Down Payment (%)
                 HStack {
                     Text("Down Payment (%)")
                         .font(.system(size: 13))
                         .foregroundStyle(.black)
                     
                     Spacer()
+                    
                     TextField("$", value: $propertyData.propertyCalculatabeleData.downPaymentValue, formatter: decimalFormatter)
-//                    TextField("%", value: Binding(
-//                        get: { (propertyData.propertyCalculatabeleData?.downPaymentValue ?? 0) * 100 },
-//                        set: { newValue in
-//                            if propertyData.propertyCalculatabeleData == nil {
-//                                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
-//                            }
-//                            propertyData.propertyCalculatabeleData?.downPaymentValue = newValue / 100
-//                        }
-//                    ), formatter: decimalFormatter)
                     .formattedTextField()
                 }
-//                
-//                // Interest Rate (%)
+                
                 HStack {
                     Text("Interest Rate (%)")
                         .font(.system(size: 13))
@@ -110,19 +80,9 @@ struct PurchaseTermsView: View {
                     
                     Spacer()
                     TextField("$", value: $propertyData.propertyCalculatabeleData.interestRateValue, formatter: decimalFormatter)
-//                    TextField("%", value: Binding(
-//                        get: { (propertyData.propertyCalculatabeleData?.interestRateValue ?? 0) * 100 },
-//                        set: { newValue in
-//                            if propertyData.propertyCalculatabeleData == nil {
-//                                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
-//                            }
-//                            propertyData.propertyCalculatabeleData?.interestRateValue = newValue / 100
-//                        }
-//                    ), formatter: decimalFormatter)
                     .formattedTextField()
                 }
-//                
-//                // Mortgage Length (Years)
+                
                 HStack {
                     Text("Mortgage Length (years)")
                         .font(.system(size: 13))
@@ -130,29 +90,17 @@ struct PurchaseTermsView: View {
                     
                     Spacer()
                     TextField("$", value: $propertyData.propertyCalculatabeleData.mortgageLengthValue, format: .number)
-//                    TextField("Years", value: Binding(
-//                        get: { propertyData.propertyCalculatabeleData?.mortgageLengthValue ?? 0 },
-//                        set: { newValue in
-//                            if propertyData.propertyCalculatabeleData == nil {
-//                                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
-//                            }
-//                            propertyData.propertyCalculatabeleData?.mortgageLengthValue = newValue
-//                        }
-//                    ), formatter: numberFormatter)
                     .formattedTextField()
                 }
+                .padding(.bottom, 15)
             }
-//            .padding(.bottom, 20)
         }
         .padding(.horizontal, 20)
         .background(Color.white)
-        .clipShape(RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20))
-        .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 10)
-//        .onAppear {
-//            if propertyData.propertyCalculatabeleData == nil {
-//                propertyData.propertyCalculatabeleData = PropertyCalculatableData()
-//            }
-//        }
+        .cornerRadius(10)
+        .shadow(color: Color.black.opacity(0.1), radius: 4, x: 1, y: 1)
+        .padding(.horizontal, 20)
+        .padding(.top, 20)
     }
 }
 
@@ -161,12 +109,13 @@ extension View {
     func formattedTextField() -> some View {
         self
             .font(.system(size: 13))
-            .keyboardType(.numbersAndPunctuation)
-            .foregroundColor(.black)
+            .foregroundStyle(Color.black)
+            .keyboardType(.numberPad)
+            .frame(width: 80)
             .multilineTextAlignment(.center)
-            .padding(.horizontal, 10)
+            .padding(.horizontal, 5)
             .minimumScaleFactor(0.05)
-            .frame(width: 120, height: 35)
+            .frame(width: 100, height: 30)
             .background(Color.white)
             .cornerRadius(5)
             .overlay(

@@ -11,11 +11,11 @@ import PhotosUI
 struct PurchaseTermsHederView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isEditing: Bool = false
-    @State private var propertyName: String = "Land Lady Apt."
+    @Binding var propertyName: String 
     @State private var selectedPhotoItem: PhotosPickerItem? = nil // Holds the selected photo's item
     @State private var selectedPhotoData: Data? = nil // Holds the selected photo's data
     @State private var showingPhotoPicker = false
-
+    
     var body: some View {
         HStack {
             Button {
@@ -45,6 +45,8 @@ struct PurchaseTermsHederView: View {
                     .font(.system(size: 24))
                     .fontWeight(.semibold)
                     .foregroundStyle(.black)
+                    .minimumScaleFactor(1)
+                    .lineLimit(1)
 
                 Button {
                     isEditing = true
@@ -55,11 +57,12 @@ struct PurchaseTermsHederView: View {
                         .foregroundStyle(Color.black)
                 }
                 .padding(.top, 3)
-                .alert("Edit Property Name", isPresented: $isEditing) {
-                    TextField("Property Name", text: $propertyName)
-                    Button("Save", role: .none) {}
-                    Button("Cancel", role: .cancel) {}
-                }
+                
+            }
+            .alert("Edit Property Name", isPresented: $isEditing) {
+                TextField("Property Name", text: $propertyName)
+                Button("Save", role: .none) {}
+                Button("Cancel", role: .cancel) {}
             }
 
             Spacer()

@@ -15,18 +15,19 @@ enum Tab {
 }
 
 struct DTDWTabView: View {
+    @Bindable var propertyData: PropertyData
     @State private var selectedTab: Tab = .home
     @State private var isPresentingPurchaseTerms = false
     @State private var isPresentingSavedPurchaseTerms = false
     @State private var selectedProperty: PropertyData?
     @Environment(\.modelContext) private var modelContext
-    @State private var newProperty: PropertyData = PropertyData(propertyName: "New Property", propertyCalculatabeleData: demoPropertyCalculatableData)
+    @State private var newProperty: PropertyData = PropertyData(propertyName: "Land Lady Apt.", propertyCalculatabeleData: demoPropertyCalculatableData)
     
     var body: some View {
         ZStack {
             switch selectedTab {
             case .home:
-                HomePageView()
+                HomePageView(viewModel: PurchaseTermsViewModel(propertyData: propertyData))
             case .settings:
                 SettingsView()
             default:
@@ -42,7 +43,7 @@ struct DTDWTabView: View {
         }
         .fullScreenCover(isPresented: $isPresentingPurchaseTerms) {
             // This opens the PurchaseTerms view with new property
-            PurchaseTerms(propertyData: newProperty)
+            PurchaseTermsMainView(propertyData: newProperty)
         }
     }
     
@@ -87,5 +88,3 @@ struct DTDWTabView: View {
         }
     }
 }
-
-

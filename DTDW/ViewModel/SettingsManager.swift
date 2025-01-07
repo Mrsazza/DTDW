@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseDatabase
+import Firebase
 
 class SettingsManager: ObservableObject {
     @Published var enterEmail: String = ""
@@ -51,4 +52,3 @@ class SettingsManager: ObservableObject {
         }
     }
 }
-
