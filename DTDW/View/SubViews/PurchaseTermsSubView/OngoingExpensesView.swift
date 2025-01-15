@@ -45,7 +45,17 @@ struct OngoingExpensesView: View {
                                 .frame(maxWidth: .infinity, maxHeight: 1)
                                 .foregroundColor(Color.black.opacity(0.1))
                             
-                            InputRow(label: "Vacancy (% of total Income)", placeholder: "5.0%", value: Binding($propertyData.propertyCalculatabeleData.vacancyOfTotalIncome), formatter: numberFormatter)
+//                            HStack {
+//                                Text("Market Value")
+//                                    .font(.system(size: 13))
+//                                    .foregroundStyle(.black)
+//                                
+//                                Spacer()
+//                                TextField("$", value: $propertyData.propertyCalculatabeleData.marketValue, format: .number)
+//                                    .formattedTextField()
+//                            }
+                            
+                            InputRow(label: "Vacancy (% of total Income)", placeholder: "5.0%", value: Binding($propertyData.propertyCalculatabeleData.vacancyOfTotalIncome), formatter: decimalFormatter)
 
                         }
                         
@@ -62,14 +72,14 @@ struct OngoingExpensesView: View {
                                     .foregroundColor(Color.black.opacity(0.1))
                             }
                             
-                            InputRow(label: "Property Management", placeholder: "$50", value: Binding($propertyData.propertyCalculatabeleData.propertyManagement), formatter: numberFormatter)
+                            InputRow(label: "Property Management", placeholder: "$50", value: Binding($propertyData.propertyCalculatabeleData.propertyManagement), formatter: decimalFormatter)
                                 .padding(.top, 5)
-                            InputRow(label: "Leasing Costs", placeholder: "$0", value: Binding($propertyData.propertyCalculatabeleData.leasingCosts), formatter: numberFormatter)
+                            InputRow(label: "Leasing Costs", placeholder: "$0", value: Binding($propertyData.propertyCalculatabeleData.leasingCosts), formatter: decimalFormatter)
                             InputRow(label: "Maintenance", placeholder: "$100%", value: Binding($propertyData.propertyCalculatabeleData.maintenance), formatter: decimalFormatter)
-                            InputRow(label: "Utilities", placeholder: "$500", value: Binding($propertyData.propertyCalculatabeleData.utilities), formatter: numberFormatter)
-                            InputRow(label: "Property Taxes", placeholder: "$412", value: Binding($propertyData.propertyCalculatabeleData.propertyTaxes), formatter: numberFormatter)
-                            InputRow(label: "Insurance", placeholder: "$121", value: Binding($propertyData.propertyCalculatabeleData.insurance), formatter: numberFormatter)
-                            InputRow(label: "Other", placeholder: "$0", value: Binding($propertyData.propertyCalculatabeleData.otherOngoingExpenses), formatter: numberFormatter)
+                            InputRow(label: "Utilities", placeholder: "$500", value: Binding($propertyData.propertyCalculatabeleData.utilities), formatter: decimalFormatter)
+                            InputRow(label: "Property Taxes", placeholder: "$412", value: Binding($propertyData.propertyCalculatabeleData.propertyTaxes), formatter: decimalFormatter)
+                            InputRow(label: "Insurance", placeholder: "$121", value: Binding($propertyData.propertyCalculatabeleData.insurance), formatter: decimalFormatter)
+                            InputRow(label: "Other", placeholder: "$0", value: Binding($propertyData.propertyCalculatabeleData.otherOngoingExpenses), formatter: decimalFormatter)
                         }
                         .padding(.bottom, 20)
                     }

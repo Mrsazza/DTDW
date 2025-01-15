@@ -27,9 +27,9 @@ struct DTDWTabView: View {
         ZStack {
             switch selectedTab {
             case .home:
-                HomePageView(viewModel: PurchaseTermsViewModel(propertyData: propertyData))
+                DTDWHomeView(viewModel: PurchaseTermsViewModel(propertyData: propertyData))
             case .settings:
-                SettingsView()
+                DTDWSettingsView()
             default:
                 EmptyView() // Placeholder for future tabs
             }
@@ -43,7 +43,7 @@ struct DTDWTabView: View {
         }
         .fullScreenCover(isPresented: $isPresentingPurchaseTerms) {
             // This opens the PurchaseTerms view with new property
-            PurchaseTermsMainView(propertyData: newProperty)
+            DTDWPurchaseTermsMainView(propertyData: newProperty)
         }
     }
     

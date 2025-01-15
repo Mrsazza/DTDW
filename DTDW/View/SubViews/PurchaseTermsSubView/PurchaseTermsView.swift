@@ -9,13 +9,6 @@ import SwiftUI
 
 struct PurchaseTermsView: View {
     @Bindable var propertyData: PropertyData
-
-    private let numberFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 0
-        return formatter
-    }()
     
     private let decimalFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -69,7 +62,7 @@ struct PurchaseTermsView: View {
                     
                     Spacer()
                     
-                    TextField("$", value: $propertyData.propertyCalculatabeleData.downPaymentValue, formatter: decimalFormatter)
+                    TextField("$", value: $propertyData.propertyCalculatabeleData.downPaymentValue, format: .number)
                     .formattedTextField()
                 }
                 
@@ -79,7 +72,7 @@ struct PurchaseTermsView: View {
                         .foregroundStyle(.black)
                     
                     Spacer()
-                    TextField("$", value: $propertyData.propertyCalculatabeleData.interestRateValue, formatter: decimalFormatter)
+                    TextField("$", value: $propertyData.propertyCalculatabeleData.interestRateValue, format: .number)
                     .formattedTextField()
                 }
                 
@@ -110,7 +103,7 @@ extension View {
         self
             .font(.system(size: 13))
             .foregroundStyle(Color.black)
-            .keyboardType(.numberPad)
+            .keyboardType(.decimalPad)
             .frame(width: 80)
             .multilineTextAlignment(.center)
             .padding(.horizontal, 5)

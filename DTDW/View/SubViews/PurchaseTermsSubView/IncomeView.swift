@@ -30,12 +30,12 @@ struct IncomeView: View {
                             .fontWeight(.bold)
                             .frame(width: 100, alignment: .center)
                     }
-                    IncomeInputRow(label: "Administrative fees", value: $propertyData.propertyCalculatabeleData.administrativeFees, formatter: numberFormatter)
-                    IncomeInputRow(label: "Appliance rentals", value: $propertyData.propertyCalculatabeleData.applianceRentals, formatter: numberFormatter)
-                    IncomeInputRow(label: "Furniture rental", value: $propertyData.propertyCalculatabeleData.furnitureRental, formatter: numberFormatter)
-                    IncomeInputRow(label: "Parking", value: $propertyData.propertyCalculatabeleData.parking, formatter: numberFormatter)
-                    IncomeInputRow(label: "Laundry Income", value: $propertyData.propertyCalculatabeleData.laundryIncome, formatter: numberFormatter)
-                    IncomeInputRow(label: "Other Income", value: $propertyData.propertyCalculatabeleData.otherIncome, formatter: numberFormatter)
+                    InputRow(label: "Administrative fees", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.administrativeFees, formatter: numberFormatter)
+                    InputRow(label: "Appliance rentals", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.applianceRentals, formatter: numberFormatter)
+                    InputRow(label: "Furniture rental", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.furnitureRental, formatter: numberFormatter)
+                    InputRow(label: "Parking", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.parking, formatter: numberFormatter)
+                    InputRow(label: "Laundry Income", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.laundryIncome, formatter: numberFormatter)
+                    InputRow(label: "Other Income", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.otherIncome, formatter: numberFormatter)
                 }
             }
             // Calculated Data Section
@@ -117,37 +117,6 @@ struct SectionView<Content: View>: View {
     }
 }
 
-// Income Input Row
-struct IncomeInputRow: View {
-    let label: String
-    @Binding var value: Double?
-    let formatter: NumberFormatter
-    
-    var body: some View {
-        HStack {
-            Text(label)
-                .font(.system(size: 13))
-                .foregroundStyle(Color.black)
-            Spacer()
-            
-            TextField("$0", value: $value, formatter: formatter)
-                .font(.system(size: 13))
-                .foregroundStyle(Color.black)
-                .keyboardType(.numberPad)
-                .frame(width: 80)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 5)
-                .minimumScaleFactor(0.05)
-                .frame(width: 100, height: 30)
-                .background(Color.white)
-                .cornerRadius(5)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 5)
-                        .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
-                )
-        }
-    }
-}
 
 // Summary Row
 struct SummaryRow: View {

@@ -11,9 +11,10 @@ import PhotosUI
 struct PurchaseTermsHederView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isEditing: Bool = false
-    @Binding var propertyName: String 
-    @State private var selectedPhotoItem: PhotosPickerItem? = nil // Holds the selected photo's item
-    @State private var selectedPhotoData: Data? = nil // Holds the selected photo's data
+    
+    @Bindable var propertyData: PropertyData
+    
+    @State private var selectedPhotoItem: PhotosPickerItem? = nil
     @State private var showingPhotoPicker = false
     
     var body: some View {
@@ -41,7 +42,7 @@ struct PurchaseTermsHederView: View {
             Spacer()
 
             HStack(spacing: 2) {
-                Text(propertyName)
+                Text(propertyData.propertyName)
                     .font(.system(size: 24))
                     .fontWeight(.semibold)
                     .foregroundStyle(.black)
@@ -60,7 +61,7 @@ struct PurchaseTermsHederView: View {
                 
             }
             .alert("Edit Property Name", isPresented: $isEditing) {
-                TextField("Property Name", text: $propertyName)
+                TextField("Property Name", text: $propertyData.propertyName)
                 Button("Save", role: .none) {}
                 Button("Cancel", role: .cancel) {}
             }
@@ -91,16 +92,10 @@ struct PurchaseTermsHederView: View {
                 selection: $selectedPhotoItem,
                 matching: .images
             )
-            .onChange(of: selectedPhotoItem) { newItem, oldItem in
-                if let newItem = newItem {
-                    Task {
-                        do {
-                            if let data = try await newItem.loadTransferable(type: Data.self) {
-                                selectedPhotoData = data
-                            }
-                        } catch {
-                            print("Error loading photo: \(error)")
-                        }
+            .onChange(of: selectedPhotoItem) { newItem in
+                Task {
+                    if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                        propertyData.imageData = data
                     }
                 }
             }

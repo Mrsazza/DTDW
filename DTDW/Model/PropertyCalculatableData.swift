@@ -16,8 +16,7 @@ struct PropertyCalculatableData: Codable {
     var insurance: Double = 121
     var otherOngoingExpenses: Double = 0
     
-    var cashOnCashReturn: Double? = 11.52
-    var capRate: Double? = 8.33
+    
     
     var marketValue: Double = 400000.0
     var purchasePriceValue: Double = 250000.0

@@ -57,6 +57,7 @@ struct RentalAssumptionsUnitView: View {
                             .font(.system(size: 13))
                             .fontWeight(.medium)
                             .foregroundColor(.black)
+                            .keyboardType(.decimalPad)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 5)
                             .minimumScaleFactor(0.05)

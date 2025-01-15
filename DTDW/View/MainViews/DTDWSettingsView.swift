@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SettingsView: View {
+struct DTDWSettingsView: View {
     @StateObject private var settingsManager = SettingsManager() // ViewModel
 
     var placeholder: String = "Your email address"
@@ -38,7 +38,7 @@ struct SettingsView: View {
                             settingsManager.showPremiumSubscriptions = true
                         }
                         .fullScreenCover(isPresented: $settingsManager.showPremiumSubscriptions) {
-                            PremiumSubscriptionsView()
+                            DWDTPremiumSubscriptionsView()
                         }
 
                         // Divider

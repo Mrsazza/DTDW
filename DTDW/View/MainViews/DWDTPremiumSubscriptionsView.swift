@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PremiumSubscriptionsView: View {
+struct DWDTPremiumSubscriptionsView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -92,7 +92,7 @@ struct PremiumSubscriptionsView: View {
 }
 
 #Preview {
-    PremiumSubscriptionsView()
+    DWDTPremiumSubscriptionsView()
 }
 
 

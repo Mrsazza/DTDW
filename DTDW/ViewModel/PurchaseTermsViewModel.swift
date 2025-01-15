@@ -26,7 +26,7 @@ class PurchaseTermsViewModel: ObservableObject {
     }
     
     func discountProfitPercentage() -> Double {
-        let marketValue = Double(propertyData.propertyCalculatabeleData.marketValue) // Avoid division by zero
+        let marketValue = Double(propertyData.propertyCalculatabeleData.marketValue)
         return discountProfit() / marketValue * 100
     }
     
@@ -215,8 +215,6 @@ class PurchaseTermsViewModel: ObservableObject {
         (propertyData.propertyCalculatabeleData.vacancyOfTotalIncome / 100) * (totalMonthlyIncome() * 12)
     }
     
-    
-    
     var propertyManagementYearAmount: Double {
         yearlyAmount(for: Double(propertyData.propertyCalculatabeleData.propertyManagement))
     }
@@ -273,10 +271,7 @@ class PurchaseTermsViewModel: ObservableObject {
         monthlyAmount(for: Double(propertyData.propertyCalculatabeleData.otherOngoingExpenses))
     }
     
-    
-    
     // Total Expenses
-    
     var totalExpenses: Double {
         let expenses =
         
@@ -334,10 +329,6 @@ class PurchaseTermsViewModel: ObservableObject {
     var netOperatingIncomeNOI: Double {
         (totalMonthlyIncome() + totalMonthly()) - totalExpensesAndVacancyYearAmount
     }
-    
-    //    var monthlyCashFlow: Double {
-    //        netOperatingIncomeNOI - (monthlyMortgagePayment())
-    //    }
     
     var propertyManagementPercentage: String {
         guard totalMonthlyIncome() > 0 else { return "0.0%" }
@@ -423,7 +414,7 @@ class PurchaseTermsViewModel: ObservableObject {
     }
     
     var cashOnCashReturn: Double {
-        (annualCashFlow / Double(includingMoneyDown)) * 100
+        (annualCashFlow / Double(includingMoneyDown) * 100)
     }
     
     var dSCR: Double {
@@ -433,21 +424,12 @@ class PurchaseTermsViewModel: ObservableObject {
     var capRate: Double {
         ((netOperatingIncomeMonthAmount) / ((netOperatingIncomeYearAmount))) * 100
     }
-    
+
     var anualNOI: Double {
         netOperatingIncomeYearAmount
     }
     
     var anualDebtService: Double {
         monthlyMortgagePayment() * 12
-    }
-    
-    // Update and Save Metrics
-    func updateMetrics(for property: PropertyData) {
-        let calculatedCashOnCashReturn = (annualCashFlow / Double(includingMoneyDown)) * 100
-        let calculatedCapRate =  ((netOperatingIncomeMonthAmount) / ((netOperatingIncomeYearAmount))) * 100
-        
-        property.propertyCalculatabeleData.cashOnCashReturn = calculatedCashOnCashReturn
-        property.propertyCalculatabeleData.capRate = calculatedCapRate
     }
 }

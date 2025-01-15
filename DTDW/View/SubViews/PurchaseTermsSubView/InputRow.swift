@@ -7,11 +7,13 @@
 
 import SwiftUI
 
-struct InputRow<T: Numeric>: View {
+struct InputRow<T: Numeric & LosslessStringConvertible>: View {
     let label: String
     let placeholder: String
     @Binding var value: T?
     let formatter: NumberFormatter
+
+    @State private var textValue: String = ""
 
     var body: some View {
         HStack {
@@ -23,11 +25,22 @@ struct InputRow<T: Numeric>: View {
 
             TextField(
                 placeholder,
-                value: Binding(
-                    get: { value ?? 0 }, // Default to 0 if value is nil
-                    set: { value = $0 }
-                ),
-                formatter: formatter
+                text: Binding(
+                    get: { textValue },
+                    set: { newValue in
+                        textValue = newValue
+                        if let number = formatter.number(from: newValue) {
+                            // Use NSNumber directly without conditional casting
+                            if T.self == Int.self {
+                                value = T(exactly: number.intValue)
+                            } else if T.self == Double.self || T.self == Float.self {
+                                value = T("\(number.doubleValue)") // Convert to string and parse
+                            } else {
+                                value = nil
+                            }
+                        }
+                    }
+                )
             )
             .font(.system(size: 13))
             .keyboardType(.decimalPad)
@@ -42,6 +55,12 @@ struct InputRow<T: Numeric>: View {
                 RoundedRectangle(cornerRadius: 5)
                     .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
             )
+            .onAppear {
+                // Initialize the text field with the formatted value
+                if let value = value, let formattedValue = formatter.string(from: NSNumber(value: Double("\(value)") ?? 0.0)) {
+                    textValue = formattedValue
+                }
+            }
         }
     }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct PurchaseTermsMainView: View {
+struct DTDWPurchaseTermsMainView: View {
     @State private var selectedButton: ButtonType? = .cart
     @Bindable var propertyData: PropertyData
     
@@ -24,7 +24,7 @@ struct PurchaseTermsMainView: View {
             VStack(spacing: 0) {
                 VStack(spacing: 0) {
                     //MARK: Top Header
-                    PurchaseTermsHederView(propertyName: $propertyData.propertyName)
+                    PurchaseTermsHederView(propertyData: propertyData)
                     
                     HStack {
                         Button {
@@ -152,10 +152,6 @@ struct PurchaseTermsMainView: View {
             }
         }
     }
-}
-
-#Preview {
-    PurchaseTermsMainView(propertyData: PropertyData(propertyName: "Demo Property", propertyCalculatabeleData: demoPropertyCalculatableData))
 }
 
 // Add this helper function to dismiss the keyboard

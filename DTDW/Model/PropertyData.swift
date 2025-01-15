@@ -17,6 +17,8 @@ class PropertyData {
 
     @Attribute(.externalStorage) // For efficient handling of potentially large image data
     var imageData: Data?
+    
+    var cashOnCashReturn: Double = 0.0
 
     var propertyCalculatabeleData: PropertyCalculatableData
 
@@ -31,5 +33,8 @@ class PropertyData {
         self.propertyName = propertyName
         self.imageData = imageData
         self.propertyCalculatabeleData = propertyCalculatabeleData
+    
     }
 }
+
+
