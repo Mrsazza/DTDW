@@ -11,11 +11,25 @@ import SwiftUI
 import SwiftData
 
 class PurchaseTermsViewModel: ObservableObject {
-    @Bindable var propertyData: PropertyData
+    //    @Bindable var propertyData: PropertyData
+    @Bindable var propertyData: PropertyData {
+        didSet {
+            updateCalculations()
+        }
+    }
     
     // Custom initializer
     init(propertyData: PropertyData) {
         self.propertyData = propertyData
+        updateCalculations()
+    }
+    
+    private func updateCalculations() {
+        let annualCashFlow = self.annualCashFlow
+//        _ = self.includingMoneyDown
+        
+        propertyData.propertyCalculatabeleData.cashOnCashReturnn = (annualCashFlow / Double(includingMoneyDown) * 100)
+        propertyData.propertyCalculatabeleData.capRatee = ((netOperatingIncomeMonthAmount) / ((netOperatingIncomeYearAmount))) * 100
     }
     
     // MARK: - PurchaseTerms...
@@ -310,6 +324,10 @@ class PurchaseTermsViewModel: ObservableObject {
         vacancyYearAmount / 12
     }
     
+    var capVacancyYearAmount: Double {
+        vacancyYearAmount
+    }
+    
     var netOperatingIncomeYearAmount: Double {
         totalOngoingIncome - totalExpenses
     }
@@ -422,14 +440,23 @@ class PurchaseTermsViewModel: ObservableObject {
     }
     
     var capRate: Double {
-        ((netOperatingIncomeMonthAmount) / ((netOperatingIncomeYearAmount))) * 100
+        let abc = (totalOngoingIncome - totalExpenses) / 12
+        
+        return ((abc) / ((netOperatingIncomeYearAmount))) * 100
     }
-
+    
     var anualNOI: Double {
         netOperatingIncomeYearAmount
     }
     
     var anualDebtService: Double {
         monthlyMortgagePayment() * 12
+    }
+    
+    var carRateFinal: Double {
+        let a = capVacancyYearAmount
+        print("aaa \(a)")
+        
+        return (((totalMonthly() - (propertyManagementMonthlyAmount + leasingCostsMonthlyAmount + maintenanceMonthlyAmount + utilitiesMonthlyAmount + insuranceMonthlyAmount + utilitiesMonthlyAmount + insuranceMonthlyAmount + otherMonthlyAmount + vacancyMonthAmount ))) / ((totalYearly() - (propertyManagementYearAmount + leasingCostsYearAmount + maintenanceYearAmount + utilitiesYearAmount + insuranceYearAmount + utilitiesYearAmount + insuranceYearAmount + otherYearAmount + vacancyAmount)))) * 100
     }
 }

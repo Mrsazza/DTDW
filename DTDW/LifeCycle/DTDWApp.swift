@@ -25,12 +25,8 @@ struct DTDWApp: App {
 
     // Create a default PropertyData instance to pass to ContentView
     var defaultPropertyData: PropertyData = {
-        let demoCalculatableData = demoPropertyCalculatableData // Use your demo instance
-        return PropertyData(
-            id: UUID().uuidString, // Convert UUID to String
-            propertyName: "Default Property",
-            imageData: nil,
-            propertyCalculatabeleData: demoCalculatableData
+        let demoCalculatableData = demoPropertyCalculatableData
+        return PropertyData( propertyName: "Land Lady Apt",propertyCalculatabeleData: demoCalculatableData
         )
     }()
 
@@ -40,7 +36,7 @@ struct DTDWApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(propertyData: defaultPropertyData) // Pass the instance here
+            DTDWTabView(propertyData: defaultPropertyData)
                 .dynamicTypeSize(.medium)
                 .modelContainer(sharedModelContainer)
                 .modelContainer(for: [PropertyData.self])

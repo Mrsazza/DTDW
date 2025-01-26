@@ -32,8 +32,8 @@ struct DTDWPurchaseTermsMainView: View {
                         } label: {
                             Image(selectedButton == .cart ? "cartWhite" : "cartBlack")
                                 .resizable()
-                                .scaledToFill()
-                                .frame(width: 20, height: 20)
+                                .scaledToFit()
+                                .frame(width: 60, height: 20)
                         }
                         .frame(width: 60, height: 40)
                         .background(selectedButton == .cart ? Color.buttonBackgroundColor : Color.white)
@@ -42,6 +42,10 @@ struct DTDWPurchaseTermsMainView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.buttonBackgroundColor, lineWidth: 1)
                         )
+//                        .onTapGesture {
+//                            selectedButton = .cart
+//                        }
+                        .contentShape(Rectangle())
                         
                         Spacer()
                         
@@ -50,8 +54,8 @@ struct DTDWPurchaseTermsMainView: View {
                         } label: {
                             Image(selectedButton == .medical ? "medicalWhite" : "medicalBlack")
                                 .resizable()
-                                .scaledToFill()
-                                .frame(width: 20, height: 20)
+                                .scaledToFit()
+                                .frame(width: 60, height: 20)
                             
                         }
                         .frame(width: 60, height: 40)
@@ -61,6 +65,10 @@ struct DTDWPurchaseTermsMainView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.buttonBackgroundColor, lineWidth: 1)
                         )
+                        .contentShape(Rectangle())
+//                        .onTapGesture {
+//                            selectedButton = .medical
+//                        }
                         
                         Spacer()
                         
@@ -69,8 +77,8 @@ struct DTDWPurchaseTermsMainView: View {
                         } label: {
                             Image(selectedButton == .rental ? "rentalWhite" : "rentalBlack")
                                 .resizable()
-                                .scaledToFill()
-                                .frame(width: 20, height: 20)
+                                .scaledToFit()
+                                .frame(width: 60, height: 20)
                         }
                         .frame(width: 60, height: 40)
                         .background(selectedButton == .rental ? Color.buttonBackgroundColor : Color.white)
@@ -79,6 +87,7 @@ struct DTDWPurchaseTermsMainView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.buttonBackgroundColor, lineWidth: 1)
                         )
+                        .contentShape(Rectangle())
                         
                         Spacer()
                         
@@ -87,8 +96,8 @@ struct DTDWPurchaseTermsMainView: View {
                         } label: {
                             Image(selectedButton == .income ? "incomeWhite" : "incomeBlack")
                                 .resizable()
-                                .scaledToFill()
-                                .frame(width: 20, height: 20)
+                                .scaledToFit()
+                                .frame(width: 60, height: 20)
                         }
                         .frame(width: 60, height: 40)
                         .background(selectedButton == .income ? Color.buttonBackgroundColor : Color.white)
@@ -97,6 +106,8 @@ struct DTDWPurchaseTermsMainView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.buttonBackgroundColor, lineWidth: 1)
                         )
+                        .contentShape(Rectangle())
+                        
                         Spacer()
                         
                         Button {
@@ -104,8 +115,8 @@ struct DTDWPurchaseTermsMainView: View {
                         } label: {
                             Image(selectedButton == .expenses ? "expensesWhite" : "expensesBlack")
                                 .resizable()
-                                .scaledToFill()
-                                .frame(width: 20, height: 20)
+                                .scaledToFit()
+                                .frame(width: 60, height: 20)
                         }
                         .frame(width: 60, height: 40)
                         .background(selectedButton == .expenses ? Color.buttonBackgroundColor : Color.white)
@@ -114,6 +125,7 @@ struct DTDWPurchaseTermsMainView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.buttonBackgroundColor, lineWidth: 1)
                         )
+                        .contentShape(Rectangle())
                     }
                     .padding()
                     .background(Color.white)

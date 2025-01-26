@@ -11,9 +11,7 @@ import PhotosUI
 struct PurchaseTermsHederView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isEditing: Bool = false
-    
     @Bindable var propertyData: PropertyData
-    
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
     @State private var showingPhotoPicker = false
     
@@ -92,9 +90,9 @@ struct PurchaseTermsHederView: View {
                 selection: $selectedPhotoItem,
                 matching: .images
             )
-            .onChange(of: selectedPhotoItem) { newItem in
+            .onChange(of: selectedPhotoItem) {
                 Task {
-                    if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                    if let data = try? await selectedPhotoItem?.loadTransferable(type: Data.self) {
                         propertyData.imageData = data
                     }
                 }

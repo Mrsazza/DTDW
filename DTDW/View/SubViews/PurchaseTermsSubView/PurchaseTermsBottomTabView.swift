@@ -36,6 +36,7 @@ struct PurchaseTermsBottomTabView: View {
                         Text("Cash on Cash Return")
                             .font(.system(size: 12))
                             .foregroundStyle(Color.purchaseBottomTabViewSecoundrayFontColor)
+                        
                     }
                 }
                 
@@ -80,10 +81,10 @@ struct PurchaseTermsBottomTabView: View {
                     Spacer()
                     
                     VStack(alignment: .trailing, spacing: 10) {
-                        Text("\(viewModel.capRate, specifier: "%.2f")%")
+                        Text("\(viewModel.carRateFinal, specifier: "%.2f")%")
                             .font(.system(size: 18))
                             .fontWeight(.bold)
-                            .foregroundStyle(viewModel.capRate < 0 ? .red : .black)
+                            .foregroundStyle(viewModel.carRateFinal < 0 ? .red : .black)
                         Text("Cap Rate")
                             .font(.system(size: 12))
                             .foregroundStyle(Color.purchaseBottomTabViewSecoundrayFontColor)

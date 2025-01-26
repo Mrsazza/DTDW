@@ -21,7 +21,7 @@ struct DTDWTabView: View {
     @State private var isPresentingSavedPurchaseTerms = false
     @State private var selectedProperty: PropertyData?
     @Environment(\.modelContext) private var modelContext
-    @State private var newProperty: PropertyData = PropertyData(propertyName: "Land Lady Apt.", propertyCalculatabeleData: demoPropertyCalculatableData)
+    @State private var newProperty: PropertyData? // Make this optional to allow dynamic property creation
     
     var body: some View {
         ZStack {
@@ -31,7 +31,7 @@ struct DTDWTabView: View {
             case .settings:
                 DTDWSettingsView()
             default:
-                EmptyView() // Placeholder for future tabs
+                EmptyView()
             }
             
             tabBar
@@ -41,9 +41,22 @@ struct DTDWTabView: View {
                 .ignoresSafeArea()
                 .zIndex(0)
         }
+        .onChange(of: newProperty) {
+            // Debugging: Track changes to newProperty
+            print("newProperty changed: \(String(describing: newProperty?.propertyName))")
+        }
+        .onChange(of: isPresentingPurchaseTerms) {
+            // Debugging: Track when the fullscreen cover is triggered
+            print("isPresentingPurchaseTerms changed to: \(isPresentingPurchaseTerms)")
+        }
         .fullScreenCover(isPresented: $isPresentingPurchaseTerms) {
-            // This opens the PurchaseTerms view with new property
-            DTDWPurchaseTermsMainView(propertyData: newProperty)
+            // Debugging: Check if newProperty is set correctly before presenting fullscreen
+            if let property = newProperty {
+                DTDWPurchaseTermsMainView(propertyData: property)
+            } else {
+                // In case newProperty is nil, show a temporary view
+                Text("Loading...") // Temporary view in case the property is nil (to avoid a blank page)
+            }
         }
     }
     
@@ -71,12 +84,31 @@ struct DTDWTabView: View {
     
     private func plusTabButton() -> some View {
         Button {
-            // Insert a new property and save it
-            modelContext.insert(newProperty)
-            try? modelContext.save()
+            // Dynamically create a new property with a unique name or other data
+            let newDynamicProperty = PropertyData(propertyName: "Land Lady Apt.", propertyCalculatabeleData: demoPropertyCalculatableData)
             
-            // Show the PurchaseTerms fullscreen
-            isPresentingPurchaseTerms = true
+            // Insert the new property in the model context
+            modelContext.insert(newDynamicProperty)
+            
+            // Save context and ensure it's successful
+            do {
+                try modelContext.save()
+                
+                // Debugging: Ensure that the property is saved and newProperty is set correctly
+                print("New property saved: \(newDynamicProperty.propertyName)")
+                
+                // After saving, update the state and present the fullscreen view
+                DispatchQueue.main.async {
+                    newProperty = newDynamicProperty
+                    isPresentingPurchaseTerms = true
+                    
+                    // Debugging: Confirm that the fullscreen view is triggered with the right property
+                    print("Full screen cover presented with: \(String(describing: newProperty?.propertyName))")
+                }
+            } catch {
+                // Handle error if saving the context fails
+                print("Error saving property: \(error.localizedDescription)")
+            }
         } label: {
             Image(systemName: "plus")
                 .font(.system(size: 32, weight: .bold))
@@ -88,3 +120,4 @@ struct DTDWTabView: View {
         }
     }
 }
+

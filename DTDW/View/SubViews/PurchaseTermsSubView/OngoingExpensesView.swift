@@ -45,16 +45,6 @@ struct OngoingExpensesView: View {
                                 .frame(maxWidth: .infinity, maxHeight: 1)
                                 .foregroundColor(Color.black.opacity(0.1))
                             
-//                            HStack {
-//                                Text("Market Value")
-//                                    .font(.system(size: 13))
-//                                    .foregroundStyle(.black)
-//                                
-//                                Spacer()
-//                                TextField("$", value: $propertyData.propertyCalculatabeleData.marketValue, format: .number)
-//                                    .formattedTextField()
-//                            }
-                            
                             InputRow(label: "Vacancy (% of total Income)", placeholder: "5.0%", value: Binding($propertyData.propertyCalculatabeleData.vacancyOfTotalIncome), formatter: decimalFormatter)
 
                         }
@@ -221,7 +211,6 @@ struct OngoingExpensesView: View {
                                         .foregroundStyle(Color.black)
                                     
                                     Spacer()
-                                    
                                    
                                     Text("$\(Int(viewModel.totalExpensesAndVacancyMonthAmount))")
                                         .font(.system(size: 13))

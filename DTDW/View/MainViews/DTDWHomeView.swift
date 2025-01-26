@@ -109,9 +109,7 @@ struct DTDWHomeView: View {
 
                 // Grid or List Button
                 Button {
-                    withAnimation(.easeInOut) {
-                        isGridView.toggle()
-                    }
+                    isGridView.toggle()
                 } label: {
                     Image(systemName: isGridView ? "list.bullet" : "square.grid.2x2")
                         .font(.system(size: 21))
@@ -176,7 +174,7 @@ struct DTDWHomeView: View {
                     cashOnReturn: "Cash on Return",
                     cashOnReturnData: viewModel.cashOnCashReturn,
                     capRate: "Cap Rate",
-                    capRateData: viewModel.capRate,
+                    capRateData: viewModel.carRateFinal,
                     buttonAction: {
                         selectedProperty = property
                         isPresentingSavedPurchaseTerms = true
@@ -189,7 +187,6 @@ struct DTDWHomeView: View {
         .padding(.horizontal, 20)
         .padding(.top, 10)
         .padding(.bottom, 80)
-        
     }
 
     private var listView: some View {
@@ -202,7 +199,7 @@ struct DTDWHomeView: View {
                             cashOnReturn: "Cash on Return",
                             cashOnReturnData: viewModel.cashOnCashReturn,
                             capRate: "Cap Rate",
-                            capRateData: viewModel.capRate,
+                            capRateData: viewModel.carRateFinal,
                             buttonAction: {
                                 selectedProperty = property
                                 isPresentingSavedPurchaseTerms = true
@@ -216,15 +213,21 @@ struct DTDWHomeView: View {
             }
             .padding(.top, 10)
             .padding(.bottom, 80)
+            .frame(maxHeight: .infinity)
     }
 
     private func deleteProperty(_ property: PropertyData) {
-        modelContext.delete(property)
-        try? modelContext.save()
-        print("Deleted property: \(property)")
-        refreshToggle.toggle() // Trigger a view refresh if @Query doesn't update automatically
+        do {
+            modelContext.delete(property)
+            try modelContext.save()
+            print("Deleted property: \(property)")
+            refreshToggle.toggle() // Trigger a view refresh if @Query doesn't update automatically
+        } catch {
+            // Handle the error (e.g., show an alert)
+            print("Error deleting property: \(error)")
+        }
     }
-
+    
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
@@ -328,8 +331,9 @@ struct GridCardView: View {
                         .minimumScaleFactor(0.5)
                         .fontWeight(.bold)
                         .foregroundStyle(Color.champagneColor)
+                        .frame(maxWidth: .infinity, maxHeight: 30) // Ensures the text takes the full width and height
                 }
-                .frame(maxWidth: .infinity, maxHeight: 30)
+                .frame(maxWidth: .infinity, maxHeight: 30) // Ensures the button has a full tappable frame
                 .background(Color.viewDealButtonBackgroundColor)
                 .cornerRadius(50)
                 .padding(.horizontal, 20)
@@ -338,8 +342,9 @@ struct GridCardView: View {
                         .stroke(LinearGradient(colors: [Color(#colorLiteral(red: 0.6147011518, green: 0.1258341968, blue: 0.4036872387, alpha: 1)), Color(#colorLiteral(red: 0.8818204999, green: 0.6534648538, blue: 0.7702771425, alpha: 1))], startPoint: .leading, endPoint: .trailing), lineWidth: 0.94)
                         .padding(.horizontal, 20)
                 )
-                .shadow(color: Color.viewDealButtonShadowColor,radius: 4, x: 0, y: 1)
+                .shadow(color: Color.viewDealButtonShadowColor, radius: 4, x: 0, y: 1)
                 .padding(.bottom, 10)
+                .contentShape(Rectangle()) // Ensures the entire frame is tappable
             }
             .frame(height: 208 , alignment: .top)
             .background(.white)
@@ -368,69 +373,68 @@ struct ListCardView: View {
     
     var body: some View {
         ZStack {
-            Button {
-                card.buttonAction()
-            } label: {
-                HStack {
-                    if let imageData = card.imageName, let uiImage = UIImage(data: imageData) {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .scaledToFill()
-                            .clipShape(.circle)
-                            .frame(width: 40, height: 40)
-                    } else {
-                        Image("Picture")
-                            .resizable()
-                            .scaledToFill()
-                            .clipShape(.circle)
-                            .frame(width: 40, height: 40)
-                    }
+            HStack {
+                if let imageData = card.imageName, let uiImage = UIImage(data: imageData) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFill()
+                        .clipShape(.circle)
+                        .frame(width: 40, height: 40)
+                } else {
+                    Image("Picture")
+                        .resizable()
+                        .scaledToFill()
+                        .clipShape(.circle)
+                        .frame(width: 40, height: 40)
+                }
+                
+                VStack(alignment: .leading ,spacing: 8) {
+                    Text(card.title)
+                        .font(.system(size: 11))
+                        .fontWeight(.bold)
+                        .foregroundStyle(.black)
+                        .minimumScaleFactor(0.5)
+                        .lineLimit(1)
                     
-                    VStack(alignment: .leading ,spacing: 8) {
-                        Text(card.title)
-                            .font(.system(size: 11))
-                            .fontWeight(.bold)
-                            .foregroundStyle(.black)
-                            .minimumScaleFactor(0.5)
-                            .lineLimit(1)
-                        
-                        HStack(spacing: 8) {
-                            HStack(spacing: 2) {
-                                Text(card.cashOnReturn)
-                                    .font(.system(size: 7))
-                                    .foregroundStyle(.black.opacity(0.5))
-                                    .fontWeight(.bold)
-                                    .minimumScaleFactor(1)
-                                    .lineLimit(1)
-                                Text("\(card.cashOnReturnData, specifier: "%.2f")%")
-                                    .font(.system(size: 7))
-                                    .foregroundStyle(Color(#colorLiteral(red: 0.5127275586, green: 0.7354346514, blue: 0.1412258446, alpha: 1)))
-                                    .fontWeight(.bold)
-                                    .minimumScaleFactor(1)
-                                    .lineLimit(1)
-                            }
-                            HStack(spacing: 2) {
-                                Text(card.capRate)
-                                    .font(.system(size: 7))
-                                    .foregroundStyle(.black.opacity(0.5))
-                                    .fontWeight(.bold)
-                                    .minimumScaleFactor(1)
-                                    .lineLimit(1)
-                                Text("\(card.capRateData, specifier: "%.2f")%")
-                                    .font(.system(size: 7))
-                                    .foregroundStyle(Color(#colorLiteral(red: 0.5127275586, green: 0.7354346514, blue: 0.1412258446, alpha: 1)))
-                                    .fontWeight(.bold)
-                                    .minimumScaleFactor(1)
-                                    .lineLimit(1)
-                            }
+                    HStack(spacing: 8) {
+                        HStack(spacing: 2) {
+                            Text(card.cashOnReturn)
+                                .font(.system(size: 7))
+                                .foregroundStyle(.black.opacity(0.5))
+                                .fontWeight(.bold)
+                                .minimumScaleFactor(1)
+                                .lineLimit(1)
+                            Text("\(card.cashOnReturnData, specifier: "%.2f")%")
+                                .font(.system(size: 7))
+                                .foregroundStyle(Color(#colorLiteral(red: 0.5127275586, green: 0.7354346514, blue: 0.1412258446, alpha: 1)))
+                                .fontWeight(.bold)
+                                .minimumScaleFactor(1)
+                                .lineLimit(1)
+                        }
+                        HStack(spacing: 2) {
+                            Text(card.capRate)
+                                .font(.system(size: 7))
+                                .foregroundStyle(.black.opacity(0.5))
+                                .fontWeight(.bold)
+                                .minimumScaleFactor(1)
+                                .lineLimit(1)
+                            Text("\(card.capRateData, specifier: "%.2f")%")
+                                .font(.system(size: 7))
+                                .foregroundStyle(Color(#colorLiteral(red: 0.5127275586, green: 0.7354346514, blue: 0.1412258446, alpha: 1)))
+                                .fontWeight(.bold)
+                                .minimumScaleFactor(1)
+                                .lineLimit(1)
                         }
                     }
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 12))
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.deepPurpelColor)
                 }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12))
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color.deepPurpelColor)
+            }
+            .onTapGesture {
+                card.buttonAction()
             }
             .padding(14)
             .frame(maxWidth: .infinity)
@@ -467,6 +471,7 @@ struct SwipeableCardView: View {
                     }
                     .padding(.horizontal)
                     .padding(.vertical, 10)
+                    .background(Color.red)
                     .cornerRadius(10)
                 }
                 .padding(.trailing, 20)

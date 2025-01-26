@@ -59,14 +59,7 @@ struct DTDWSettingsView: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.leading, 10)
                             
-                            NewsletterCustomTextField(
-                                text: $settingsManager.enterEmail,
-                                placeholder: placeholder,
-                                placeholderColor: .gray,
-                                textColor: .black,
-                                backgroundColor: Color(#colorLiteral(red: 0.9607843757, green: 0.9607843757, blue: 0.9607843757, alpha: 1)),  // Custom light gray background
-                                cornerRadius: 10
-                            )
+                            NewsletterCustomTextField(text: $settingsManager.enterEmail, placeholder: placeholder,placeholderColor: .gray,textColor: .black,backgroundColor: Color(#colorLiteral(red: 0.9607843757, green: 0.9607843757, blue: 0.9607843757, alpha: 1)), cornerRadius: 10)
                             .frame(height: 44)
 
                             GradientButton(title: "Subscribe to Newsletter") {
