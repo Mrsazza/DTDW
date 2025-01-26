@@ -14,43 +14,40 @@ struct DTDWSettingsView: View {
 
     var body: some View {
         ZStack {
-            // Background color
             Color.mainBackgroundColor
                 .ignoresSafeArea()
 
             VStack(spacing: 20) {
-                // Header
                 Text("Settings")
                     .foregroundStyle(.black)
                     .font(.system(size: 26, weight: .bold))
-
-                // Divider
+                
                 DividerView()
 
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 20) {
-                        // Premium Version Section
+                        //MARK: Premium Version Section
                         SectionTitleView(title: "Premium Version")
+                        
                         PremiumInfoView()
 
-                        // View Plan Button
+                        //MARK: View Plan Button
                         GradientButton(title: "View Plan") {
                             settingsManager.showPremiumSubscriptions = true
                         }
                         .fullScreenCover(isPresented: $settingsManager.showPremiumSubscriptions) {
                             DWDTPremiumSubscriptionsView()
                         }
-
-                        // Divider
+                        
                         DividerView()
 
-                        // Upgrade Premium Section
+                        //MARK: Upgrade Premium Section
                         SettingOptionRow(title: "Upgrade Premium", icon: "Premium Icon", action: {
                             print("Upgrade Premium tapped")
                         })
                         .padding([.top, .bottom], 10)
 
-                        // Email Input and Newsletter Subscription
+                        //MARK: Email Input and Newsletter Subscription
                         VStack(spacing: 20) {
                             Text("Receive Updates From The Landlady")
                                 .font(.system(size: 14))
@@ -72,10 +69,9 @@ struct DTDWSettingsView: View {
                         .padding(.horizontal)
                         .shadow(radius: 4)
                         
-                        // Divider
                         DividerView()
 
-                        // Additional Options
+                        //MARK: Additional Options
                         VStack(spacing: 10) {
                             SettingOptionRow(title: "Restore Purchases", icon: "Restore Purchases Icon", action: {
                                 print("Restore Purchases tapped")
@@ -87,11 +83,10 @@ struct DTDWSettingsView: View {
                                 print("Share App tapped")
                             })
                         }
-
-                        // Divider
+                        
                         DividerView()
 
-                        // Support and Policy Links
+                        //MARK: Support and Policy Links
                         VStack(spacing: 10) {
                             SettingOptionRow(title: "Email us", icon: "Email Icon", action: {
                                 print("Email us tapped")
@@ -113,7 +108,6 @@ struct DTDWSettingsView: View {
                 .edgesIgnoringSafeArea(.bottom)
             }
         }
-        // Alert for user feedback
         .alert(isPresented: $settingsManager.showAlert) {
             Alert(
                 title: Text("Newsletter Subscription"),

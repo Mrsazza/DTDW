@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct RentalAssumptionsUnitView: View {
-    @Bindable var propertyData: PropertyData
+    @Bindable var propertyData: PropertyDataModel
 
     var body: some View {
         VStack {

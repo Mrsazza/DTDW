@@ -8,10 +8,10 @@
 import SwiftUI
 import PhotosUI
 
-struct PurchaseTermsHederView: View {
+struct PropertyTermsHederView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isEditing: Bool = false
-    @Bindable var propertyData: PropertyData
+    @Bindable var propertyData: PropertyDataModel
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
     @State private var showingPhotoPicker = false
     

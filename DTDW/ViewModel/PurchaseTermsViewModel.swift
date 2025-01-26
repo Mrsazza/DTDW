@@ -12,14 +12,14 @@ import SwiftData
 
 class PurchaseTermsViewModel: ObservableObject {
     //    @Bindable var propertyData: PropertyData
-    @Bindable var propertyData: PropertyData {
+    @Bindable var propertyData: PropertyDataModel {
         didSet {
             updateCalculations()
         }
     }
     
     // Custom initializer
-    init(propertyData: PropertyData) {
+    init(propertyData: PropertyDataModel) {
         self.propertyData = propertyData
         updateCalculations()
     }
@@ -454,9 +454,6 @@ class PurchaseTermsViewModel: ObservableObject {
     }
     
     var carRateFinal: Double {
-        let a = capVacancyYearAmount
-        print("aaa \(a)")
-        
-        return (((totalMonthly() - (propertyManagementMonthlyAmount + leasingCostsMonthlyAmount + maintenanceMonthlyAmount + utilitiesMonthlyAmount + insuranceMonthlyAmount + utilitiesMonthlyAmount + insuranceMonthlyAmount + otherMonthlyAmount + vacancyMonthAmount ))) / ((totalYearly() - (propertyManagementYearAmount + leasingCostsYearAmount + maintenanceYearAmount + utilitiesYearAmount + insuranceYearAmount + utilitiesYearAmount + insuranceYearAmount + otherYearAmount + vacancyAmount)))) * 100
+        (((totalMonthly() - (propertyManagementMonthlyAmount + leasingCostsMonthlyAmount + maintenanceMonthlyAmount + utilitiesMonthlyAmount + insuranceMonthlyAmount + utilitiesMonthlyAmount + insuranceMonthlyAmount + otherMonthlyAmount + vacancyMonthAmount ))) / ((totalYearly() - (propertyManagementYearAmount + leasingCostsYearAmount + maintenanceYearAmount + utilitiesYearAmount + insuranceYearAmount + utilitiesYearAmount + insuranceYearAmount + otherYearAmount + vacancyAmount)))) * 100
     }
 }

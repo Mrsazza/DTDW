@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct IncomeView: View {
-    @Bindable var propertyData: PropertyData
+struct PropertyIncomeView: View {
+    @Bindable var propertyData: PropertyDataModel
     @StateObject var viewModel: PurchaseTermsViewModel
     
     var numberFormatter: NumberFormatter = {

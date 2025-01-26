@@ -16,10 +16,8 @@ struct DWDTPremiumSubscriptionsView: View {
                 .ignoresSafeArea()
             
             VStack(spacing: 20) {
-                //Top Navigation Bar
                 HStack(alignment: .top, spacing: 40) {
                     Button(action: {
-                        // Back button action
                         dismiss() 
                     }) {
                         Image("Chevron left")
@@ -29,7 +27,6 @@ struct DWDTPremiumSubscriptionsView: View {
                             .frame(width: 30, height: 30)
                     }
                     
-                    // Premium Subscription Image
                     Image("Premium Sub Image")
                         .resizable()
                         .scaledToFill()
@@ -37,7 +34,8 @@ struct DWDTPremiumSubscriptionsView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading, 20)
-                // Premium Section
+                
+                //MARK: Premium Section
                 VStack(spacing: 20) {
                     PremiumSectionTitleView(title: "Premium Version")
                         .foregroundStyle(Color.deepPurpelColor)
@@ -48,22 +46,22 @@ struct DWDTPremiumSubscriptionsView: View {
                     VStack(spacing: 10) {
                         RectangleDashLine()
                             .padding(.horizontal, 20)
-                        // Features List
+                        
                         PremiumFeaturesView()
                         
                         RectangleDashLine()
                             .padding(.horizontal, 20)
                     }
                     
-                    // Subscription Options
+                    //MARK: Subscription Options
                     SubscriptionOptionsView()
                     
-                    // Upgrade Button
+                    //MARK: Upgrade Button
                     PremiumGradientButton(title: "Upgrade Premium") {
                         // Upgrade button action
                     }
                     
-                    // Restore Purchases
+                    //MARK: Restore Purchases
                     Button {
                         
                     } label: {
@@ -72,10 +70,10 @@ struct DWDTPremiumSubscriptionsView: View {
                             .font(.system(size: 18))
                     }
                     
-                    // Legal Links
+                    //MARK: Legal Links
                     LegalLinksView()
                     
-                    // Payment Information Text
+                    //MARK: Payment Information Text
                     Text("Payment will be charged to your iTunes account at confirmation of purchase. Subscription will automatically renew unless auto-renew is turned off at least 24 hours before the end of the current period. Your account will be charged according to your plan for renewal within 24 hours prior to the end of the current period. You can manage or turn off auto-renew in your Apple ID account settings at any time after purchase.")
                         .foregroundStyle(Color.deepPurpelColor)
                         .font(.system(size: 12))

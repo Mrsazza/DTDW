@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct PurchaseTermsBottomTabView: View {
-    @Bindable var propertyData: PropertyData
+struct PropertyTermsBottomTabView: View {
+    @Bindable var propertyData: PropertyDataModel
     @StateObject var viewModel: PurchaseTermsViewModel
     
     @State private var currentPage = 0
@@ -33,10 +33,12 @@ struct PurchaseTermsBottomTabView: View {
                             .font(.system(size: 18))
                             .fontWeight(.bold)
                             .foregroundStyle(viewModel.cashOnCashReturn < 0 ? .red : .black)
+                            .onChange(of: viewModel.cashOnCashReturn) { oldValue, newValue in
+                                propertyData.casOnCashReturn = newValue
+                            }
                         Text("Cash on Cash Return")
                             .font(.system(size: 12))
                             .foregroundStyle(Color.purchaseBottomTabViewSecoundrayFontColor)
-                        
                     }
                 }
                 
@@ -85,6 +87,9 @@ struct PurchaseTermsBottomTabView: View {
                             .font(.system(size: 18))
                             .fontWeight(.bold)
                             .foregroundStyle(viewModel.carRateFinal < 0 ? .red : .black)
+                            .onChange(of: viewModel.carRateFinal) { oldValue, newValue in
+                                propertyData.capRate = newValue
+                            }
                         Text("Cap Rate")
                             .font(.system(size: 12))
                             .foregroundStyle(Color.purchaseBottomTabViewSecoundrayFontColor)

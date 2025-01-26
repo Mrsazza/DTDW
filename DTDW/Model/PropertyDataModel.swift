@@ -9,28 +9,36 @@ import Foundation
 import SwiftData
 
 @Model
-class PropertyData {
+class PropertyDataModel {
     @Attribute(.unique) // Ensures uniqueness of the ID
-    var id: String
+    var id: UUID
 
     var propertyName: String
 
     @Attribute(.externalStorage) // For efficient handling of potentially large image data
     var imageData: Data?
     
+    var casOnCashReturn: Double
+    var capRate: Double
+   
     var propertyCalculatabeleData: PropertyCalculatableData
 
     // SwiftData requires an explicit initializer if custom initializations are needed.
     init(
-        id: String = UUID().uuidString,
+        id: UUID = UUID(),
         propertyName: String,
         imageData: Data? = nil,
-        propertyCalculatabeleData: PropertyCalculatableData
+        propertyCalculatabeleData: PropertyCalculatableData,
+        cashOnCashReturn : Double = 11.52,
+        capRate : Double = 8.33
+        
     ) {
         self.id = id
         self.propertyName = propertyName
         self.imageData = imageData
         self.propertyCalculatabeleData = propertyCalculatabeleData
+        self.casOnCashReturn = cashOnCashReturn
+        self.capRate = capRate
     }
 }
 
@@ -85,3 +93,49 @@ struct PropertyCalculatableData: Codable {
     var laundryIncome: Double? = 0
     var otherIncome: Double? = 0
 }
+
+var demoPropertyCalculatableData = PropertyCalculatableData (
+    vacancyOfTotalIncome : 5.0,
+    propertyManagement: 50.0,
+    leasingCosts: 0.0,
+    maintenance: 100.0,
+    utilities:  500.0,
+    propertyTaxes: 412.0,
+    insurance: 121.0,
+    otherOngoingExpenses: 0.0,
+    
+    marketValue: 400000.0,
+    purchasePriceValue: 250000.0,
+    downPaymentValue: 10.0,
+    interestRateValue: 6.50,
+    mortgageLengthValue: 30,
+    
+    findersFees: 0,
+    inspection: 0,
+    titleSearchFee: 300,
+    titleInsurance: 100,
+    appraisal: 0,
+    deedRecordingFee: 100,
+    loanOriginationFee: 0,
+    survey: 0,
+    copOther: 0,
+    
+    cosmeticMinor: 0,
+    cosmeticMajor: 0,
+    structural: 0,
+    fixtures: 0,
+    landscaping:  0,
+    corOther: 0,
+    contingencyFactor: 10.0, // Default percentage
+    
+    //Rental Assumptions...
+    units: [1 , 2, 3, 4, 5, 6], // Default unit
+    amounts: ["1200", "1200", "600", "0", "0", "0" ], // Default amount
+
+    administrativeFees: 0,
+    applianceRentals: 0,
+    furnitureRental: 0,
+    parking: 0,
+    laundryIncome: 0,
+    otherIncome: 0
+)

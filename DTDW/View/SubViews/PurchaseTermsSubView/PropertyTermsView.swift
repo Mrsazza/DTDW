@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct PurchaseTermsView: View {
-    @Bindable var propertyData: PropertyData
+struct PropertyTermsView: View {
+    @Bindable var propertyData: PropertyDataModel
     
     private let decimalFormatter: NumberFormatter = {
         let formatter = NumberFormatter()

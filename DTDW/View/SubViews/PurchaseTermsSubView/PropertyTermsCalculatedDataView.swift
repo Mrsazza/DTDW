@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PurchaseTermsCalculatedDataView: View {
+struct PropertyTermsCalculatedDataView: View {
     @StateObject var viewModel: PurchaseTermsViewModel
     
     var body: some View {

@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct InitialExpensesDataView: View {
-    @Bindable var propertyData: PropertyData
+struct PropertyInitialExpensesDataView: View {
+    @Bindable var propertyData: PropertyDataModel
     @State private var selectedButton: ButtonType = .costOfPurchase
 
     // Formatter for numbers without decimals

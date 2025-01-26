@@ -15,13 +15,13 @@ enum Tab {
 }
 
 struct DTDWTabView: View {
-    @Bindable var propertyData: PropertyData
+    @Bindable var propertyData: PropertyDataModel
     @State private var selectedTab: Tab = .home
     @State private var isPresentingPurchaseTerms = false
     @State private var isPresentingSavedPurchaseTerms = false
-    @State private var selectedProperty: PropertyData?
+    @State private var selectedProperty: PropertyDataModel?
     @Environment(\.modelContext) private var modelContext
-    @State private var newProperty: PropertyData? // Make this optional to allow dynamic property creation
+    @State private var newProperty: PropertyDataModel? // Make this optional to allow dynamic property creation
     
     var body: some View {
         ZStack {
@@ -52,7 +52,7 @@ struct DTDWTabView: View {
         .fullScreenCover(isPresented: $isPresentingPurchaseTerms) {
             // Debugging: Check if newProperty is set correctly before presenting fullscreen
             if let property = newProperty {
-                DTDWPurchaseTermsMainView(propertyData: property)
+                DTDWPropertyTermsMainView(propertyData: property)
             } else {
                 // In case newProperty is nil, show a temporary view
                 Text("Loading...") // Temporary view in case the property is nil (to avoid a blank page)
@@ -85,7 +85,7 @@ struct DTDWTabView: View {
     private func plusTabButton() -> some View {
         Button {
             // Dynamically create a new property with a unique name or other data
-            let newDynamicProperty = PropertyData(propertyName: "Land Lady Apt.", propertyCalculatabeleData: demoPropertyCalculatableData)
+            let newDynamicProperty = PropertyDataModel(propertyName: "Land Lady Apt.", propertyCalculatabeleData: demoPropertyCalculatableData)
             
             // Insert the new property in the model context
             modelContext.insert(newDynamicProperty)

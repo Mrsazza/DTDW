@@ -8,9 +8,9 @@
 import SwiftUI
 import SwiftData
 
-struct DTDWPurchaseTermsMainView: View {
+struct DTDWPropertyTermsMainView: View {
     @State private var selectedButton: ButtonType? = .cart
-    @Bindable var propertyData: PropertyData
+    @Bindable var propertyData: PropertyDataModel
     
     enum ButtonType {
         case cart, medical, rental, income, expenses
@@ -24,7 +24,7 @@ struct DTDWPurchaseTermsMainView: View {
             VStack(spacing: 0) {
                 VStack(spacing: 0) {
                     //MARK: Top Header
-                    PurchaseTermsHederView(propertyData: propertyData)
+                    PropertyTermsHederView(propertyData: propertyData)
                     
                     HStack {
                         Button {
@@ -42,9 +42,6 @@ struct DTDWPurchaseTermsMainView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.buttonBackgroundColor, lineWidth: 1)
                         )
-//                        .onTapGesture {
-//                            selectedButton = .cart
-//                        }
                         .contentShape(Rectangle())
                         
                         Spacer()
@@ -66,9 +63,6 @@ struct DTDWPurchaseTermsMainView: View {
                                 .stroke(Color.buttonBackgroundColor, lineWidth: 1)
                         )
                         .contentShape(Rectangle())
-//                        .onTapGesture {
-//                            selectedButton = .medical
-//                        }
                         
                         Spacer()
                         
@@ -136,31 +130,31 @@ struct DTDWPurchaseTermsMainView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     switch selectedButton {
                     case .cart:
-                        PurchaseTermsView(propertyData: propertyData)
+                        PropertyTermsView(propertyData: propertyData)
                         
-                        PurchaseTermsCalculatedDataView(viewModel: PurchaseTermsViewModel(propertyData: propertyData))
+                        PropertyTermsCalculatedDataView(viewModel: PurchaseTermsViewModel(propertyData: propertyData))
                     case .medical:
-                        InitialExpensesDataView(propertyData: propertyData)
+                        PropertyInitialExpensesDataView(propertyData: propertyData)
                         
-                        InitialExpensesCalculatedDataView(viewModel: PurchaseTermsViewModel(propertyData: propertyData))
+                        PropertyInitialExpensesCalculatedDataView(viewModel: PurchaseTermsViewModel(propertyData: propertyData))
                     case .rental:
                         RentalAssumptionsUnitView(propertyData: propertyData)
                     case .income:
-                        IncomeView(propertyData: propertyData, viewModel: PurchaseTermsViewModel(propertyData: propertyData))
+                        PropertyIncomeView(propertyData: propertyData, viewModel: PurchaseTermsViewModel(propertyData: propertyData))
                     case .expenses:
-                        OngoingExpensesView(propertyData: propertyData, viewModel: PurchaseTermsViewModel(propertyData: propertyData))
+                        PropertyOngoingExpensesView(propertyData: propertyData, viewModel: PurchaseTermsViewModel(propertyData: propertyData))
                     case nil:
                         //inpute as a default
-                        PurchaseTermsView(propertyData: propertyData)
+                        PropertyTermsView(propertyData: propertyData)
                         
-                        PurchaseTermsCalculatedDataView(viewModel: PurchaseTermsViewModel(propertyData: propertyData))
+                        PropertyTermsCalculatedDataView(viewModel: PurchaseTermsViewModel(propertyData: propertyData))
                     }
                 }
                 .onTapGesture {
                     hideKeyboard()
                 }
                 
-                PurchaseTermsBottomTabView(propertyData: propertyData, viewModel: PurchaseTermsViewModel(propertyData: propertyData))
+                PropertyTermsBottomTabView(propertyData: propertyData, viewModel: PurchaseTermsViewModel(propertyData: propertyData))
             }
         }
     }
