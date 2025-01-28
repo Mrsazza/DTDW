@@ -88,9 +88,3 @@ struct DWDTPremiumSubscriptionsView: View {
         }
     }
 }
-
-#Preview {
-    DWDTPremiumSubscriptionsView()
-}
-
-

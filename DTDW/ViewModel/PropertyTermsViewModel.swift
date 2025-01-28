@@ -10,26 +10,12 @@ import Combine
 import SwiftUI
 import SwiftData
 
-class PurchaseTermsViewModel: ObservableObject {
-    //    @Bindable var propertyData: PropertyData
-    @Bindable var propertyData: PropertyDataModel {
-        didSet {
-            updateCalculations()
-        }
-    }
+class PropertyTermsViewModel: ObservableObject {
+    @Bindable var propertyData: PropertyDataModel
     
     // Custom initializer
     init(propertyData: PropertyDataModel) {
         self.propertyData = propertyData
-        updateCalculations()
-    }
-    
-    private func updateCalculations() {
-        let annualCashFlow = self.annualCashFlow
-//        _ = self.includingMoneyDown
-        
-        propertyData.propertyCalculatabeleData.cashOnCashReturnn = (annualCashFlow / Double(includingMoneyDown) * 100)
-        propertyData.propertyCalculatabeleData.capRatee = ((netOperatingIncomeMonthAmount) / ((netOperatingIncomeYearAmount))) * 100
     }
     
     // MARK: - PurchaseTerms...
@@ -435,14 +421,12 @@ class PurchaseTermsViewModel: ObservableObject {
         (annualCashFlow / Double(includingMoneyDown) * 100)
     }
     
-    var dSCR: Double {
-        netOperatingIncomeYearAmount / (monthlyMortgagePayment() * 12)
+    var carRateFinal: Double {
+        (((totalMonthly() - (propertyManagementMonthlyAmount + leasingCostsMonthlyAmount + maintenanceMonthlyAmount + utilitiesMonthlyAmount + insuranceMonthlyAmount + utilitiesMonthlyAmount + insuranceMonthlyAmount + otherMonthlyAmount + vacancyMonthAmount ))) / ((totalYearly() - (propertyManagementYearAmount + leasingCostsYearAmount + maintenanceYearAmount + utilitiesYearAmount + insuranceYearAmount + utilitiesYearAmount + insuranceYearAmount + otherYearAmount + vacancyAmount)))) * 100
     }
     
-    var capRate: Double {
-        let abc = (totalOngoingIncome - totalExpenses) / 12
-        
-        return ((abc) / ((netOperatingIncomeYearAmount))) * 100
+    var dSCR: Double {
+        netOperatingIncomeYearAmount / (monthlyMortgagePayment() * 12)
     }
     
     var anualNOI: Double {
@@ -451,9 +435,5 @@ class PurchaseTermsViewModel: ObservableObject {
     
     var anualDebtService: Double {
         monthlyMortgagePayment() * 12
-    }
-    
-    var carRateFinal: Double {
-        (((totalMonthly() - (propertyManagementMonthlyAmount + leasingCostsMonthlyAmount + maintenanceMonthlyAmount + utilitiesMonthlyAmount + insuranceMonthlyAmount + utilitiesMonthlyAmount + insuranceMonthlyAmount + otherMonthlyAmount + vacancyMonthAmount ))) / ((totalYearly() - (propertyManagementYearAmount + leasingCostsYearAmount + maintenanceYearAmount + utilitiesYearAmount + insuranceYearAmount + utilitiesYearAmount + insuranceYearAmount + otherYearAmount + vacancyAmount)))) * 100
     }
 }

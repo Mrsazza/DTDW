@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import MessageUI
+import StoreKit
 
 struct DTDWSettingsView: View {
-    @StateObject private var settingsManager = SettingsManager() // ViewModel
-
+    @StateObject private var firebaseViewModel = FirebaseViewModel()
+    @StateObject private var settingsViewModel = SettingsViewModel()
+    
     var placeholder: String = "Your email address"
 
     var body: some View {
@@ -24,29 +27,28 @@ struct DTDWSettingsView: View {
                 
                 DividerView()
 
-                ScrollView(showsIndicators: false) {
+                ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 20) {
                         //MARK: Premium Version Section
-                        SectionTitleView(title: "Premium Version")
-                        
-                        PremiumInfoView()
+                        if !settingsViewModel.ifAccessPremiumAllowed {
+                            SectionTitleView(title: "Premium Version")
+                            
+                            PremiumInfoView()
 
-                        //MARK: View Plan Button
-                        GradientButton(title: "View Plan") {
-                            settingsManager.showPremiumSubscriptions = true
+                            //MARK: View Plan Button
+                            GradientButton(title: "View Plan") {
+                                firebaseViewModel.showPremiumSubscriptions = true
+                            }
+                            
+                            DividerView()
                         }
-                        .fullScreenCover(isPresented: $settingsManager.showPremiumSubscriptions) {
-                            DWDTPremiumSubscriptionsView()
-                        }
-                        
-                        DividerView()
 
                         //MARK: Upgrade Premium Section
                         SettingOptionRow(title: "Upgrade Premium", icon: "Premium Icon", action: {
                             print("Upgrade Premium tapped")
                         })
-                        .padding([.top, .bottom], 10)
-
+                        .padding(.top, 15)
+                        
                         //MARK: Email Input and Newsletter Subscription
                         VStack(spacing: 20) {
                             Text("Receive Updates From The Landlady")
@@ -56,11 +58,11 @@ struct DTDWSettingsView: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.leading, 10)
                             
-                            NewsletterCustomTextField(text: $settingsManager.enterEmail, placeholder: placeholder,placeholderColor: .gray,textColor: .black,backgroundColor: Color(#colorLiteral(red: 0.9607843757, green: 0.9607843757, blue: 0.9607843757, alpha: 1)), cornerRadius: 10)
+                            NewsletterCustomTextField(text: $firebaseViewModel.enterEmail, placeholder: placeholder,placeholderColor: .gray,textColor: .black,backgroundColor: Color(#colorLiteral(red: 0.9607843757, green: 0.9607843757, blue: 0.9607843757, alpha: 1)), cornerRadius: 10)
                             .frame(height: 44)
 
                             GradientButton(title: "Subscribe to Newsletter") {
-                                settingsManager.subscribeToNewsletter()
+                                firebaseViewModel.subscribeToNewsletter()
                             }
                         }
                         .padding()
@@ -77,10 +79,12 @@ struct DTDWSettingsView: View {
                                 print("Restore Purchases tapped")
                             })
                             SettingOptionRow(title: "Rate App", icon: "Star Icon", action: {
-                                print("Rate App tapped")
+                                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                                    SKStoreReviewController.requestReview(in: scene)
+                                }
                             })
                             SettingOptionRow(title: "Share App", icon: "Share Icon", action: {
-                                print("Share App tapped")
+                                settingsViewModel.isShowingShareSheet = true
                             })
                         }
                         
@@ -89,13 +93,17 @@ struct DTDWSettingsView: View {
                         //MARK: Support and Policy Links
                         VStack(spacing: 10) {
                             SettingOptionRow(title: "Email us", icon: "Email Icon", action: {
-                                print("Email us tapped")
+                                if MFMailComposeViewController.canSendMail() {
+                                    settingsViewModel.isShowingMailView = true
+                                } else {
+                                    settingsViewModel.mailError = true
+                                }
                             })
                             SettingOptionRow(title: "Privacy Policy", icon: "Privacy Icon", action: {
-                                print("Privacy Policy tapped")
+                                settingsViewModel.showingSafariViewForPrivacy = true
                             })
                             SettingOptionRow(title: "Terms of Use", icon: "Terms Icon", action: {
-                                print("Terms of Use tapped")
+                                settingsViewModel.showingSafariViewForPrivacy = true
                             })
                             .padding(.bottom, 110)
                         }
@@ -108,44 +116,36 @@ struct DTDWSettingsView: View {
                 .edgesIgnoringSafeArea(.bottom)
             }
         }
-        .alert(isPresented: $settingsManager.showAlert) {
+        .alert(isPresented: $firebaseViewModel.showAlert) {
             Alert(
                 title: Text("Newsletter Subscription"),
-                message: Text(settingsManager.alertMessage),
+                message: Text(firebaseViewModel.alertMessage),
                 dismissButton: .default(Text("OK"))
             )
         }
-    }
-}
-
-
-struct NewsletterCustomTextField: View {
-    @Binding var text: String
-    var placeholder: String
-    var placeholderColor: Color = .gray
-    var textColor: Color = .black
-    var backgroundColor: Color = Color(#colorLiteral(red: 0.9607843757, green: 0.9607843757, blue: 0.9607843757, alpha: 1))
-    var cornerRadius: CGFloat = 10
-    
-    var body: some View {
-        ZStack(alignment: .leading) {
-            // Show the placeholder when text is empty
-            if text.isEmpty {
-                Text(placeholder)
-                    .foregroundColor(placeholderColor)
-                    .padding(.leading, 8) // Align placeholder text with text field's padding
-            }
-            
-            // Actual TextField with clear background, so the placeholder shows
-            TextField("", text: $text)
-                .foregroundColor(textColor)
-                .padding(10)
-                .background(Color.clear)  // Make background clear so placeholder shows
-                .cornerRadius(cornerRadius)
-                .autocorrectionDisabled()
+        .alert(isPresented: $settingsViewModel.mailError) {
+            Alert(title: Text("Mail Error"),message: Text("Your device is not configured to send emails."),
+                dismissButton: .default(Text("OK")))
         }
-        .background(backgroundColor) // Apply the actual background color here
-        .cornerRadius(cornerRadius)
+        .fullScreenCover(isPresented: $firebaseViewModel.showPremiumSubscriptions) {
+            DWDTPremiumSubscriptionsView()
+        }
+        
+        .sheet(isPresented: $settingsViewModel.isShowingShareSheet) {
+            DTDWShareSheetView(activityItems: ["Check out this amazing app: [App Name]! Download it here: https://apps.apple.com/app/idYOUR_APP_ID"])
+                .presentationDetents([.medium])
+                .presentationDragIndicator(.hidden)
+        }
+        .sheet(isPresented: $settingsViewModel.isShowingMailView) {
+            DTDWMailView(recipients: ["support@thelandlady.com"],subject: "Support Request")
+        }
+        .fullScreenCover(isPresented: $settingsViewModel.showingSafariViewForPrivacy) {
+            DTDWSafariView(url: settingsViewModel.privacyURL)
+                .ignoresSafeArea()
+        }
+        .fullScreenCover(isPresented: $settingsViewModel.showingSafariViewForTerms) {
+            DTDWSafariView(url: settingsViewModel.termsURL)
+                .ignoresSafeArea()
+        }
     }
 }
-

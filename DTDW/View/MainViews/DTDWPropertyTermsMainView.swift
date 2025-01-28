@@ -9,9 +9,9 @@ import SwiftUI
 import SwiftData
 
 struct DTDWPropertyTermsMainView: View {
-    @State private var selectedButton: ButtonType? = .cart
     @Bindable var propertyData: PropertyDataModel
-    
+    @State private var selectedButton: ButtonType? = .cart
+   
     enum ButtonType {
         case cart, medical, rental, income, expenses
     }
@@ -132,29 +132,29 @@ struct DTDWPropertyTermsMainView: View {
                     case .cart:
                         PropertyTermsView(propertyData: propertyData)
                         
-                        PropertyTermsCalculatedDataView(viewModel: PurchaseTermsViewModel(propertyData: propertyData))
+                        PropertyTermsCalculatedDataView(viewModel: PropertyTermsViewModel(propertyData: propertyData))
                     case .medical:
                         PropertyInitialExpensesDataView(propertyData: propertyData)
                         
-                        PropertyInitialExpensesCalculatedDataView(viewModel: PurchaseTermsViewModel(propertyData: propertyData))
+                        PropertyInitialExpensesCalculatedDataView(viewModel: PropertyTermsViewModel(propertyData: propertyData))
                     case .rental:
                         RentalAssumptionsUnitView(propertyData: propertyData)
                     case .income:
-                        PropertyIncomeView(propertyData: propertyData, viewModel: PurchaseTermsViewModel(propertyData: propertyData))
+                        PropertyIncomeView(propertyData: propertyData, viewModel: PropertyTermsViewModel(propertyData: propertyData))
                     case .expenses:
-                        PropertyOngoingExpensesView(propertyData: propertyData, viewModel: PurchaseTermsViewModel(propertyData: propertyData))
+                        PropertyOngoingExpensesView(propertyData: propertyData, viewModel: PropertyTermsViewModel(propertyData: propertyData))
                     case nil:
                         //inpute as a default
                         PropertyTermsView(propertyData: propertyData)
                         
-                        PropertyTermsCalculatedDataView(viewModel: PurchaseTermsViewModel(propertyData: propertyData))
+                        PropertyTermsCalculatedDataView(viewModel: PropertyTermsViewModel(propertyData: propertyData))
                     }
                 }
                 .onTapGesture {
                     hideKeyboard()
                 }
                 
-                PropertyTermsBottomTabView(propertyData: propertyData, viewModel: PurchaseTermsViewModel(propertyData: propertyData))
+                PropertyTermsBottomTabView(propertyData: propertyData, viewModel: PropertyTermsViewModel(propertyData: propertyData))
             }
         }
     }

@@ -23,23 +23,15 @@ struct DTDWApp: App {
         }
     }()
     
-    // Create a default PropertyData instance to pass to ContentView
-    var defaultPropertyData: PropertyDataModel = {
-        let demoCalculatableData = demoPropertyCalculatableData
-        return PropertyDataModel( propertyName: "Land Lady Apt",propertyCalculatabeleData: demoCalculatableData
-)
-    }()
-    
     init() {
         FirebaseApp.configure()
     }
     
     var body: some Scene {
         WindowGroup {
-            DTDWTabView(propertyData: defaultPropertyData)
+            DTDWTabView()
                 .dynamicTypeSize(.medium)
                 .modelContainer(sharedModelContainer)
-//                .modelContainer(for: [PropertyData.self])
         }
     }
 }

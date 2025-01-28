@@ -15,19 +15,18 @@ enum Tab {
 }
 
 struct DTDWTabView: View {
-    @Bindable var propertyData: PropertyDataModel
-    @State private var selectedTab: Tab = .home
-    @State private var isPresentingPurchaseTerms = false
-    @State private var isPresentingSavedPurchaseTerms = false
-    @State private var selectedProperty: PropertyDataModel?
     @Environment(\.modelContext) private var modelContext
-    @State private var newProperty: PropertyDataModel? // Make this optional to allow dynamic property creation
+    @State private var selectedProperty: PropertyDataModel?
+    @State private var selectedTab: Tab = .home
+    @State private var isPresentingPropertyTerms = false
+    @State private var isPresentingSavedPropertyTerms = false
+    
     
     var body: some View {
         ZStack {
             switch selectedTab {
             case .home:
-                DTDWHomeView(viewModel: PurchaseTermsViewModel(propertyData: propertyData))
+                DTDWHomeView()
             case .settings:
                 DTDWSettingsView()
             default:
@@ -41,17 +40,17 @@ struct DTDWTabView: View {
                 .ignoresSafeArea()
                 .zIndex(0)
         }
-        .onChange(of: newProperty) {
+        .onChange(of: selectedProperty) {
             // Debugging: Track changes to newProperty
-            print("newProperty changed: \(String(describing: newProperty?.propertyName))")
+            print("newProperty changed: \(String(describing: selectedProperty?.propertyName))")
         }
-        .onChange(of: isPresentingPurchaseTerms) {
+        .onChange(of: isPresentingPropertyTerms) {
             // Debugging: Track when the fullscreen cover is triggered
-            print("isPresentingPurchaseTerms changed to: \(isPresentingPurchaseTerms)")
+            print("isPresentingPurchaseTerms changed to: \(isPresentingPropertyTerms)")
         }
-        .fullScreenCover(isPresented: $isPresentingPurchaseTerms) {
+        .fullScreenCover(isPresented: $isPresentingPropertyTerms) {
             // Debugging: Check if newProperty is set correctly before presenting fullscreen
-            if let property = newProperty {
+            if let property = selectedProperty {
                 DTDWPropertyTermsMainView(propertyData: property)
             } else {
                 // In case newProperty is nil, show a temporary view
@@ -99,11 +98,11 @@ struct DTDWTabView: View {
                 
                 // After saving, update the state and present the fullscreen view
                 DispatchQueue.main.async {
-                    newProperty = newDynamicProperty
-                    isPresentingPurchaseTerms = true
+                    selectedProperty = newDynamicProperty
+                    isPresentingPropertyTerms = true
                     
                     // Debugging: Confirm that the fullscreen view is triggered with the right property
-                    print("Full screen cover presented with: \(String(describing: newProperty?.propertyName))")
+                    print("Full screen cover presented with: \(String(describing: selectedProperty?.propertyName))")
                 }
             } catch {
                 // Handle error if saving the context fails

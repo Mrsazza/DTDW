@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PropertyOngoingExpensesView: View {
     @Bindable var propertyData: PropertyDataModel
-    @StateObject var viewModel: PurchaseTermsViewModel
+    @StateObject var viewModel: PropertyTermsViewModel
     
     // Formatter for numbers without decimals
     private let numberFormatter: NumberFormatter = {

@@ -9,15 +9,14 @@ import SwiftUI
 import SwiftData
 
 struct DTDWHomeView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Query private var properties: [PropertyDataModel]
+    @State private var selectedProperty: PropertyDataModel?
     @State private var searchText = ""
     @State private var isGridView: Bool = true
-    @Query private var properties: [PropertyDataModel]
-    @State private var isPresentingPurchaseTerms = false
-    @State private var isPresentingSavedPurchaseTerms = false
-    @State private var selectedProperty: PropertyDataModel?
-    @StateObject var viewModel: PurchaseTermsViewModel
-    @Environment(\.modelContext) private var modelContext
-
+    @State private var isPresentingPropertyTerms = false
+    @State private var isPresentingSavedPropertyTerms = false
+   
     private let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 10),
         GridItem(.flexible(), spacing: 10)
@@ -174,7 +173,7 @@ struct DTDWHomeView: View {
                     capRateData: property.capRate,
                     buttonAction: {
                         selectedProperty = property
-                        isPresentingSavedPurchaseTerms = true
+                        isPresentingSavedPropertyTerms = true
                     }
                 ),deleteAction: {
                     deleteProperty(property) // Call the delete logic
@@ -198,7 +197,7 @@ struct DTDWHomeView: View {
                     capRateData: property.capRate,
                     buttonAction: {
                         selectedProperty = property
-                        isPresentingSavedPurchaseTerms = true
+                        isPresentingSavedPropertyTerms = true
                     }
                 ),deleteAction: {
                     deleteProperty(property)

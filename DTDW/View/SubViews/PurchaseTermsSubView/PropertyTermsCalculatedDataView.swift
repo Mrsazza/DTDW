@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PropertyTermsCalculatedDataView: View {
-    @StateObject var viewModel: PurchaseTermsViewModel
+    @StateObject var viewModel: PropertyTermsViewModel
     
     var body: some View {
         VStack(spacing: 20) {

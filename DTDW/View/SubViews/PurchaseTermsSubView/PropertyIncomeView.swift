@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PropertyIncomeView: View {
     @Bindable var propertyData: PropertyDataModel
-    @StateObject var viewModel: PurchaseTermsViewModel
+    @StateObject var viewModel: PropertyTermsViewModel
     
     var numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()

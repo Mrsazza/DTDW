@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct LegalLinksView: View {
+    @StateObject private var settingsViewModel = SettingsViewModel()
+    
     var body: some View {
         VStack(spacing: 10) {
             Divider()
             
             HStack(spacing: 20) {
                 Button {
-                    //Privacy action button
-                    
+                    settingsViewModel.showingSafariViewForPrivacy = true
                 } label: {
                     Text("Privacy Policy")
                         .foregroundStyle(Color.colorFont)
@@ -26,7 +27,7 @@ struct LegalLinksView: View {
                     .frame(height: 20)
                 
                 Button {
-                    //Terms of Use action button
+                    settingsViewModel.showingSafariViewForTerms = true
                 } label: {
                     Text("Terms of Use")
                         .foregroundStyle(Color.colorFont)
@@ -37,5 +38,13 @@ struct LegalLinksView: View {
             Divider()
         }
         .padding(.horizontal, 60)
+        .fullScreenCover(isPresented: $settingsViewModel.showingSafariViewForPrivacy) {
+            DTDWSafariView(url: settingsViewModel.privacyURL)
+                .ignoresSafeArea()
+        }
+        .fullScreenCover(isPresented: $settingsViewModel.showingSafariViewForTerms) {
+            DTDWSafariView(url: settingsViewModel.termsURL)
+                .ignoresSafeArea()
+        }
     }
 }
