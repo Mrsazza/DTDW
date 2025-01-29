@@ -132,12 +132,12 @@ struct DTDWSettingsView: View {
         }
         
         .sheet(isPresented: $settingsViewModel.isShowingShareSheet) {
-            DTDWShareSheetView(activityItems: ["Check out this amazing app: [App Name]! Download it here: https://apps.apple.com/app/idYOUR_APP_ID"])
+            DTDWShareSheetView(activityItems: ["Check out this amazing app: [DTDW: Real Estate analysis tool]! Download it here: https://apps.apple.com/app/idYOUR_APP_ID"])
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.hidden)
         }
         .sheet(isPresented: $settingsViewModel.isShowingMailView) {
-            DTDWMailView(recipients: ["support@thelandlady.com"],subject: "Support Request")
+            DTDWMailView(recipients: ["askthelandlady@gmail.com"],subject: "Support Request")
         }
         .fullScreenCover(isPresented: $settingsViewModel.showingSafariViewForPrivacy) {
             DTDWSafariView(url: settingsViewModel.privacyURL)

@@ -6,13 +6,12 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct DTDWPropertyTermsMainView: View {
     @Bindable var propertyData: PropertyDataModel
     @State private var selectedButton: ButtonType? = .cart
-   
-    enum ButtonType {
+    
+    enum ButtonType: CaseIterable {
         case cart, medical, rental, income, expenses
     }
     
@@ -27,99 +26,28 @@ struct DTDWPropertyTermsMainView: View {
                     PropertyTermsHederView(propertyData: propertyData)
                     
                     HStack {
-                        Button {
-                            selectedButton = .cart
-                        } label: {
-                            Image(selectedButton == .cart ? "cartWhite" : "cartBlack")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 20)
-                        }
-                        .frame(width: 60, height: 40)
-                        .background(selectedButton == .cart ? Color.buttonBackgroundColor : Color.white)
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.buttonBackgroundColor, lineWidth: 1)
-                        )
-                        .contentShape(Rectangle())
-                        
-                        Spacer()
-                        
-                        Button {
-                            selectedButton = .medical
-                        } label: {
-                            Image(selectedButton == .medical ? "medicalWhite" : "medicalBlack")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 20)
+                        ForEach(ButtonType.allCases, id: \.self) { buttonType in
+                            Button {
+                                selectedButton = buttonType
+                            } label: {
+                                Image(selectedButton == buttonType ? "\(buttonType)White" : "\(buttonType)Black")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 60, height: 20)
+                            }
+                            .frame(width: 60, height: 40)
+                            .background(selectedButton == buttonType ? Color.buttonBackgroundColor : Color.white)
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.buttonBackgroundColor, lineWidth: 1)
+                            )
+                            .contentShape(Rectangle())
                             
+                            if buttonType != .expenses {
+                                Spacer()
+                            }
                         }
-                        .frame(width: 60, height: 40)
-                        .background(selectedButton == .medical ? Color.buttonBackgroundColor : Color.white)
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.buttonBackgroundColor, lineWidth: 1)
-                        )
-                        .contentShape(Rectangle())
-                        
-                        Spacer()
-                        
-                        Button {
-                            selectedButton = .rental
-                        } label: {
-                            Image(selectedButton == .rental ? "rentalWhite" : "rentalBlack")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 20)
-                        }
-                        .frame(width: 60, height: 40)
-                        .background(selectedButton == .rental ? Color.buttonBackgroundColor : Color.white)
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.buttonBackgroundColor, lineWidth: 1)
-                        )
-                        .contentShape(Rectangle())
-                        
-                        Spacer()
-                        
-                        Button {
-                            selectedButton = .income
-                        } label: {
-                            Image(selectedButton == .income ? "incomeWhite" : "incomeBlack")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 20)
-                        }
-                        .frame(width: 60, height: 40)
-                        .background(selectedButton == .income ? Color.buttonBackgroundColor : Color.white)
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.buttonBackgroundColor, lineWidth: 1)
-                        )
-                        .contentShape(Rectangle())
-                        
-                        Spacer()
-                        
-                        Button {
-                            selectedButton = .expenses
-                        } label: {
-                            Image(selectedButton == .expenses ? "expensesWhite" : "expensesBlack")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 20)
-                        }
-                        .frame(width: 60, height: 40)
-                        .background(selectedButton == .expenses ? Color.buttonBackgroundColor : Color.white)
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.buttonBackgroundColor, lineWidth: 1)
-                        )
-                        .contentShape(Rectangle())
                     }
                     .padding()
                     .background(Color.white)
@@ -153,10 +81,36 @@ struct DTDWPropertyTermsMainView: View {
                 .onTapGesture {
                     hideKeyboard()
                 }
+                .gesture(
+                    DragGesture()
+                        .onEnded { value in
+                            if value.translation.width < 0 {
+                                withAnimation {
+                                    swipeToNext()
+                                }
+                            } else if value.translation.width > 0 {
+                                withAnimation {
+                                    swipeToPrevious()
+                                }
+                            }
+                        }
+                )
                 
                 PropertyTermsBottomTabView(propertyData: propertyData, viewModel: PropertyTermsViewModel(propertyData: propertyData))
             }
         }
+    }
+    
+    private func swipeToNext() {
+        guard let currentIndex = ButtonType.allCases.firstIndex(of: selectedButton ?? .cart) else { return }
+        let nextIndex = (currentIndex + 1) % ButtonType.allCases.count
+        selectedButton = ButtonType.allCases[nextIndex]
+    }
+    
+    private func swipeToPrevious() {
+        guard let currentIndex = ButtonType.allCases.firstIndex(of: selectedButton ?? .cart) else { return }
+        let previousIndex = (currentIndex - 1 + ButtonType.allCases.count) % ButtonType.allCases.count
+        selectedButton = ButtonType.allCases[previousIndex]
     }
 }
 

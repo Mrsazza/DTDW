@@ -136,6 +136,5 @@ struct SwipeableCardView: View {
                         }
                 )
         }
-        .animation(.spring(), value: offset)
     }
 }
