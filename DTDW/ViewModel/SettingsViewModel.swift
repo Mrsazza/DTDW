@@ -9,8 +9,8 @@ import Foundation
 import SwiftUI
 
 class SettingsViewModel: ObservableObject {
-    @Published var privacyURL = URL(string: "https://www.youtube.com")!
-    @Published var termsURL = URL(string: "https://www.youtube.com")!
+    @Published var privacyURL = URL(string: "https://askthelandlady.com/privacy-policy-for-does-the-deal-work-real-estate-analysis-tool/")!
+    @Published var termsURL = URL(string: "https://askthelandlady.com/terms-of-use-for-does-the-deal-work-real-estate-analysis-tool/")!
     @Published var showingSafariViewForPrivacy = false
     @Published var showingSafariViewForTerms = false
     

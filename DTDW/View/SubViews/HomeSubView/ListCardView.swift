@@ -126,7 +126,7 @@ struct SwipeableCardView: View {
                             }
                         }
                         .onEnded { gesture in
-                            withAnimation {
+                            withAnimation(.smooth) {
                                 if offset < -100 {
                                     offset = -120
                                 } else {
