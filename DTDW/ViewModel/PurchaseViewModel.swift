@@ -12,7 +12,7 @@ import RevenueCat
 class PurchaseViewModel: ObservableObject {
     static let shared = PurchaseViewModel()
     
-    private let revenueCatAPIKey = "Your RevenueCat API Key"
+    private let revenueCatAPIKey = "appl_swqtqmHMuUHxBBfOHyOJdkyMOdv"
     
     @Published var isSubscribed: Bool = false
     
@@ -26,7 +26,7 @@ class PurchaseViewModel: ObservableObject {
     var annual: String = ""
     
     
-private let revenueIdentifier = "Your RevenueCat Product ID"
+private let revenueIdentifier = "DTDW Premium"
     
     private init() {
         Purchases.logLevel = .debug
