@@ -20,16 +20,20 @@ struct GridCardView: View {
                 if let imageData = card.imageName, let uiImage = UIImage(data: imageData) {
                     Image(uiImage: uiImage)
                         .resizable()
-                        .frame(height: 112)
+                        .scaledToFill()
+                        .frame(height: 90)
+                        .clipped()
                 } else {
                     Image("Picture")
                         .resizable()
-                        .frame(height: 112)
+                        .scaledToFill()
+                        .frame(height: 90)
+                        .clipped()
                 }
                 
                 //Name
                 Text(card.title)
-                    .font(.system(size: 11))
+                    .font(.system(size: 13))
                     .fontWeight(.bold)
                     .foregroundStyle(Color.black)
                     .minimumScaleFactor(0.5)
@@ -38,16 +42,16 @@ struct GridCardView: View {
                 
                 
                 //cash and cap
-                HStack(spacing: 5) {
+                VStack(alignment: .leading, spacing: 5) {
                     HStack(spacing: 3) {
-                        Text(card.cashOnReturn)
-                            .font(.system(size: 7))
+                        Text("\(card.cashOnReturn):")
+                            .font(.system(size: 10))
                             .foregroundStyle(.black.opacity(0.5))
                             .fontWeight(.bold)
                             .minimumScaleFactor(0.5)
                             .lineLimit(1)
                         Text("\(card.cashOnReturnData, specifier: "%.2f")%")
-                            .font(.system(size: 7))
+                            .font(.system(size: 12))
                             .foregroundStyle(card.cashOnReturnData < 0 ? Color.red : Color(#colorLiteral(red: 0.5127275586, green: 0.7354346514, blue: 0.1412258446, alpha: 1)))
                             .fontWeight(.bold)
                             .minimumScaleFactor(0.5)
@@ -55,14 +59,14 @@ struct GridCardView: View {
                     }
                     
                     HStack(spacing: 3) {
-                        Text(card.capRate)
-                            .font(.system(size: 7))
+                        Text("\(card.capRate):")
+                            .font(.system(size: 10))
                             .foregroundStyle(.black.opacity(0.5))
                             .fontWeight(.bold)
                             .minimumScaleFactor(0.5)
                             .lineLimit(1)
                         Text("\(card.capRateData, specifier: "%.2f")%")
-                            .font(.system(size: 7))
+                            .font(.system(size: 12))
                             .foregroundStyle(card.capRateData < 0 ? Color.red : Color(#colorLiteral(red: 0.5127275586, green: 0.7354346514, blue: 0.1412258446, alpha: 1)))
                             .fontWeight(.bold)
                             .minimumScaleFactor(0.5)

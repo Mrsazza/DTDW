@@ -28,39 +28,40 @@ struct ListCardView: View {
 
             VStack(alignment: .leading, spacing: 8) {
                 Text(card.title)
-                    .font(.system(size: 11))
+                    .font(.system(size: 13))
                     .fontWeight(.bold)
                     .foregroundStyle(.black)
                     .minimumScaleFactor(0.5)
                     .lineLimit(1)
 
-                HStack(spacing: 8) {
+                VStack(alignment: .leading ,spacing: 3) {
                     HStack(spacing: 2) {
-                        Text(card.cashOnReturn)
-                            .font(.system(size: 7))
+                        Text("\(card.cashOnReturn):")
+                            .font(.system(size: 11))
                             .foregroundStyle(.black.opacity(0.5))
                             .fontWeight(.bold)
-                            .minimumScaleFactor(1)
+                            .minimumScaleFactor(0.5)
                             .lineLimit(1)
                         Text("\(card.cashOnReturnData, specifier: "%.2f")%")
-                            .font(.system(size: 7))
+                            .font(.system(size: 11))
                             .foregroundStyle(card.cashOnReturnData < 0 ? Color.red : Color.green)
                             .fontWeight(.bold)
-                            .minimumScaleFactor(1)
+                            .minimumScaleFactor(0.5)
                             .lineLimit(1)
                     }
+                    
                     HStack(spacing: 2) {
-                        Text(card.capRate)
-                            .font(.system(size: 7))
+                        Text("\(card.capRate):")
+                            .font(.system(size: 11))
                             .foregroundStyle(.black.opacity(0.5))
                             .fontWeight(.bold)
-                            .minimumScaleFactor(1)
+                            .minimumScaleFactor(0.5)
                             .lineLimit(1)
                         Text("\(card.capRateData, specifier: "%.2f")%")
-                            .font(.system(size: 7))
+                            .font(.system(size: 11))
                             .foregroundStyle(card.capRateData < 0 ? Color.red : Color.green)
                             .fontWeight(.bold)
-                            .minimumScaleFactor(1)
+                            .minimumScaleFactor(0.5)
                             .lineLimit(1)
                     }
                 }
@@ -71,7 +72,7 @@ struct ListCardView: View {
                 .fontWeight(.bold)
                 .foregroundStyle(Color.deepPurpelColor)
         }
-        .padding(14)
+        .padding(16)
         .frame(maxWidth: .infinity)
         .background(.white)
         .cornerRadius(10)

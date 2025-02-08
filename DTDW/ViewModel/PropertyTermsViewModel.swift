@@ -105,7 +105,7 @@ class PropertyTermsViewModel: ObservableObject {
         let total = propertyData.propertyCalculatabeleData.amounts.compactMap {
             Double($0) ?? 0
         }.reduce(0, +)
-        print("totalMonthly() value: \(total)") // Debug print
+        
         return total
     }
     
@@ -338,8 +338,8 @@ class PropertyTermsViewModel: ObservableObject {
         guard totalMonthlyIncome() > 0 else { return "0.0%" }
         
         // Debugging prints to check values
-        print("totalOngoingIncomeMonthly: \(totalOngoingIncomeMonthly)")
-        print("propertyManagement: \(propertyData.propertyCalculatabeleData.propertyManagement)")
+//        print("totalOngoingIncomeMonthly: \(totalOngoingIncomeMonthly)")
+//        print("propertyManagement: \(propertyData.propertyCalculatabeleData.propertyManagement)")
         
         let percentage = (Double(propertyManagementMonthlyAmount) / totalMonthlyIncome()) * 100
         return String(format: "%.1f", percentage) + "%"

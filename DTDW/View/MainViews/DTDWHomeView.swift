@@ -110,6 +110,7 @@ struct DTDWHomeView: View {
                     Image(systemName: isGridView ? "list.bullet" : "square.grid.2x2")
                         .font(.system(size: 21))
                         .foregroundStyle(.black)
+                        .padding(8)
                 }
             }
             .padding(.horizontal, 20)
@@ -167,7 +168,7 @@ struct DTDWHomeView: View {
                 GridCardView(card: HomeCardModel(
                     imageName: property.imageData,
                     title: "\(property.propertyName)",
-                    cashOnReturn: "Cash on Return",
+                    cashOnReturn: "COR",
                     cashOnReturnData: property.cashOnCashReturn,
                     capRate: "Cap Rate",
                     capRateData: property.capRate,

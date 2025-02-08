@@ -60,11 +60,12 @@ struct DTDWSettingsView: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.leading, 10)
                             
-                            NewsletterCustomTextField(text: $firebaseViewModel.enterEmail, placeholder: placeholder, placeholderColor: .gray, textColor: .black, backgroundColor: Color(#colorLiteral(red: 0.9607843757, green: 0.9607843757, blue: 0.9607843757, alpha: 1)), cornerRadius: 10)
-                            .frame(height: 44)
+//                            NewsletterCustomTextField(text: $firebaseViewModel.enterEmail, placeholder: placeholder, placeholderColor: .gray, textColor: .black, backgroundColor: Color(#colorLiteral(red: 0.9607843757, green: 0.9607843757, blue: 0.9607843757, alpha: 1)), cornerRadius: 10)
+//                            .frame(height: 44)
 
                             GradientButton(title: "Subscribe to Newsletter") {
-                                firebaseViewModel.subscribeToNewsletter()
+//                                firebaseViewModel.subscribeToNewsletter()
+                                settingsViewModel.showingSafariViewForNewsletter = true
                             }
                         }
                         .padding()
@@ -148,12 +149,16 @@ struct DTDWSettingsView: View {
             DWDTPremiumSubscriptionsView()
         }
         .sheet(isPresented: $settingsViewModel.isShowingShareSheet) {
-            DTDWShareSheetView(activityItems: ["Check out this amazing app: [DTDW: Real Estate analysis tool]! Download it here: https://apps.apple.com/app/idYOUR_APP_ID"])
+            DTDWShareSheetView(activityItems: ["Check out this amazing app: [DTDW: Real Estate analysis tool]! Download it here: https://apps.apple.com/app/6741393499"])
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.hidden)
         }
+        
         .sheet(isPresented: $settingsViewModel.isShowingMailView) {
             DTDWMailView(recipients: ["askthelandlady@gmail.com"], subject: "Support Request")
+        }
+        .fullScreenCover(isPresented: $settingsViewModel.showingSafariViewForNewsletter) {
+            DTDWSafariView(url: settingsViewModel.newsletterURL)
         }
         .fullScreenCover(isPresented: $settingsViewModel.showingSafariViewForPrivacy) {
             DTDWSafariView(url: settingsViewModel.privacyURL)
