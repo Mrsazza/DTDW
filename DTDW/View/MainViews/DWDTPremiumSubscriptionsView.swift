@@ -100,6 +100,9 @@ struct DWDTPremiumSubscriptionsView: View {
                 .background(Color.white)
                 .clipShape(RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20))
                 .edgesIgnoringSafeArea(.bottom)
+                .alert("\(purchaseViewModel.alertMessage)", isPresented: $purchaseViewModel.showAlert) {
+                            Button("OK", role: .cancel) { }
+                        }
             }
         }
     }
