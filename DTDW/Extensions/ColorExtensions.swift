@@ -37,5 +37,6 @@ extension Color {
     static let addUnitButtonBackgroundColor =  LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.682, green: 0.212, blue: 0.475, alpha: 1)),Color(#colorLiteral(red: 1, green: 0.906, blue: 0.944, alpha: 1))]), startPoint: .leading, endPoint: .trailing)
     static let addUnitButtonShadowColor = Color(#colorLiteral(red: 0.682, green: 0.212, blue: 0.475, alpha: 0.15))
     static let addUnitButtonStrokeColor = LinearGradient(gradient:Gradient(colors:[Color(#colorLiteral(red: 0.6188150048, green: 0.1305246055, blue: 0.40766114, alpha: 1)), Color(#colorLiteral(red: 0.8784760833, green: 0.6453709602, blue: 0.7580710649, alpha: 1))]),startPoint: .topLeading,endPoint:.bottomTrailing)
+    static let customErrorMessageForeground = Color(red: 0.7358952165, green: 0.7859089971, blue: 0.8065324426)
 }
 

@@ -71,6 +71,7 @@ struct GridCardView: View {
                 }
                 .padding(.leading, 10)
                 .padding(.trailing, 5)
+                
                //Button
                 Button {
                     card.buttonAction()

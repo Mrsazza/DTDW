@@ -18,7 +18,7 @@ class PropertyDataModel {
     @Attribute(.externalStorage) // For efficient handling of potentially large image data
     var imageData: Data?
     
-    var casOnCashReturn: Double
+    var cashOnCashReturn: Double
     var capRate: Double
    
     var propertyCalculatabeleData: PropertyCalculatableData
@@ -37,11 +37,10 @@ class PropertyDataModel {
         self.propertyName = propertyName
         self.imageData = imageData
         self.propertyCalculatabeleData = propertyCalculatabeleData
-        self.casOnCashReturn = cashOnCashReturn
+        self.cashOnCashReturn = cashOnCashReturn
         self.capRate = capRate
     }
 }
-
 
 struct PropertyCalculatableData: Codable {
     var vacancyOfTotalIncome: Double =  5.0

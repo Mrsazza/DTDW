@@ -34,7 +34,10 @@ struct PropertyTermsBottomTabView: View {
                             .fontWeight(.bold)
                             .foregroundStyle(viewModel.cashOnCashReturn < 0 ? .red : .black)
                             .onChange(of: viewModel.cashOnCashReturn) { oldValue, newValue in
-                                propertyData.casOnCashReturn = newValue
+                                propertyData.cashOnCashReturn = newValue
+                            }
+                            .onChange(of: viewModel.capRateFinal) { oldValue, newValue in
+                                propertyData.capRate = newValue
                             }
                         Text("Cash on Cash Return")
                             .font(.system(size: 12))
@@ -83,12 +86,15 @@ struct PropertyTermsBottomTabView: View {
                     Spacer()
                     
                     VStack(alignment: .trailing, spacing: 10) {
-                        Text("\(viewModel.carRateFinal, specifier: "%.2f")%")
+                        Text("\(viewModel.capRateFinal, specifier: "%.2f")%")
                             .font(.system(size: 18))
                             .fontWeight(.bold)
-                            .foregroundStyle(viewModel.carRateFinal < 0 ? .red : .black)
-                            .onChange(of: viewModel.carRateFinal) { oldValue, newValue in
+                            .foregroundStyle(viewModel.capRateFinal < 0 ? .red : .black)
+                            .onChange(of: viewModel.capRateFinal) { oldValue, newValue in
                                 propertyData.capRate = newValue
+                            }
+                            .onChange(of: viewModel.cashOnCashReturn) { oldValue, newValue in
+                                propertyData.cashOnCashReturn = newValue
                             }
                         Text("Cap Rate")
                             .font(.system(size: 12))

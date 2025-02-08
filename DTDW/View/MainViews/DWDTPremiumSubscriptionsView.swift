@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct DWDTPremiumSubscriptionsView: View {
+    @StateObject private var purchaseViewModel = PurchaseViewModel.shared
     @Environment(\.dismiss) private var dismiss
+    @State private var selectedButton: Int? = 1
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ZStack {
@@ -18,7 +21,7 @@ struct DWDTPremiumSubscriptionsView: View {
             VStack(spacing: 20) {
                 HStack(alignment: .top, spacing: 40) {
                     Button(action: {
-                        dismiss() 
+                        dismiss()
                     }) {
                         Image("Chevron left")
                             .resizable()
@@ -56,14 +59,27 @@ struct DWDTPremiumSubscriptionsView: View {
                     //MARK: Subscription Options
                     SubscriptionOptionsView()
                     
-                    //MARK: Upgrade Button
-                    PremiumGradientButton(title: "Upgrade Premium") {
-                        // Upgrade button action
+                    VStack(spacing: 3) {
+                        if let errorMessage = purchaseViewModel.errorMessage {
+                            Text(errorMessage)
+                                .font(.system(size: 8))
+                                .foregroundColor(.red)
+                        } else {
+                            Text("Secured with App Store. Cancel anytime")
+                                .font(.system(size: 8))
+                                .foregroundColor(.customErrorMessageForeground)
+                                .animation(.easeIn)
+                        }
+                        
+                        //MARK: Upgrade Button
+                        PremiumGradientButton(title: "Upgrade Premium") {
+                            confirmSubscription()
+                        }
                     }
                     
                     //MARK: Restore Purchases
                     Button {
-                        
+                        PurchaseViewModel.shared.confirmRestorePurchas()
                     } label: {
                         Text("Restore Purchases")
                             .foregroundStyle(Color.deepPurpelColor)
@@ -84,6 +100,30 @@ struct DWDTPremiumSubscriptionsView: View {
                 .background(Color.white)
                 .clipShape(RoundedCornerShape(corners: [.topLeft, .topRight], radius: 20))
                 .edgesIgnoringSafeArea(.bottom)
+            }
+        }
+    }
+    // Handle subscription confirmation
+    private func confirmSubscription() {
+        guard let selectedButton = selectedButton else { return }
+        let packageIdentifier: String
+        
+        switch selectedButton {
+        case 1:
+            packageIdentifier = "$rc_monthly"
+        case 2:
+            packageIdentifier = "$rc_annual"
+        default:
+            return
+        }
+        
+        purchaseViewModel.purchaseSubscription(packageIdentifier: packageIdentifier) { success in
+            if success {
+                print("Subscription successful!")
+                presentationMode.wrappedValue.dismiss()
+            } else {
+                print("Subscription failed.")
+                purchaseViewModel.errorMessage = "Subscription failed. Please try again."
             }
         }
     }

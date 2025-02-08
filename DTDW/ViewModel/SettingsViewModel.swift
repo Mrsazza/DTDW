@@ -17,5 +17,4 @@ class SettingsViewModel: ObservableObject {
     @Published var isShowingMailView = false
     @Published var mailError = false
     @Published var isShowingShareSheet = false
-    @Published var ifAccessPremiumAllowed: Bool = false
 }

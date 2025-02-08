@@ -168,7 +168,7 @@ struct DTDWHomeView: View {
                     imageName: property.imageData,
                     title: "\(property.propertyName)",
                     cashOnReturn: "Cash on Return",
-                    cashOnReturnData: property.casOnCashReturn,
+                    cashOnReturnData: property.cashOnCashReturn,
                     capRate: "Cap Rate",
                     capRateData: property.capRate,
                     buttonAction: {
@@ -192,7 +192,7 @@ struct DTDWHomeView: View {
                     imageName: property.imageData,
                     title: "\(property.propertyName)",
                     cashOnReturn: "Cash on Return",
-                    cashOnReturnData: property.casOnCashReturn,
+                    cashOnReturnData: property.cashOnCashReturn,
                     capRate: "Cap Rate",
                     capRateData: property.capRate,
                     buttonAction: {
