@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		38A2BFCE2D54B843009F4C9E /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 38A2BFCD2D54B843009F4C9E /* RevenueCat */; };
 		38A2BFD02D54B843009F4C9E /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 38A2BFCF2D54B843009F4C9E /* RevenueCatUI */; };
+		38A2C0472D57B8E1009F4C9E /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 38A2C0462D57B8E1009F4C9E /* FirebaseMessaging */; };
+		38A2C04A2D5A05F3009F4C9E /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 38A2C0492D5A05F3009F4C9E /* GoogleMobileAds */; };
 		38ACBD762CEA09AE000A75D2 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 38ACBD752CEA09AE000A75D2 /* FirebaseAnalytics */; };
 		38ACBD782CEA09AE000A75D2 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 38ACBD772CEA09AE000A75D2 /* FirebaseDatabase */; };
 		38ACBD7A2CEA09AE000A75D2 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 38ACBD792CEA09AE000A75D2 /* FirebaseStorage */; };
@@ -47,7 +49,9 @@
 			files = (
 				38ACBD782CEA09AE000A75D2 /* FirebaseDatabase in Frameworks */,
 				38ACBD7F2CEA0F0A000A75D2 /* FirebaseFirestore in Frameworks */,
+				38A2C0472D57B8E1009F4C9E /* FirebaseMessaging in Frameworks */,
 				38A2BFD02D54B843009F4C9E /* RevenueCatUI in Frameworks */,
+				38A2C04A2D5A05F3009F4C9E /* GoogleMobileAds in Frameworks */,
 				38A2BFCE2D54B843009F4C9E /* RevenueCat in Frameworks */,
 				38ACBD762CEA09AE000A75D2 /* FirebaseAnalytics in Frameworks */,
 				38ACBD7A2CEA09AE000A75D2 /* FirebaseStorage in Frameworks */,
@@ -107,6 +111,8 @@
 				38ACBD7E2CEA0F0A000A75D2 /* FirebaseFirestore */,
 				38A2BFCD2D54B843009F4C9E /* RevenueCat */,
 				38A2BFCF2D54B843009F4C9E /* RevenueCatUI */,
+				38A2C0462D57B8E1009F4C9E /* FirebaseMessaging */,
+				38A2C0492D5A05F3009F4C9E /* GoogleMobileAds */,
 			);
 			productName = DTDW;
 			productReference = FAD71EE42CDA42570049AC88 /* DTDW.app */;
@@ -139,6 +145,7 @@
 			packageReferences = (
 				38ACBD742CEA09AE000A75D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				38A2BFCC2D54B843009F4C9E /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
+				38A2C0482D5A05F3009F4C9E /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FAD71EE52CDA42570049AC88 /* Products */;
@@ -298,9 +305,9 @@
 				CODE_SIGN_ENTITLEMENTS = DTDW/DTDW.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 8VSTQX8QT2;
+				DEVELOPMENT_TEAM = KSSLYJ9UK4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -319,7 +326,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.askthelandlady.DTDW;
+				PRODUCT_BUNDLE_IDENTIFIER = com.askthelanldady.DTDW;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -338,9 +345,9 @@
 				CODE_SIGN_ENTITLEMENTS = DTDW/DTDW.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 8VSTQX8QT2;
+				DEVELOPMENT_TEAM = KSSLYJ9UK4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -359,7 +366,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.askthelandlady.DTDW;
+				PRODUCT_BUNDLE_IDENTIFIER = com.askthelanldady.DTDW;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -401,6 +408,14 @@
 				minimumVersion = 5.16.1;
 			};
 		};
+		38A2C0482D5A05F3009F4C9E /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.0.0;
+			};
+		};
 		38ACBD742CEA09AE000A75D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -421,6 +436,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 38A2BFCC2D54B843009F4C9E /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
 			productName = RevenueCatUI;
+		};
+		38A2C0462D57B8E1009F4C9E /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 38ACBD742CEA09AE000A75D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		38A2C0492D5A05F3009F4C9E /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 38A2C0482D5A05F3009F4C9E /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 		38ACBD752CEA09AE000A75D2 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -8,7 +8,9 @@
 import SwiftUI
 import PhotosUI
 
-struct PropertyTermsHederView: View {
+struct PropertyTermsHeaderView: View {
+    @EnvironmentObject var interstitialAdsViewModel: InterstitialAdsViewModel
+    
     @Environment(\.dismiss) private var dismiss
     @State private var isEditing: Bool = false
     @Bindable var propertyData: PropertyDataModel
@@ -18,7 +20,11 @@ struct PropertyTermsHederView: View {
     var body: some View {
         HStack {
             Button {
-                dismiss()
+                if PurchaseViewModel.shared.isSubscribed {
+                    dismiss()
+                } else {
+                    showInterstitialAdsAndDismiss()
+                }
             } label: {
                 ZStack {
                     Circle()
@@ -102,5 +108,15 @@ struct PropertyTermsHederView: View {
         .padding(.trailing, 20)
         .padding(.bottom, 20)
         .background(Color.purchaseHeaderButtonBackgroundColor)
+    }
+    
+    func showInterstitialAdsAndDismiss() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            dismiss()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                interstitialAdsViewModel.displayInterstitialAd()
+            }
+        }
     }
 }

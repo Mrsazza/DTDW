@@ -59,7 +59,7 @@ struct DTDWTabView: View {
             }
         }
         .fullScreenCover(isPresented: $isShowingPremiumSheet) {
-            DWDTPremiumSubscriptionsView()
+            DTDWPremiumSubscriptionsView()
         }
     }
     

@@ -43,13 +43,13 @@ struct DTDWSettingsView: View {
                             }
                             
                             DividerView()
+                            
+                            //MARK: Upgrade Premium Section
+                            SettingOptionRow(title: "Upgrade Premium", icon: "Premium Icon", action: {
+                                showUpgradePremiumSheet = true
+                            })
+                            .padding(.top, 15)
                         }
-
-                        //MARK: Upgrade Premium Section
-                        SettingOptionRow(title: "Upgrade Premium", icon: "Premium Icon", action: {
-                            showUpgradePremiumSheet = true
-                        })
-                        .padding(.top, 15)
                         
                         //MARK: Email Input and Newsletter Subscription
                         VStack(spacing: 20) {
@@ -59,12 +59,8 @@ struct DTDWSettingsView: View {
                                 .fontWeight(.medium)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.leading, 10)
-                            
-//                            NewsletterCustomTextField(text: $firebaseViewModel.enterEmail, placeholder: placeholder, placeholderColor: .gray, textColor: .black, backgroundColor: Color(#colorLiteral(red: 0.9607843757, green: 0.9607843757, blue: 0.9607843757, alpha: 1)), cornerRadius: 10)
-//                            .frame(height: 44)
 
                             GradientButton(title: "Subscribe to Newsletter") {
-//                                firebaseViewModel.subscribeToNewsletter()
                                 settingsViewModel.showingSafariViewForNewsletter = true
                             }
                         }
@@ -73,6 +69,7 @@ struct DTDWSettingsView: View {
                         .cornerRadius(15)
                         .padding(.horizontal)
                         .shadow(radius: 4)
+                        .padding(.top, PurchaseViewModel.shared.isSubscribed ? 0 : 15)
                         
                         DividerView()
 
@@ -143,10 +140,10 @@ struct DTDWSettingsView: View {
             )
         }
         .fullScreenCover(isPresented: $firebaseViewModel.showPremiumSubscriptions) {
-            DWDTPremiumSubscriptionsView()
+            DTDWPremiumSubscriptionsView()
         }
         .fullScreenCover(isPresented: $showUpgradePremiumSheet) {
-            DWDTPremiumSubscriptionsView()
+            DTDWPremiumSubscriptionsView()
         }
         .sheet(isPresented: $settingsViewModel.isShowingShareSheet) {
             DTDWShareSheetView(activityItems: ["Check out this amazing app: [DTDW: Real Estate analysis tool]! Download it here: https://apps.apple.com/app/6741393499"])

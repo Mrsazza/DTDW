@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DWDTPremiumSubscriptionsView: View {
+struct DTDWPremiumSubscriptionsView: View {
     @StateObject private var purchaseViewModel = PurchaseViewModel.shared
     @Environment(\.dismiss) private var dismiss
     @State private var selectedButton: Int? = 1

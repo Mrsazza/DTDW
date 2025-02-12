@@ -23,7 +23,7 @@ struct DTDWPropertyTermsMainView: View {
             VStack(spacing: 0) {
                 VStack(spacing: 0) {
                     //MARK: Top Header
-                    PropertyTermsHederView(propertyData: propertyData)
+                    PropertyTermsHeaderView(propertyData: propertyData)
                     
                     HStack {
                         ForEach(ButtonType.allCases, id: \.self) { buttonType in
