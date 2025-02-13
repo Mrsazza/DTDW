@@ -30,7 +30,8 @@ struct DTDWApp: App {
     }()
     
     init() {
-        FirebaseApp.configure() // Initialize Firebase
+        // Initialize Firebase
+        FirebaseApp.configure()
     }
     
     var body: some Scene {
@@ -46,67 +47,84 @@ struct DTDWApp: App {
     }
 }
 
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-    var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+class AppDelegate: NSObject, UIApplicationDelegate {
+    let gcmMessageIDKey = "gcm.message_id"
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        
+        Messaging.messaging().delegate = self
+        
         // Initialize Google Mobile Ads SDK
         MobileAds.shared.start()
 
-        // Set up push notifications
-        setupPushNotifications(application)
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().delegate = self
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { granted, error in
+                if let error = error {
+                    print("❌ Error requesting push notifications permission: \(error)")
+                } else {
+                    print("✅ Push notifications permission granted: \(granted)")
+                }
+            }
+        } else {
+            let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
 
-        // Set Firebase Messaging delegate
-        Messaging.messaging().delegate = self
-        
+        application.registerForRemoteNotifications()
         return true
     }
 
-    // Called when the app successfully registers for remote notifications
+    // ✅ Correct implementation of APNs device token retrieval
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let tokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        print("✅ APNs Device Token: \(tokenString)")
         Messaging.messaging().apnsToken = deviceToken
-        print("Successfully registered for remote notifications with token: \(deviceToken)")
     }
 
-    // Called when the app fails to register for remote notifications
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Failed to register for remote notifications: \(error.localizedDescription)")
+        print("❌ Failed to register for remote notifications: \(error.localizedDescription)")
     }
 
-    // Push Notification Setup
-    func setupPushNotifications(_ application: UIApplication) {
-        UNUserNotificationCenter.current().delegate = self
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-            if granted {
-                DispatchQueue.main.async {
-                    application.registerForRemoteNotifications()
-                }
-                print("Push notifications permission granted.")
-            } else if let error = error {
-                print("Push notifications permission denied: \(error.localizedDescription)")
-            }
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("📩 Message ID: \(messageID)")
         }
-    }
-
-    // Handle incoming push notifications (when app is in the foreground)
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // Use the updated notification presentation options for iOS 14.0 and later
-        completionHandler([.banner, .sound, .badge])
-    }
-
-    // Handle notification taps (when app is in the background)
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let userInfo = response.notification.request.content.userInfo
-        print("Received notification with user info: \(userInfo)")
-        completionHandler()
+        print("📩 Received Notification: \(userInfo)")
+        completionHandler(.newData)
     }
 }
 
 extension AppDelegate: MessagingDelegate {
-    // Handle the Firebase Messaging token refresh
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("Firebase registration token: \(String(describing: fcmToken))")
-        
-        // Optionally, send token to your server for further processing
+        if let fcmToken = fcmToken {
+            print("✅ FCM Device Token: \(fcmToken)")
+        } else {
+            print("❌ Failed to retrieve FCM token.")
+        }
     }
 }
+
+@available(iOS 10, *)
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("📩 Foreground Notification - Message ID: \(messageID)")
+        }
+        print("📩 Foreground Notification: \(userInfo)")
+        completionHandler([.banner, .badge, .sound])
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("📩 Background Notification - Message ID: \(messageID)")
+        }
+        print("📩 Background Notification: \(userInfo)")
+        completionHandler()
+    }
+}
+
