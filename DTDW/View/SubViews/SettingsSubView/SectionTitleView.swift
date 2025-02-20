@@ -12,7 +12,7 @@ struct SectionTitleView: View {
     var body: some View {
         Text(title)
             .font(.system(size: 22, weight: .semibold))
-            .foregroundStyle(Color.black)
+            .foregroundColor(Color(#colorLiteral(red: 0.6821199059, green: 0.2117495537, blue: 0.475467205, alpha: 1)))
             .padding(.top)
     }
 }

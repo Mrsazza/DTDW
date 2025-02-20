@@ -30,8 +30,10 @@ struct PropertyInitialExpensesCalculatedDataView: View {
                     Text("Contingency Factor")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.black)
+                    
                     Spacer()
-                    Text("$\(viewModel.contingencyAmount)")
+                    
+                    Text("$\(String(format: "%.2f", Double(viewModel.contingencyAmount)))")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.black)
                 }
@@ -40,8 +42,10 @@ struct PropertyInitialExpensesCalculatedDataView: View {
                     Text("Total Cost of Purchase (COP)")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.black)
+                    
                     Spacer()
-                    Text("$\(viewModel.totalCostOfPurchase)")
+                    
+                    Text("$\(String(format: "%.2f", Double(viewModel.totalCostOfPurchase)))")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.black)
                 }
@@ -50,8 +54,10 @@ struct PropertyInitialExpensesCalculatedDataView: View {
                     Text("Total Cost of Repair (COR)")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.black)
+                    
                     Spacer()
-                    Text("$\(viewModel.totalCostOfRepair)")
+                    
+                    Text("$\(String(format: "%.2f", Double(viewModel.totalCostOfRepair)))")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.black)
                 }
@@ -60,19 +66,23 @@ struct PropertyInitialExpensesCalculatedDataView: View {
                     Text("Total Initial Expenses")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.black)
+                    
                     Spacer()
-                    Text("$\(viewModel.totalInitialExpenses)")
+                    
+                    Text("$\(String(format: "%.2f", Double(viewModel.totalInitialExpenses)))")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.black)
                 }
                 
-                //Includind money down
+                // Including money down
                 HStack {
-                    Text("Includind money down")
+                    Text("Including money down")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.black)
+                    
                     Spacer()
-                    Text("$\(viewModel.includingMoneyDown)")
+                    
+                    Text("$\(String(format: "%.2f", viewModel.includingMoneyDown))")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.black)
                 }

@@ -7,69 +7,72 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct ListCardView: View {
     var card: HomeCardModel
 
     var body: some View {
-        HStack {
+        HStack(spacing: 16) {
+            // Image Section
             if let imageData = card.imageName, let uiImage = UIImage(data: imageData) {
                 Image(uiImage: uiImage)
                     .resizable()
                     .scaledToFill()
-                    .clipShape(.circle)
+                    .clipShape(Circle())
                     .frame(width: 40, height: 40)
             } else {
                 Image("Picture")
                     .resizable()
                     .scaledToFill()
-                    .clipShape(.circle)
+                    .clipShape(Circle())
                     .frame(width: 40, height: 40)
             }
 
+            // Text Section
             VStack(alignment: .leading, spacing: 8) {
                 Text(card.title)
-                    .font(.system(size: 13))
-                    .fontWeight(.bold)
+                    .font(.system(size: 13, weight: .bold))
                     .foregroundStyle(.black)
-                    .minimumScaleFactor(0.5)
                     .lineLimit(1)
+                    .minimumScaleFactor(0.5)
 
-                VStack(alignment: .leading ,spacing: 3) {
+                VStack(alignment: .leading, spacing: 3) {
+                    // Cash on Return
                     HStack(spacing: 2) {
                         Text("\(card.cashOnReturn):")
-                            .font(.system(size: 11))
+                            .font(.system(size: 11, weight: .bold))
                             .foregroundStyle(.black.opacity(0.5))
-                            .fontWeight(.bold)
-                            .minimumScaleFactor(0.5)
                             .lineLimit(1)
+                            .minimumScaleFactor(0.5)
                         Text("\(card.cashOnReturnData, specifier: "%.2f")%")
-                            .font(.system(size: 11))
-                            .foregroundStyle(card.cashOnReturnData < 0 ? Color.red : Color.green)
-                            .fontWeight(.bold)
-                            .minimumScaleFactor(0.5)
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundStyle(card.cashOnReturnData < 0 ? .red : .green)
                             .lineLimit(1)
+                            .minimumScaleFactor(0.5)
                     }
-                    
+
+                    // Cap Rate
                     HStack(spacing: 2) {
                         Text("\(card.capRate):")
-                            .font(.system(size: 11))
+                            .font(.system(size: 11, weight: .bold))
                             .foregroundStyle(.black.opacity(0.5))
-                            .fontWeight(.bold)
-                            .minimumScaleFactor(0.5)
                             .lineLimit(1)
+                            .minimumScaleFactor(0.5)
                         Text("\(card.capRateData, specifier: "%.2f")%")
-                            .font(.system(size: 11))
-                            .foregroundStyle(card.capRateData < 0 ? Color.red : Color.green)
-                            .fontWeight(.bold)
-                            .minimumScaleFactor(0.5)
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundStyle(card.capRateData < 0 ? .red : .green)
                             .lineLimit(1)
+                            .minimumScaleFactor(0.5)
                     }
                 }
             }
+
             Spacer()
+
+            // Chevron Icon
             Image(systemName: "chevron.right")
-                .font(.system(size: 12))
-                .fontWeight(.bold)
+                .font(.system(size: 12, weight: .bold))
                 .foregroundStyle(Color.deepPurpelColor)
         }
         .padding(16)
@@ -79,18 +82,14 @@ struct ListCardView: View {
         .padding(.horizontal, 20)
         .shadow(color: .black.opacity(0.1), radius: 6, x: 1, y: 1)
         .contentShape(Rectangle())
-        .highPriorityGesture(
-            TapGesture()
-                .onEnded {
-                    card.buttonAction()
-                }
-        )
+        .onTapGesture(perform: card.buttonAction)
     }
 }
 
 struct SwipeableCardView: View {
     var card: HomeCardModel
     var deleteAction: () -> Void
+    @State private var showAlert: Bool = false
 
     @State private var offset: CGFloat = 0
     @GestureState private var isDragging = false
@@ -99,7 +98,13 @@ struct SwipeableCardView: View {
         ZStack(alignment: .trailing) {
             // Background Delete Button
             if offset < 0 {
-                Button(action: deleteAction) {
+                Button {
+                    if PurchaseViewModel.shared.isSubscribed {
+                        deleteAction() // Call the delete action
+                    } else {
+                        showAlert = true // Show alert for non-subscribed users
+                    }
+                } label: {
                     HStack {
                         Image(systemName: "trash.fill")
                             .foregroundColor(.white)
@@ -137,5 +142,12 @@ struct SwipeableCardView: View {
                         }
                 )
         }
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Delete Restricted"),
+                message: Text("You need to be subscribed to delete posts."),
+                dismissButton: .default(Text("OK")))
+        }
     }
 }
+                

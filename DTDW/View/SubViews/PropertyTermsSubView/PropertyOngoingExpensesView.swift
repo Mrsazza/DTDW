@@ -124,39 +124,39 @@ struct PropertyOngoingExpensesView: View {
                         VStack(spacing: 10) {
                             PropertyExpenseRow(
                                 name: "Property Management",
-                                yearAmount: "$\(Double(viewModel.propertyManagementYearAmount))",
+                                yearAmount: "$\(String(format: "%.0f",(viewModel.propertyManagementYearAmount)))",
                                 percentage: viewModel.propertyManagementPercentage
                             )
                             
                             PropertyExpenseRow(
                                 name: "Leasing Costs",
-                                yearAmount: "$\(Int(viewModel.leasingCostsYearAmount))",
+                                yearAmount: "$\((viewModel.leasingCostsYearAmount))",
                                 percentage: viewModel.leasingCostsPercentage
                             )
 
                             
                             PropertyExpenseRow(
-                                name: "Maintenance", yearAmount: "$\(Int(viewModel.maintenanceYearAmount))",
+                                name: "Maintenance", yearAmount: "$\((viewModel.maintenanceYearAmount))",
                                 percentage: viewModel.maintenancePercentage
                             )
                             
                             PropertyExpenseRow(
-                                name: "Utilities", yearAmount: "$\(Int(viewModel.utilitiesYearAmount))",
+                                name: "Utilities", yearAmount: "$\((viewModel.utilitiesYearAmount))",
                                 percentage: viewModel.utilitiesPercentage
                                 )
                             
-                            PropertyExpenseRow(name: "Property Taxes", yearAmount: "$\(Int(viewModel.propertyTaxesYearAmount))", percentage: viewModel.propertyTaxesPercentage
+                            PropertyExpenseRow(name: "Property Taxes", yearAmount: "$\((viewModel.propertyTaxesYearAmount))", percentage: viewModel.propertyTaxesPercentage
                             )
                             
-                            PropertyExpenseRow(name: "Insurance", yearAmount: "$\(Int(viewModel.insuranceYearAmount))", percentage: viewModel.insurancePercentage
+                            PropertyExpenseRow(name: "Insurance", yearAmount: "$\((viewModel.insuranceYearAmount))", percentage: viewModel.insurancePercentage
                             )
                             
-                            PropertyExpenseRow(name: "Other", yearAmount: "$\(Int(viewModel.otherYearAmount))", percentage: viewModel.otherPercentage
+                            PropertyExpenseRow(name: "Other", yearAmount: "$\((viewModel.otherYearAmount))", percentage: viewModel.otherPercentage
                             )
                             
                             PropertyExpenseRow(
                                 name: "Total Expenses & Vacancy",
-                                yearAmount: "$\(Int(viewModel.totalExpenses))",
+                                yearAmount: "$\(String(format: "%.0f",(viewModel.totalExpenses)))",
                                 percentage: viewModel.totalMonthly() > 0
                                 ? viewModel.combinedExpensePercentages
                                 : "\(String(format: "%.1f", propertyData.propertyCalculatabeleData.vacancyOfTotalIncome))%"
@@ -197,13 +197,13 @@ struct PropertyOngoingExpensesView: View {
                             VStack(spacing: 10) {
                                 ExpenseRow(
                                     name: "Vacancy",
-                                    yearAmount: "$\(Int(viewModel.vacancyYearAmount))",
-                                    monthAmount: "$\(Int(viewModel.vacancyMonthAmount))"
+                                    yearAmount: ("$\(String(format: "%.0f",(viewModel.vacancyYearAmount)))"),
+                                    monthAmount: ("$\(String(format: "%.0f",(viewModel.vacancyMonthAmount)))")
                                 )
                                 ExpenseRow(
                                     name: "Net Operating Income",
-                                    yearAmount: "$\(Int(viewModel.netOperatingIncomeYearAmount))",
-                                    monthAmount: "$\(Int(viewModel.netOperatingIncomeMonthAmount))"
+                                    yearAmount: ("$\(String(format: "%.0f",(viewModel.netOperatingIncomeYearAmount)))"),
+                                    monthAmount: ("$\(String(format: "%.0f",(viewModel.netOperatingIncomeMonthAmount)))")
                                 )
                                 HStack {
                                     Text("Total Expenses & Vacancy")
@@ -212,7 +212,7 @@ struct PropertyOngoingExpensesView: View {
                                     
                                     Spacer()
                                    
-                                    Text("$\(Int(viewModel.totalExpensesAndVacancyMonthAmount))")
+                                    Text("$\(String(format: "%.0f",(viewModel.totalExpensesAndVacancyMonthAmount)))")
                                         .font(.system(size: 13))
                                         .foregroundStyle(Color.black)
                                         .frame(width: 80, alignment: .trailing)

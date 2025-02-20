@@ -19,74 +19,36 @@ struct PropertyTermsView: View {
     
     var body: some View {
         VStack(spacing: 20) {
+            // Purchase Terms Header
             VStack(spacing: 10) {
                 Text("Purchase Terms")
-                    .font(.system(size: 16))
-                    .fontWeight(.bold)
+                    .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(Color.colorFont)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top, 20)
                 
-                RoundedRectangle(cornerRadius: 20)
-                    .frame(maxWidth: .infinity, maxHeight: 1)
-                    .foregroundColor(Color.black.opacity(0.1))
+                Divider()
+                    .background(Color.black.opacity(0.1))
             }
             
+            // Purchase Terms Input Fields
             VStack(spacing: 10) {
                 // Market Value
-                HStack {
-                    Text("Market Value")
-                        .font(.system(size: 13))
-                        .foregroundStyle(.black)
-                    
-                    Spacer()
-                    TextField("$", value: $propertyData.propertyCalculatabeleData.marketValue, format: .number)
-                        .formattedTextField()
-                }
+                PropertyTermRow(label: "Market Value", value: $propertyData.propertyCalculatabeleData.marketValue, isCurrency: true)
                 
-                HStack {
-                    Text("Purchase Price")
-                        .font(.system(size: 13))
-                        .foregroundStyle(.black)
-                    
-                    Spacer()
-                    
-                    TextField("$", value: $propertyData.propertyCalculatabeleData.purchasePriceValue, format: .number)
-                        .formattedTextField()
-                }
+                // Purchase Price
+                PropertyTermRow(label: "Purchase Price", value: $propertyData.propertyCalculatabeleData.purchasePriceValue, isCurrency: true)
                 
-                HStack {
-                    Text("Down Payment (%)")
-                        .font(.system(size: 13))
-                        .foregroundStyle(.black)
-                    
-                    Spacer()
-                    
-                    TextField("$", value: $propertyData.propertyCalculatabeleData.downPaymentValue, format: .number)
-                    .formattedTextField()
-                }
+                // Down Payment (%)
+                PropertyTermRow(label: "Down Payment (%)", value: $propertyData.propertyCalculatabeleData.downPaymentValue, isCurrency: false)
                 
-                HStack {
-                    Text("Interest Rate (%)")
-                        .font(.system(size: 13))
-                        .foregroundStyle(.black)
-                    
-                    Spacer()
-                    TextField("$", value: $propertyData.propertyCalculatabeleData.interestRateValue, format: .number)
-                    .formattedTextField()
-                }
+                // Interest Rate (%)
+                PropertyTermRow(label: "Interest Rate (%)", value: $propertyData.propertyCalculatabeleData.interestRateValue, isCurrency: false)
                 
-                HStack {
-                    Text("Mortgage Length (years)")
-                        .font(.system(size: 13))
-                        .foregroundStyle(.black)
-                    
-                    Spacer()
-                    TextField("$", value: $propertyData.propertyCalculatabeleData.mortgageLengthValue, format: .number)
-                    .formattedTextField()
-                }
-                .padding(.bottom, 15)
+                // Mortgage Length (years)
+                PropertyTermRow(label: "Mortgage Length (years)", value: $propertyData.propertyCalculatabeleData.mortgageLengthValue, isCurrency: false)
             }
+            .padding(.bottom, 15)
         }
         .padding(.horizontal, 20)
         .background(Color.white)
@@ -97,8 +59,28 @@ struct PropertyTermsView: View {
     }
 }
 
+// Custom View for Property Term Rows
+struct PropertyTermRow: View {
+    let label: String
+    @Binding var value: Double
+    let isCurrency: Bool
+    
+    var body: some View {
+        HStack {
+            Text(label)
+                .font(.system(size: 13))
+                .foregroundStyle(.black)
+            
+            Spacer()
+            
+            TextField(isCurrency ? "$" : "", value: $value, format: .number)
+                .formattedTextField()
+        }
+    }
+}
+
+// Modifier to style text fields
 extension View {
-    // Modifier to style text fields
     func formattedTextField() -> some View {
         self
             .font(.system(size: 13))
@@ -106,9 +88,9 @@ extension View {
             .keyboardType(.decimalPad)
             .frame(width: 80)
             .multilineTextAlignment(.center)
+            .minimumScaleFactor(0.3)
             .padding(.horizontal, 5)
-            .minimumScaleFactor(0.05)
-            .frame(width: 100, height: 30)
+            .frame(height: 30)
             .background(Color.white)
             .cornerRadius(5)
             .overlay(
@@ -117,4 +99,3 @@ extension View {
             )
     }
 }
-

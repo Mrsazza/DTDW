@@ -62,22 +62,22 @@ struct PropertyCalculatableData: Codable {
     var mortgageLengthValue: Double = 30.0
     
     // Inputs
-    var findersFees: Int? = 0
-    var inspection: Int? = 0
-    var titleSearchFee: Int? = 300
-    var titleInsurance: Int? = 100
-    var appraisal: Int? = 0
-    var deedRecordingFee: Int? = 100
-    var loanOriginationFee: Int? = 0
-    var survey: Int? = 0
-    var copOther: Int? = 0
+    var findersFees: Double? = 0
+    var inspection: Double? = 0
+    var titleSearchFee: Double? = 300
+    var titleInsurance: Double? = 100
+    var appraisal: Double? = 0
+    var deedRecordingFee: Double? = 100
+    var loanOriginationFee: Double? = 0
+    var survey: Double? = 0
+    var copOther: Double? = 0
     
-    var cosmeticMinor: Int? = 0
-    var cosmeticMajor: Int? = 0
-    var structural: Int? = 0
-    var fixtures: Int? = 0
-    var landscaping: Int? = 0
-    var corOther: Int? = 0
+    var cosmeticMinor: Double? = 0
+    var cosmeticMajor: Double? = 0
+    var structural: Double? = 0
+    var fixtures: Double? = 0
+    var landscaping: Double? = 0
+    var corOther: Double? = 0
     var contingencyFactor: Double? = 10.0
     
     //Rental Assumptions...

@@ -46,7 +46,7 @@ struct InputRow<T: Numeric & LosslessStringConvertible>: View {
             .foregroundColor(.black)
             .multilineTextAlignment(.center)
             .padding(.horizontal, 5)
-            .minimumScaleFactor(0.05)
+            .minimumScaleFactor(0.5)
             .frame(width: 100, height: 30)
             .background(Color.white)
             .cornerRadius(5)

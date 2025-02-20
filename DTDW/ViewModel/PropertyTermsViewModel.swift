@@ -11,11 +11,25 @@ import SwiftUI
 import SwiftData
 
 class PropertyTermsViewModel: ObservableObject {
-    @Bindable var propertyData: PropertyDataModel
+    //    @Bindable var propertyData: PropertyData
+    @Bindable var propertyData: PropertyDataModel {
+        didSet {
+            updateCalculations()
+        }
+    }
     
     // Custom initializer
     init(propertyData: PropertyDataModel) {
         self.propertyData = propertyData
+        updateCalculations()
+    }
+    
+    private func updateCalculations() {
+        let annualCashFlow = self.annualCashFlow
+//        _ = self.includingMoneyDown
+        
+        propertyData.propertyCalculatabeleData.cashOnCashReturnn = (annualCashFlow / Double(includingMoneyDown) * 100)
+        propertyData.propertyCalculatabeleData.capRatee = ((netOperatingIncomeMonthAmount) / ((netOperatingIncomeYearAmount))) * 100
     }
     
     // MARK: - PurchaseTerms...
@@ -57,41 +71,41 @@ class PropertyTermsViewModel: ObservableObject {
     //MARK: - Initial Expenses...
     
     //Calculated Outputs(COP)
-    var totalCostOfPurchase: Int {
+    var totalCostOfPurchase: Double {
         let fees = propertyData.propertyCalculatabeleData.findersFees ?? 0
         let inspectionCost = propertyData.propertyCalculatabeleData.inspection ?? 0
         let searchFee = propertyData.propertyCalculatabeleData.titleSearchFee ?? 0
-        let insuranceCost = Int(propertyData.propertyCalculatabeleData.titleInsurance ?? 0) // Convert Double to Int
+        let insuranceCost = propertyData.propertyCalculatabeleData.titleInsurance ?? 0
         let appraisalCost = propertyData.propertyCalculatabeleData.appraisal ?? 0
         let recordingFee = propertyData.propertyCalculatabeleData.deedRecordingFee ?? 0
         let originationFee = propertyData.propertyCalculatabeleData.loanOriginationFee ?? 0
         let surveyCost = propertyData.propertyCalculatabeleData.survey ?? 0
         let otherCost = propertyData.propertyCalculatabeleData.copOther ?? 0
         
-        return fees + inspectionCost + searchFee + insuranceCost + appraisalCost + recordingFee + originationFee + surveyCost + otherCost
+        return Double(fees + inspectionCost + searchFee + insuranceCost + appraisalCost + recordingFee + originationFee + surveyCost + otherCost)
     }
     
     // Calculated Outputs(COR)
-    var totalCostOfRepair: Int {
+    var totalCostOfRepair: Double {
         let minor = propertyData.propertyCalculatabeleData.cosmeticMinor ?? 0
         let major = propertyData.propertyCalculatabeleData.cosmeticMajor ?? 0
         let structural = propertyData.propertyCalculatabeleData.structural ?? 0
         let fixtures = propertyData.propertyCalculatabeleData.fixtures ?? 0
         let landscap = propertyData.propertyCalculatabeleData.landscaping ?? 0
         
-        return minor + major + structural + fixtures + landscap
+        return Double(minor + major + structural + fixtures + landscap)
     }
     
-    var contingencyAmount: Int {
-        Int(Double(totalCostOfRepair) * (propertyData.propertyCalculatabeleData.contingencyFactor ?? 0 / 100))
+    var contingencyAmount: Double {
+        Double(Double(totalCostOfRepair) * (propertyData.propertyCalculatabeleData.contingencyFactor ?? 0 / 100))
     }
     
-    var totalInitialExpenses: Int {
-        totalCostOfPurchase + totalCostOfRepair
+    var totalInitialExpenses: Double {
+        Double(totalCostOfPurchase + totalCostOfRepair)
     }
     
-    var includingMoneyDown: Int {
-        totalCostOfPurchase + totalCostOfRepair + Int(initialExpanceDownPaymentAmount)
+    var includingMoneyDown: Double {
+        Double(totalCostOfPurchase + totalCostOfRepair + Double(initialExpanceDownPaymentAmount))
     }
     
     var initialExpanceDownPaymentAmount: Double {
@@ -105,7 +119,7 @@ class PropertyTermsViewModel: ObservableObject {
         let total = propertyData.propertyCalculatabeleData.amounts.compactMap {
             Double($0) ?? 0
         }.reduce(0, +)
-        
+//        print("totalMonthly() value: \(total)") // Debug print
         return total
     }
     
@@ -337,10 +351,10 @@ class PropertyTermsViewModel: ObservableObject {
     var propertyManagementPercentage: String {
         guard totalMonthlyIncome() > 0 else { return "0.0%" }
         
-        // Debugging prints to check values
+//        // Debugging prints to check values
 //        print("totalOngoingIncomeMonthly: \(totalOngoingIncomeMonthly)")
 //        print("propertyManagement: \(propertyData.propertyCalculatabeleData.propertyManagement)")
-        
+//        
         let percentage = (Double(propertyManagementMonthlyAmount) / totalMonthlyIncome()) * 100
         return String(format: "%.1f", percentage) + "%"
     }
@@ -421,12 +435,14 @@ class PropertyTermsViewModel: ObservableObject {
         (annualCashFlow / Double(includingMoneyDown) * 100)
     }
     
-    var capRateFinal: Double {
-        (((totalMonthly() - (propertyManagementMonthlyAmount + leasingCostsMonthlyAmount + maintenanceMonthlyAmount + utilitiesMonthlyAmount + insuranceMonthlyAmount + utilitiesMonthlyAmount + insuranceMonthlyAmount + otherMonthlyAmount + vacancyMonthAmount ))) / ((totalYearly() - (propertyManagementYearAmount + leasingCostsYearAmount + maintenanceYearAmount + utilitiesYearAmount + insuranceYearAmount + utilitiesYearAmount + insuranceYearAmount + otherYearAmount + vacancyAmount)))) * 100
-    }
-    
     var dSCR: Double {
         netOperatingIncomeYearAmount / (monthlyMortgagePayment() * 12)
+    }
+    
+    var capRate: Double {
+        let abc = (totalOngoingIncome - totalExpenses) / 12
+        
+        return ((abc) / ((netOperatingIncomeYearAmount))) * 100
     }
     
     var anualNOI: Double {
@@ -435,5 +451,9 @@ class PropertyTermsViewModel: ObservableObject {
     
     var anualDebtService: Double {
         monthlyMortgagePayment() * 12
+    }
+    
+    var capRateFinal: Double {
+        (((totalMonthly() - (propertyManagementMonthlyAmount + leasingCostsMonthlyAmount + maintenanceMonthlyAmount + utilitiesMonthlyAmount + insuranceMonthlyAmount + utilitiesMonthlyAmount + insuranceMonthlyAmount + otherMonthlyAmount + vacancyMonthAmount ))) / ((totalYearly() - (propertyManagementYearAmount + leasingCostsYearAmount + maintenanceYearAmount + utilitiesYearAmount + insuranceYearAmount + utilitiesYearAmount + insuranceYearAmount + otherYearAmount + vacancyAmount)))) * 100
     }
 }

@@ -33,6 +33,7 @@ struct SearchBar: View {
                         if !text.isEmpty {
                             Button(action: {
                                 self.text = ""
+                                hideKeyboard() // Dismiss keyboard when clearing text
                             }) {
                                 Image(systemName: "xmark.circle.fill")
                                     .foregroundColor(.gray)
@@ -49,7 +50,7 @@ struct SearchBar: View {
             Color.clear
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    hideKeyboard()
+                    hideKeyboard() // Dismiss keyboard when tapping outside
                 }
         )
     }
