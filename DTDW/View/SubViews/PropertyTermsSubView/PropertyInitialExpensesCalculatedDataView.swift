@@ -33,7 +33,7 @@ struct PropertyInitialExpensesCalculatedDataView: View {
                     
                     Spacer()
                     
-                    Text("$\(String(format: "%.2f", Double(viewModel.contingencyAmount)))")
+                    Text("$\(String(format: "%.0f", Double(viewModel.contingencyAmount)))")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.black)
                 }
@@ -45,7 +45,7 @@ struct PropertyInitialExpensesCalculatedDataView: View {
                     
                     Spacer()
                     
-                    Text("$\(String(format: "%.2f", Double(viewModel.totalCostOfPurchase)))")
+                    Text("$\(String(format: "%.0f", Double(viewModel.totalCostOfPurchase)))")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.black)
                 }
@@ -57,7 +57,7 @@ struct PropertyInitialExpensesCalculatedDataView: View {
                     
                     Spacer()
                     
-                    Text("$\(String(format: "%.2f", Double(viewModel.totalCostOfRepair)))")
+                    Text("$\(String(format: "%.0f", Double(viewModel.totalCostOfRepair)))")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.black)
                 }
@@ -69,7 +69,7 @@ struct PropertyInitialExpensesCalculatedDataView: View {
                     
                     Spacer()
                     
-                    Text("$\(String(format: "%.2f", Double(viewModel.totalInitialExpenses)))")
+                    Text("$\(String(format: "%.0f", Double(viewModel.totalInitialExpenses)))")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.black)
                 }
@@ -82,7 +82,7 @@ struct PropertyInitialExpensesCalculatedDataView: View {
                     
                     Spacer()
                     
-                    Text("$\(String(format: "%.2f", viewModel.includingMoneyDown))")
+                    Text("$\(String(format: "%.0f", viewModel.includingMoneyDown))")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.black)
                 }

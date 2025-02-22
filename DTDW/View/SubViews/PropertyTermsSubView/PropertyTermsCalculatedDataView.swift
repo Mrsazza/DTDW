@@ -33,7 +33,7 @@ struct PropertyTermsCalculatedDataView: View {
                     Text("\(viewModel.discountProfitPercentage(), specifier: "%.1f")%")
                         .frame(width: 80, alignment: .trailing)
                     
-                    Text("$\(viewModel.discountProfit(), specifier: "%.2f")")
+                    Text("$\(viewModel.discountProfit(), specifier: "%.0f")")
                         .frame(width: 100, alignment: .trailing)
                 }
                 HStack {
@@ -42,7 +42,7 @@ struct PropertyTermsCalculatedDataView: View {
                     Text("")
                         .frame(width: 80, alignment: .trailing)
                     
-                    Text("$\(viewModel.downPaymentAmount(), specifier: "%.2f")")
+                    Text("$\(viewModel.downPaymentAmount(), specifier: "%.0f")")
                         .frame(width: 100, alignment: .trailing)
                 }
                 HStack {
@@ -51,17 +51,17 @@ struct PropertyTermsCalculatedDataView: View {
                     
                     Text("\(viewModel.financedPercentage(), specifier: "%.1f")%")
                     
-                    Text("$\(viewModel.amountFinanced(), specifier: "%.2f")")
+                    Text("$\(viewModel.amountFinanced(), specifier: "%.0f")")
                         .frame(width: 100, alignment: .trailing)
                 }
                 HStack {
                     Text("Mortgage Payment")
                         .frame(maxWidth: .infinity, alignment: .leading)
                     
-                    Text("$\(viewModel.monthlyMortgagePayment(), specifier: "%.2f")")
+                    Text("$\(viewModel.monthlyMortgagePayment(), specifier: "%.0f")")
                         .frame(width: 80, alignment: .trailing)
                     
-                    Text("$\(viewModel.monthlyMortgagePayment() * 12, specifier: "%.2f")")
+                    Text("$\(viewModel.monthlyMortgagePayment() * 12, specifier: "%.0f")")
                         .frame(width: 100, alignment: .trailing)
                 }
                 .padding(.bottom, 20)

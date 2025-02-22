@@ -107,7 +107,7 @@ struct DTDWTabView: View {
     
     private func addNewProperty() {
         // Dynamically create a new property with a unique name or other data
-        let newDynamicProperty = PropertyDataModel(propertyName: "Land Lady Apt.", propertyCalculatabeleData: demoPropertyCalculatableData)
+        let newDynamicProperty = PropertyDataModel(propertyName: "Landlady Apt.", propertyCalculatabeleData: demoPropertyCalculatableData)
         
         // Insert the new property in the model context
         modelContext.insert(newDynamicProperty)

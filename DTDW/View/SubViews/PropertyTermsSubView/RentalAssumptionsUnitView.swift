@@ -136,7 +136,7 @@ struct RentalAssumptionsUnitView: View {
 
                             Spacer()
 
-                            Text("$\(yearlyAmount, specifier: "%.2f")")
+                            Text("$\(yearlyAmount, specifier: "%.0f")")
                                 .font(.system(size: 13))
                                 .foregroundStyle(Color.black)
                                 .fontWeight(.regular)
@@ -164,7 +164,7 @@ struct RentalAssumptionsUnitView: View {
                             .font(.system(size: 14))
                             .fontWeight(.bold)
                             .foregroundStyle(Color.black)
-                        Text("$\(totalMonthly(), specifier: "%.2f")")
+                        Text("$\(totalMonthly(), specifier: "%.0f")")
                             .font(.system(size: 13))
                             .foregroundStyle(Color.black)
                             .fontWeight(.regular)
@@ -178,7 +178,7 @@ struct RentalAssumptionsUnitView: View {
                             .font(.system(size: 14))
                             .fontWeight(.bold)
                             .foregroundStyle(Color.black)
-                        Text("$\(totalYearly(), specifier: "%.2f")")
+                        Text("$\(totalYearly(), specifier: "%.0f")")
                             .font(.system(size: 13))
                             .foregroundStyle(Color.black)
                             .fontWeight(.regular)

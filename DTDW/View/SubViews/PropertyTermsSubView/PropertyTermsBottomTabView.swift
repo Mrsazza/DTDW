@@ -15,7 +15,7 @@ struct PropertyTermsBottomTabView: View {
     
     var body: some View {
         TabView(selection: $currentPage) {
-            VStack(spacing: 20) {
+            VStack(spacing: 35) {
                 HStack {
                     VStack(alignment: .leading, spacing: 10) {
                         Text(String(format: "$%.2f", viewModel.pricePerUnit))
@@ -71,7 +71,7 @@ struct PropertyTermsBottomTabView: View {
             .padding(.horizontal, 20)
             .tag(0)
             
-            VStack(spacing: 20) {
+            VStack(spacing: 35) {
                 HStack {
                     VStack(alignment: .leading, spacing: 10) {
                         Text(String(format: "%.2f", viewModel.dSCR))
@@ -81,7 +81,7 @@ struct PropertyTermsBottomTabView: View {
                         Text("DSCR")
                             .font(.system(size: 12))
                             .foregroundStyle(Color.purchaseBottomTabViewSecoundrayFontColor)
-                    
+                        
                     }
                     Spacer()
                     
@@ -129,13 +129,39 @@ struct PropertyTermsBottomTabView: View {
             .padding(.horizontal, 20)
             .tag(1)
         }
+        .overlay(alignment: .center) {
+            HStack {
+                Image(systemName: "chevron.left")
+                    .foregroundColor(currentPage == 1 ? Color.deepPurpelColor : Color.clear)
+                    .font(.system(size: 14))
+                    .fontWeight(.bold)
+                    .padding()
+                    .background(currentPage == 1 ? Color.purchaseHeaderButtonFillColor : Color.clear)
+                    .frame(width: 24, height: 24)
+                    .cornerRadius(50)
+                    .shadow(color: Color.purchaseHeaderButtonShadowColor, radius: 4, x: 2, y: 2)
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .foregroundColor(currentPage == 0 ? Color.deepPurpelColor : Color.clear)
+                    .font(.system(size: 14))
+                    .fontWeight(.bold)
+                    .padding()
+                    .background(currentPage == 0 ? Color.purchaseHeaderButtonFillColor : Color.clear)
+                    .frame(width: 24, height: 24)
+                    .cornerRadius(50)
+                    .shadow(color: Color.purchaseHeaderButtonShadowColor, radius: 4, x: 2, y: 2)
+            }
+            .padding(.horizontal, 10)
+        }
         .overlay(alignment: .bottom) {
             HStack(spacing: 8) {
                 Circle()
-                    .frame(width: 5, height: 5)
+                    .frame(width: 8, height: 8)
                     .foregroundColor(currentPage == 0 ? Color.deepPurpelColor : Color(#colorLiteral(red: 0.6821199059, green: 0.2117495537, blue: 0.475467205, alpha: 0.1)))
                 Circle()
-                    .frame(width: 5, height: 5)
+                    .frame(width: 8, height: 8)
                     .foregroundColor(currentPage == 1 ? Color.deepPurpelColor : Color(#colorLiteral(red: 0.6821199059, green: 0.2117495537, blue: 0.475467205, alpha: 0.1)))
             }
             .padding(.bottom, 5)

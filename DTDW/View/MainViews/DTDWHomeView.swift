@@ -65,7 +65,7 @@ struct DTDWHomeView: View {
     // MARK: - Subviews
     
     private var headerSection: some View {
-        HStack(spacing: 20) {
+        HStack(spacing: 25) {
             Image("Logo")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -76,10 +76,11 @@ struct DTDWHomeView: View {
                     .foregroundStyle(Color.deepPurpelColor)
                     .font(.system(size: 18, weight: .semibold))
                 
-                Text("Ask the Land Lady®")
+                Text("Ask the Landlady®")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundStyle(Color.black)
             }
+            
             
             Spacer()
         }

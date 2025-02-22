@@ -130,28 +130,28 @@ struct PropertyOngoingExpensesView: View {
                             
                             PropertyExpenseRow(
                                 name: "Leasing Costs",
-                                yearAmount: "$\((viewModel.leasingCostsYearAmount))",
+                                yearAmount: "$\(String(format: "%.0f",(viewModel.leasingCostsYearAmount)))",
                                 percentage: viewModel.leasingCostsPercentage
                             )
 
                             
                             PropertyExpenseRow(
-                                name: "Maintenance", yearAmount: "$\((viewModel.maintenanceYearAmount))",
+                                name: "Maintenance", yearAmount: "$\(String(format: "%.0f",(viewModel.maintenanceYearAmount)))",
                                 percentage: viewModel.maintenancePercentage
                             )
                             
                             PropertyExpenseRow(
-                                name: "Utilities", yearAmount: "$\((viewModel.utilitiesYearAmount))",
+                                name: "Utilities", yearAmount: "$\(String(format: "%.0f",(viewModel.utilitiesYearAmount)))",
                                 percentage: viewModel.utilitiesPercentage
                                 )
                             
-                            PropertyExpenseRow(name: "Property Taxes", yearAmount: "$\((viewModel.propertyTaxesYearAmount))", percentage: viewModel.propertyTaxesPercentage
+                            PropertyExpenseRow(name: "Property Taxes", yearAmount: "$\(String(format: "%.0f",(viewModel.propertyTaxesYearAmount)))", percentage: viewModel.propertyTaxesPercentage
                             )
                             
-                            PropertyExpenseRow(name: "Insurance", yearAmount: "$\((viewModel.insuranceYearAmount))", percentage: viewModel.insurancePercentage
+                            PropertyExpenseRow(name: "Insurance", yearAmount: "$\(String(format: "%.0f",(viewModel.insuranceYearAmount)))", percentage: viewModel.insurancePercentage
                             )
                             
-                            PropertyExpenseRow(name: "Other", yearAmount: "$\((viewModel.otherYearAmount))", percentage: viewModel.otherPercentage
+                            PropertyExpenseRow(name: "Other", yearAmount: "$\(String(format: "%.0f",(viewModel.otherYearAmount)))", percentage: viewModel.otherPercentage
                             )
                             
                             PropertyExpenseRow(
