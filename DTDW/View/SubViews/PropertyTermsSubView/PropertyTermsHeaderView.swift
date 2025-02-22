@@ -73,7 +73,7 @@ struct PropertyTermsHeaderView: View {
             Spacer()
 
             Button {
-                showingPhotoPicker = true // Open the photo picker
+                showingPhotoPicker = true 
             } label: {
                 ZStack {
                     Circle()
@@ -85,10 +85,19 @@ struct PropertyTermsHeaderView: View {
                         .stroke(Color.purchaseHeaderButtonStrokeColor, lineWidth: 1)
                         .frame(width: 44, height: 44)
 
-                    Image("cameraImage")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 25, height: 24)
+                    // Conditionally display the selected image or the default camera image
+                    if let imageData = propertyData.imageData, let uiImage = UIImage(data: imageData) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 44, height: 44)
+                            .clipShape(Circle())
+                    } else {
+                        Image("cameraImage")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 25, height: 24)
+                    }
                 }
             }
             .photosPicker(

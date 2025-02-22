@@ -131,27 +131,45 @@ struct PropertyTermsBottomTabView: View {
         }
         .overlay(alignment: .center) {
             HStack {
-                Image(systemName: "chevron.left")
-                    .foregroundColor(currentPage == 1 ? Color.deepPurpelColor : Color.clear)
-                    .font(.system(size: 14))
-                    .fontWeight(.bold)
-                    .padding()
-                    .background(currentPage == 1 ? Color.purchaseHeaderButtonFillColor : Color.clear)
-                    .frame(width: 24, height: 24)
-                    .cornerRadius(50)
-                    .shadow(color: Color.purchaseHeaderButtonShadowColor, radius: 4, x: 2, y: 2)
-                
+                Button {
+                    // Move to the previous page (if not already on the first page)
+                    if currentPage > 0 {
+                        withAnimation {
+                            currentPage -= 1
+                        }
+                    }
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .foregroundColor(currentPage == 1 ? Color.deepPurpelColor : Color.clear)
+                        .font(.system(size: 14))
+                        .fontWeight(.bold)
+                        .padding()
+                        .background(currentPage == 1 ? Color.purchaseHeaderButtonFillColor : Color.clear)
+                        .frame(width: 24, height: 24)
+                        .cornerRadius(50)
+                        .shadow(color: Color.purchaseHeaderButtonShadowColor, radius: 4, x: 2, y: 2)
+                }
+
                 Spacer()
                 
-                Image(systemName: "chevron.right")
-                    .foregroundColor(currentPage == 0 ? Color.deepPurpelColor : Color.clear)
-                    .font(.system(size: 14))
-                    .fontWeight(.bold)
-                    .padding()
-                    .background(currentPage == 0 ? Color.purchaseHeaderButtonFillColor : Color.clear)
-                    .frame(width: 24, height: 24)
-                    .cornerRadius(50)
-                    .shadow(color: Color.purchaseHeaderButtonShadowColor, radius: 4, x: 2, y: 2)
+                Button {
+                    // Move to the next page (if not already on the last page)
+                    if currentPage < 1 {
+                        withAnimation {
+                            currentPage += 1
+                        }
+                    }
+                } label: {
+                    Image(systemName: "chevron.right")
+                        .foregroundColor(currentPage == 0 ? Color.deepPurpelColor : Color.clear)
+                        .font(.system(size: 14))
+                        .fontWeight(.bold)
+                        .padding()
+                        .background(currentPage == 0 ? Color.purchaseHeaderButtonFillColor : Color.clear)
+                        .frame(width: 24, height: 24)
+                        .cornerRadius(50)
+                        .shadow(color: Color.purchaseHeaderButtonShadowColor, radius: 4, x: 2, y: 2)
+                }
             }
             .padding(.horizontal, 10)
         }
