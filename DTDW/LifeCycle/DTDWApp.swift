@@ -14,6 +14,9 @@ import UserNotifications
 @main
 struct DTDWApp: App {
     @StateObject var interstitialAdsViewModel = InterstitialAdsViewModel()
+    @StateObject private var purchaseViewModel = PurchaseViewModel.shared
+    @StateObject private var settingsViewModel = SettingsViewModel()
+    @StateObject private var firebaseViewModel = FirebaseViewModel()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var sharedModelContainer: ModelContainer = {
@@ -40,6 +43,9 @@ struct DTDWApp: App {
                 .dynamicTypeSize(.medium)
                 .modelContainer(sharedModelContainer)
                 .environmentObject(interstitialAdsViewModel)
+                .environmentObject(purchaseViewModel)
+                .environmentObject(settingsViewModel)
+                .environmentObject(firebaseViewModel)
                 .onAppear {
                     interstitialAdsViewModel.loadInterstitialAd()
                 }

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SubscriptionOptionsView: View {
-    @State private var selectedButton: Int? = 1  // Default selection for monthly option
-    @StateObject private var purchaseViewModel = PurchaseViewModel.shared
+    @Binding var selectedButton: Int? // Default selection for monthly option
+    @EnvironmentObject var purchaseViewModel: PurchaseViewModel
     
     var body: some View {
         VStack(spacing: 10) {

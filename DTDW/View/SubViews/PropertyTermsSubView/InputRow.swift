@@ -21,7 +21,7 @@ struct InputRow<T: Numeric & LosslessStringConvertible>: View {
                 .foregroundStyle(.black)
 
             Spacer()
-
+// TODO: Ei formatter er jnne income page er issue hocche. Eta thik kor.
             TextField(
                 placeholder,
                 text: Binding(

@@ -87,6 +87,7 @@ struct ListCardView: View {
 }
 
 struct SwipeableCardView: View {
+    @EnvironmentObject var purchaseViewModel: PurchaseViewModel
     var card: HomeCardModel
     var deleteAction: () -> Void
     @State private var showAlert: Bool = false
@@ -99,7 +100,7 @@ struct SwipeableCardView: View {
             // Background Delete Button
             if offset < 0 {
                 Button {
-                    if PurchaseViewModel.shared.isSubscribed {
+                    if purchaseViewModel.isSubscribed {
                         deleteAction() // Call the delete action
                     } else {
                         showAlert = true // Show alert for non-subscribed users

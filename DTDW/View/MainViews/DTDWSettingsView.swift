@@ -10,9 +10,9 @@ import MessageUI
 import StoreKit
 
 struct DTDWSettingsView: View {
-    @StateObject private var firebaseViewModel = FirebaseViewModel()
-    @StateObject private var settingsViewModel = SettingsViewModel()
-    @StateObject private var purchaseViewModel = PurchaseViewModel.shared
+//    @EnvironmentObject var firebaseViewModel : FirebaseViewModel
+    @EnvironmentObject var settingsViewModel: SettingsViewModel
+    @EnvironmentObject var purchaseViewModel: PurchaseViewModel
     @State private var activeSheet: ActiveSheet?
     @State private var alertMessage: String?
     @State private var showAlert: Bool = false
@@ -23,7 +23,7 @@ struct DTDWSettingsView: View {
         static let premiumVersionTitle = "Premium Version"
         static let viewPlanTitle = "View Plan"
         static let upgradePremiumTitle = "Upgrade Premium"
-        static let receiveUpdatesTitle = "Receive Updates From The Landlady"
+        static let receiveUpdatesTitle = "Receive updates from Ask The Landlady"
         static let subscribeToNewsletterTitle = "Subscribe to Newsletter"
         static let restorePurchasesTitle = "Restore Purchases"
         static let rateAppTitle = "Rate App"

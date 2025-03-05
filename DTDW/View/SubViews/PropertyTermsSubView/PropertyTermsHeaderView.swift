@@ -10,7 +10,7 @@ import PhotosUI
 
 struct PropertyTermsHeaderView: View {
     @EnvironmentObject var interstitialAdsViewModel: InterstitialAdsViewModel
-    
+    @EnvironmentObject var purchaseViewModel: PurchaseViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var isEditing: Bool = false
     @Bindable var propertyData: PropertyDataModel
@@ -20,7 +20,7 @@ struct PropertyTermsHeaderView: View {
     var body: some View {
         HStack {
             Button {
-                if PurchaseViewModel.shared.isSubscribed {
+                if purchaseViewModel.isSubscribed {
                     dismiss()
                 } else {
                     showInterstitialAdsAndDismiss()

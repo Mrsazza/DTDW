@@ -11,6 +11,7 @@ struct GridCardView: View {
     var card: HomeCardModel
     @State private var showingDeleteAlert = false
     @State private var showingSubscriptionAlert = false
+    @EnvironmentObject var purchaseViewModel: PurchaseViewModel
     var deleteAction: () -> Void
 
     var body: some View {
@@ -101,7 +102,7 @@ struct GridCardView: View {
             .cornerRadius(10)
             .shadow(color: .black.opacity(0.1), radius: 6, x: 1, y: 1)
             .onLongPressGesture {
-                if PurchaseViewModel.shared.isSubscribed {
+                if purchaseViewModel.isSubscribed {
                     showingDeleteAlert = true // Show delete confirmation alert
                 } else {
                     showingSubscriptionAlert = true // Show subscription alert

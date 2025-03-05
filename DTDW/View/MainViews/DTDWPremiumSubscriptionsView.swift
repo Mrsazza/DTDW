@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DTDWPremiumSubscriptionsView: View {
-    @StateObject private var purchaseViewModel = PurchaseViewModel.shared
+    @EnvironmentObject var purchaseViewModel: PurchaseViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var selectedButton: Int? = 1
     @Environment(\.presentationMode) var presentationMode
@@ -57,7 +57,7 @@ struct DTDWPremiumSubscriptionsView: View {
                     }
                     
                     //MARK: Subscription Options
-                    SubscriptionOptionsView()
+                    SubscriptionOptionsView(selectedButton: $selectedButton)
                     
                     VStack(spacing: 3) {
                         if let errorMessage = purchaseViewModel.errorMessage {
@@ -79,7 +79,7 @@ struct DTDWPremiumSubscriptionsView: View {
                     
                     //MARK: Restore Purchases
                     Button {
-                        PurchaseViewModel.shared.confirmRestorePurchas()
+                        purchaseViewModel.confirmRestorePurchas()
                     } label: {
                         Text("Restore Purchases")
                             .foregroundStyle(Color.deepPurpelColor)

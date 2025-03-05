@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LegalLinksView: View {
-    @StateObject private var settingsViewModel = SettingsViewModel()
+    @EnvironmentObject var settingsViewModel: SettingsViewModel
     
     var body: some View {
         VStack(spacing: 10) {

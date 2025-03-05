@@ -83,6 +83,8 @@ struct PropertyInitialExpensesDataView: View {
                             .shadow(color: Color.blackOnePercentColor, radius: 4, x: 0, y: 1)
                     }
                 }
+                
+                //TODO: Save date when changing the view to purchase and repair.
 
                 VStack(spacing: selectedButton == .costOfPurchase ? 15 : 0) {
                     if selectedButton == .costOfPurchase {

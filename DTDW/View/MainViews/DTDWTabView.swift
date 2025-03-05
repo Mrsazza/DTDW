@@ -22,7 +22,7 @@ struct DTDWTabView: View {
     @State private var isPresentingPropertyTerms = false
     @State private var isShowingPremiumSheet = false
     
-    @ObservedObject private var purchaseViewModel = PurchaseViewModel.shared
+    @EnvironmentObject var purchaseViewModel: PurchaseViewModel
     
     var body: some View {
         ZStack {
