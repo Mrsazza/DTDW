@@ -10,7 +10,6 @@ import MessageUI
 import StoreKit
 
 struct DTDWSettingsView: View {
-//    @EnvironmentObject var firebaseViewModel : FirebaseViewModel
     @EnvironmentObject var settingsViewModel: SettingsViewModel
     @EnvironmentObject var purchaseViewModel: PurchaseViewModel
     @State private var activeSheet: ActiveSheet?

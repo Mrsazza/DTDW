@@ -83,9 +83,6 @@ struct PropertyInitialExpensesDataView: View {
                             .shadow(color: Color.blackOnePercentColor, radius: 4, x: 0, y: 1)
                     }
                 }
-                
-                //TODO: Save date when changing the view to purchase and repair.
-
                 VStack(spacing: selectedButton == .costOfPurchase ? 15 : 0) {
                     if selectedButton == .costOfPurchase {
                         Text("Startup Expenses")
@@ -103,26 +100,26 @@ struct PropertyInitialExpensesDataView: View {
                 VStack(spacing: 10) {
                     if selectedButton == .costOfPurchase {
                         // Cost of Purchase Inputs(COP)
-                        InputRow(label: "Finder’s Fee", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.findersFees, formatter: numberFormatter)
-                        InputRow(label: "Inspection", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.inspection, formatter: numberFormatter)
-                        InputRow(label: "Title Search Fee", placeholder: "$300", value: $propertyData.propertyCalculatabeleData.titleSearchFee, formatter: numberFormatter)
-                        InputRow(label: "Title Insurance", placeholder: "$100", value: $propertyData.propertyCalculatabeleData.titleInsurance, formatter: decimalFormatter)
-                        InputRow(label: "Appraisal", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.appraisal, formatter: numberFormatter)
-                        InputRow(label: "Deed Recording Fee", placeholder: "$100", value: $propertyData.propertyCalculatabeleData.deedRecordingFee, formatter: numberFormatter)
-                        InputRow(label: "Loan Origination Fee", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.loanOriginationFee, formatter: numberFormatter)
-                        InputRow(label: "Survey", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.survey, formatter: numberFormatter)
-                        InputRow(label: "Other", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.copOther, formatter: numberFormatter)
+                        InputRow(label: "Finder’s Fee", value: $propertyData.propertyCalculatabeleData.findersFees)
+                        InputRow(label: "Inspection", value: $propertyData.propertyCalculatabeleData.inspection)
+                        InputRow(label: "Title Search Fee", value: $propertyData.propertyCalculatabeleData.titleSearchFee)
+                        InputRow(label: "Title Insurance", value: $propertyData.propertyCalculatabeleData.titleInsurance)
+                        InputRow(label: "Appraisal", value: $propertyData.propertyCalculatabeleData.appraisal)
+                        InputRow(label: "Deed Recording Fee", value: $propertyData.propertyCalculatabeleData.deedRecordingFee)
+                        InputRow(label: "Loan Origination Fee", value: $propertyData.propertyCalculatabeleData.loanOriginationFee)
+                        InputRow(label: "Survey", value: $propertyData.propertyCalculatabeleData.survey)
+                        InputRow(label: "Other", value: $propertyData.propertyCalculatabeleData.copOther)
                             .padding(.bottom, 15)
                     } else if selectedButton == .costOfRepair {
                         // Cost of Repair Inputs(COR)
-                        InputRow(label: "Cosmetic Minor", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.cosmeticMinor, formatter: numberFormatter)
+                        InputRow(label: "Cosmetic Minor", value: $propertyData.propertyCalculatabeleData.cosmeticMinor)
                             .padding(.top, selectedButton == .costOfRepair ? 10 : 0)
-                        InputRow(label: "Cosmetic Major", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.cosmeticMajor, formatter: numberFormatter)
-                        InputRow(label: "Structural", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.structural, formatter: numberFormatter)
-                        InputRow(label: "Fixtures/Appliances", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.fixtures, formatter: numberFormatter)
-                        InputRow(label: "Landscaping", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.landscaping, formatter: numberFormatter)
-                        InputRow(label: "Other", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.corOther, formatter: numberFormatter)
-                        InputRow(label: "Contingency Factor (%)", placeholder: "10.0%", value: $propertyData.propertyCalculatabeleData.contingencyFactor, formatter: decimalFormatter)
+                        InputRow(label: "Cosmetic Major", value: $propertyData.propertyCalculatabeleData.cosmeticMajor)
+                        InputRow(label: "Structural", value: $propertyData.propertyCalculatabeleData.structural)
+                        InputRow(label: "Fixtures/Appliances", value: $propertyData.propertyCalculatabeleData.fixtures)
+                        InputRow(label: "Landscaping", value: $propertyData.propertyCalculatabeleData.landscaping)
+                        InputRow(label: "Other", value: $propertyData.propertyCalculatabeleData.corOther)
+                        InputRow(label: "Contingency Factor (%)", value: $propertyData.propertyCalculatabeleData.contingencyFactor)
                             .padding(.bottom, 15)
                     }
                 }

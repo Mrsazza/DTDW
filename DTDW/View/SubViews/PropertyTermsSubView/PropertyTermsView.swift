@@ -62,8 +62,10 @@ struct PropertyTermsView: View {
 // Custom View for Property Term Rows
 struct PropertyTermRow: View {
     let label: String
-    @Binding var value: Double
+    @Binding var value: Double // Non-optional Double
     let isCurrency: Bool
+    
+    @State private var textValue: String = "0" // Default to "0"
     
     var body: some View {
         HStack {
@@ -73,8 +75,23 @@ struct PropertyTermRow: View {
             
             Spacer()
             
-            TextField(isCurrency ? "$" : "", value: $value, format: .number)
+            TextField(isCurrency ? "$0" : "", text: $textValue)
                 .formattedTextField()
+                .keyboardType(.decimalPad)
+                .onChange(of: textValue) {
+                    // Handle empty string case
+                    if textValue.isEmpty {
+                        textValue = "0" // Set to "0" if empty
+                        value = 0
+                    } else {
+                        // Convert the text input to a Double, or set to 0 if the conversion fails
+                        value = Double(textValue) ?? 0
+                    }
+                }
+                .onAppear {
+                    // Initialize the text value with the current Double value
+                    textValue = String(format: "%.0f", value)
+                }
         }
     }
 }

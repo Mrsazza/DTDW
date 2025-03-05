@@ -6,60 +6,38 @@
 //
 import SwiftUI
 
-struct InputRow<T: Numeric & LosslessStringConvertible>: View {
+struct InputRow: View {
     let label: String
-    let placeholder: String
-    @Binding var value: T?
-    let formatter: NumberFormatter
-
-    @State private var textValue: String = ""
-
+    @Binding var value: Double?
+    let isCurrency: Bool = true
+    
+    @State private var textValue: String = "0" // Default to "0"
+    
     var body: some View {
         HStack {
             Text(label)
                 .font(.system(size: 13))
                 .foregroundStyle(.black)
-
+            
             Spacer()
-// TODO: Ei formatter er jnne income page er issue hocche. Eta thik kor.
-            TextField(
-                placeholder,
-                text: Binding(
-                    get: { textValue },
-                    set: { newValue in
-                        textValue = newValue
-                        if let number = formatter.number(from: newValue) {
-                            // Use NSNumber directly without conditional casting
-                            if T.self == Int.self {
-                                value = T(exactly: number.intValue)
-                            } else if T.self == Double.self || T.self == Float.self {
-                                value = T("\(number.doubleValue)") // Convert to string and parse
-                            } else {
-                                value = nil
-                            }
-                        }
+            
+            TextField(isCurrency ? "$0" : "", text: $textValue)
+                .formattedTextField()
+                .keyboardType(.decimalPad)
+                .onChange(of: textValue) {
+                    // Handle empty string case
+                    if textValue.isEmpty {
+                        textValue = "0" // Set to "0" if empty
+                        value = 0
+                    } else {
+                        // Convert the text input to a Double, or set to 0 if the conversion fails
+                        value = Double(textValue) ?? 0
                     }
-                )
-            )
-            .font(.system(size: 13))
-            .keyboardType(.decimalPad)
-            .foregroundColor(.black)
-            .multilineTextAlignment(.center)
-            .padding(.horizontal, 5)
-            .minimumScaleFactor(0.5)
-            .frame(width: 100, height: 30)
-            .background(Color.white)
-            .cornerRadius(5)
-            .overlay(
-                RoundedRectangle(cornerRadius: 5)
-                    .stroke(Color.black.opacity(0.5), lineWidth: 0.5)
-            )
-            .onAppear {
-                // Initialize the text field with the formatted value
-                if let value = value, let formattedValue = formatter.string(from: NSNumber(value: Double("\(value)") ?? 0.0)) {
-                    textValue = formattedValue
                 }
-            }
+                .onAppear {
+                    // Initialize the text value with the current Double value or "0" if nil
+                    textValue = value != nil ? String(format: "%.0f", value!) : "0"
+                }
         }
     }
 }

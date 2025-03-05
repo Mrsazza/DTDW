@@ -30,12 +30,12 @@ struct PropertyIncomeView: View {
                             .fontWeight(.bold)
                             .frame(width: 100, alignment: .center)
                     }
-                    InputRow(label: "Administrative fees", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.administrativeFees, formatter: numberFormatter)
-                    InputRow(label: "Appliance rentals", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.applianceRentals, formatter: numberFormatter)
-                    InputRow(label: "Furniture rental", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.furnitureRental, formatter: numberFormatter)
-                    InputRow(label: "Parking", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.parking, formatter: numberFormatter)
-                    InputRow(label: "Laundry Income", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.laundryIncome, formatter: numberFormatter)
-                    InputRow(label: "Other Income", placeholder: "$0", value: $propertyData.propertyCalculatabeleData.otherIncome, formatter: numberFormatter)
+                    InputRow(label: "Administrative fees", value: $propertyData.propertyCalculatabeleData.administrativeFees)
+                    InputRow(label: "Appliance rentals", value: $propertyData.propertyCalculatabeleData.applianceRentals)
+                    InputRow(label: "Furniture rental", value: $propertyData.propertyCalculatabeleData.furnitureRental)
+                    InputRow(label: "Parking", value: $propertyData.propertyCalculatabeleData.parking)
+                    InputRow(label: "Laundry Income", value: $propertyData.propertyCalculatabeleData.laundryIncome)
+                    InputRow(label: "Other Income", value: $propertyData.propertyCalculatabeleData.otherIncome)
                 }
             }
             // Calculated Data Section

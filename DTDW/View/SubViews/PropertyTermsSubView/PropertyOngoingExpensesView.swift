@@ -11,22 +11,6 @@ struct PropertyOngoingExpensesView: View {
     @Bindable var propertyData: PropertyDataModel
     @StateObject var viewModel: PropertyTermsViewModel
     
-    // Formatter for numbers without decimals
-    private let numberFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 0
-        return formatter
-    }()
-    
-    // Formatter for percentages and rates with decimals
-    private let decimalFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 2
-        return formatter
-    }()
-    
     var body: some View {
         ZStack {
             ScrollView {
@@ -45,7 +29,7 @@ struct PropertyOngoingExpensesView: View {
                                 .frame(maxWidth: .infinity, maxHeight: 1)
                                 .foregroundColor(Color.black.opacity(0.1))
                             
-                            InputRow(label: "Vacancy (% of total Income)", placeholder: "5.0%", value: Binding($propertyData.propertyCalculatabeleData.vacancyOfTotalIncome), formatter: decimalFormatter)
+                            InputRow(label: "Vacancy (% of total Income)", value: Binding($propertyData.propertyCalculatabeleData.vacancyOfTotalIncome))
 
                         }
                         
@@ -62,14 +46,14 @@ struct PropertyOngoingExpensesView: View {
                                     .foregroundColor(Color.black.opacity(0.1))
                             }
                             
-                            InputRow(label: "Property Management", placeholder: "$50", value: Binding($propertyData.propertyCalculatabeleData.propertyManagement), formatter: decimalFormatter)
+                            InputRow(label: "Property Management", value: Binding($propertyData.propertyCalculatabeleData.propertyManagement))
                                 .padding(.top, 5)
-                            InputRow(label: "Leasing Costs", placeholder: "$0", value: Binding($propertyData.propertyCalculatabeleData.leasingCosts), formatter: decimalFormatter)
-                            InputRow(label: "Maintenance", placeholder: "$100%", value: Binding($propertyData.propertyCalculatabeleData.maintenance), formatter: decimalFormatter)
-                            InputRow(label: "Utilities", placeholder: "$500", value: Binding($propertyData.propertyCalculatabeleData.utilities), formatter: decimalFormatter)
-                            InputRow(label: "Property Taxes", placeholder: "$412", value: Binding($propertyData.propertyCalculatabeleData.propertyTaxes), formatter: decimalFormatter)
-                            InputRow(label: "Insurance", placeholder: "$121", value: Binding($propertyData.propertyCalculatabeleData.insurance), formatter: decimalFormatter)
-                            InputRow(label: "Other", placeholder: "$0", value: Binding($propertyData.propertyCalculatabeleData.otherOngoingExpenses), formatter: decimalFormatter)
+                            InputRow(label: "Leasing Costs", value: Binding($propertyData.propertyCalculatabeleData.leasingCosts))
+                            InputRow(label: "Maintenance", value: Binding($propertyData.propertyCalculatabeleData.maintenance))
+                            InputRow(label: "Utilities", value: Binding($propertyData.propertyCalculatabeleData.utilities))
+                            InputRow(label: "Property Taxes", value: Binding($propertyData.propertyCalculatabeleData.propertyTaxes))
+                            InputRow(label: "Insurance", value: Binding($propertyData.propertyCalculatabeleData.insurance))
+                            InputRow(label: "Other", value: Binding($propertyData.propertyCalculatabeleData.otherOngoingExpenses))
                         }
                         .padding(.bottom, 20)
                     }
