@@ -33,5 +33,8 @@ struct SubscriptionOptionsView: View {
         }
         .padding(.horizontal, 20)
         .padding(.top, 5)
+        .onAppear{
+            purchaseViewModel.fetchLocalizedPrices()
+        }
     }
 }
