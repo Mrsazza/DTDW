@@ -16,23 +16,6 @@ struct DTDWSettingsView: View {
     @State private var alertMessage: String?
     @State private var showAlert: Bool = false
 
-    // Constants for strings
-    private struct Constants {
-        static let settingsTitle = "Settings"
-        static let premiumVersionTitle = "Premium Version"
-        static let viewPlanTitle = "View Plan"
-        static let upgradePremiumTitle = "Upgrade Premium"
-        static let receiveUpdatesTitle = "Receive updates from Ask The Landlady"
-        static let subscribeToNewsletterTitle = "Subscribe to Newsletter"
-        static let restorePurchasesTitle = "Restore Purchases"
-        static let rateAppTitle = "Rate App"
-        static let shareAppTitle = "Share App"
-        static let emailUsTitle = "Email us"
-        static let privacyPolicyTitle = "Privacy Policy"
-        static let termsOfUseTitle = "Terms of Use"
-        static let mailErrorMessage = "Your device is not configured to send emails."
-    }
-
     var body: some View {
         ZStack {
             Color.mainBackgroundColor
@@ -59,12 +42,46 @@ struct DTDWSettingsView: View {
                             }
                             
                             DividerView()
-                            
-                            SettingsButton(title: Constants.upgradePremiumTitle, icon: .premium) {
-                                activeSheet = .premiumSubscriptions
-                            }
-                            .padding(.top, 15)
+//                            
+//                            SettingsButton(title: Constants.upgradePremiumTitle, icon: .premium) {
+//                                activeSheet = .premiumSubscriptions
+//                            }
+//                            .padding(.top, 15)
                         }
+                        VStack{
+                            SectionTitleView(title: Constants.bookAdTitle)
+                                
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack{
+                                    ForEach(Constants.books, id: \.id) { book in
+                                        Button(action: {
+                                            activeSheet = .safariView(book.url)
+                                        }, label: {
+                                            VStack(spacing: 16){
+                                                Image("\(book.imageName)")
+                                                    .resizable()
+                                                    .frame(width: 170, height: 220)
+                                                    .scaledToFit()
+                                                Text(book.title)
+                                                    .frame(width: 150)
+                                                    .multilineTextAlignment(.center)
+                                                    .font(.subheadline)
+                                                    .fontWeight(.semibold)
+                                                    .padding(.horizontal,8)
+                                                    .padding(.bottom,16)
+                                                    .foregroundStyle(.black)
+                                            }
+                                            .background(Color.white)
+                                            .clipShape(RoundedCornerShape(corners: .allCorners, radius: 24))
+                                            .shadow(radius: 8)
+
+                                        })
+                                    }
+                                }
+                                .padding()
+                            }
+                        }
+//                        .padding(.top, purchaseViewModel.isSubscribed ? 0 : 1)
                         
                         // MARK: Email Input and Newsletter Subscription
                         VStack(spacing: 20) {
@@ -74,17 +91,17 @@ struct DTDWSettingsView: View {
                                 .fontWeight(.medium)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.leading, 10)
+                                .padding(.top)
 
                             GradientButton(title: Constants.subscribeToNewsletterTitle) {
                                 activeSheet = .safariView(settingsViewModel.newsletterURL)
                             }
                         }
-                        .padding()
+                        .padding(.bottom)
                         .background(Color.white)
                         .cornerRadius(15)
                         .padding(.horizontal)
                         .shadow(radius: 4)
-                        .padding(.top, purchaseViewModel.isSubscribed ? 0 : 15)
                         
                         DividerView()
 

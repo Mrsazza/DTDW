@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PropertyInitialExpensesDataView: View {
     @Bindable var propertyData: PropertyDataModel
-    @State private var selectedButton: ButtonType = .costOfPurchase
+    @State private var selectedButton: innerButtonType = .costOfPurchase
 
     // Formatter for numbers without decimals
     private let numberFormatter: NumberFormatter = {
@@ -26,10 +26,6 @@ struct PropertyInitialExpensesDataView: View {
         formatter.maximumFractionDigits = 2
         return formatter
     }()
-
-    enum ButtonType {
-        case costOfPurchase, costOfRepair
-    }
 
     var body: some View {
         VStack(spacing: 20) {

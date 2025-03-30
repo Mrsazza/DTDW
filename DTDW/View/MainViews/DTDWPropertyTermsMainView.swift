@@ -11,20 +11,6 @@ struct DTDWPropertyTermsMainView: View {
     @Bindable var propertyData: PropertyDataModel
     @State private var selectedButton: ButtonType? = .cart
     
-    enum ButtonType: CaseIterable {
-        case cart, medical, rental, income, expenses
-        
-        var imageName: String {
-            switch self {
-            case .cart: return "cart"
-            case .medical: return "medical"
-            case .rental: return "rental"
-            case .income: return "income"
-            case .expenses: return "expenses"
-            }
-        }
-    }
-    
     private let buttonImageSize: CGSize = CGSize(width: 60, height: 20)
     private let buttonFrameSize: CGSize = CGSize(width: 60, height: 40)
     private let cornerRadius: CGFloat = 10
@@ -107,8 +93,8 @@ extension View {
 }
 
 struct PropertyTermsButtonRowView: View {
-    let buttonTypes: [DTDWPropertyTermsMainView.ButtonType]
-    @Binding var selectedButton: DTDWPropertyTermsMainView.ButtonType?
+    let buttonTypes: [ButtonType]
+    @Binding var selectedButton: ButtonType?
     
     var buttonImageSize: CGSize = CGSize(width: 60, height: 20)
     var buttonFrameSize: CGSize = CGSize(width: 60, height: 40)

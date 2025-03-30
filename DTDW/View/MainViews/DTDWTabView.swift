@@ -8,12 +8,6 @@
 import SwiftUI
 import SwiftData
 
-enum Tab {
-    case home
-    case plus
-    case settings
-}
-
 struct DTDWTabView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var properties: [PropertyDataModel]
@@ -87,8 +81,8 @@ struct DTDWTabView: View {
     
     private func plusTabButton() -> some View {
         Button {
-            // Check if the user is subscribed or has fewer than 3 properties
-            if purchaseViewModel.isSubscribed || properties.count < 3 {
+            // Check if the user is subscribed or has fewer than 1 properties
+            if purchaseViewModel.isSubscribed || properties.count < 1 {
                 addNewProperty()
             } else {
                 // Show premium subscription view
